@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Button, StryleSheet } from "react-native";
+import { View, Button, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import Stripe, { PaymentCardTextField } from "tipsi-stripe";
 import { paymentProxy } from "AppProxies";
@@ -10,7 +10,7 @@ const { requestHandler } = fetchUtils;
 const { STATUS_OK } = ResponseStatuses;
 
 // TODO: Flowify everything
-export class Stripe extends Component {
+export class PaymentForm extends Component {
   static propTypes = {};
   
   state = {

@@ -7,11 +7,11 @@ import { PaymentCardTextField } from 'tipsi-stripe';
 import React, { Component } from 'react';
 import stripe from 'tipsi-stripe';
 import { StyleSheet } from "react-native";
-import App from "./src";
+import { PaymentForm } from "AppComponents";
 
 export default class App extends Component {
   render() {
-    return <App />;
+    return <PaymentForm/>;
   }
 }
 

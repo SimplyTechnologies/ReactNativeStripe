@@ -2,5 +2,5 @@
  * @providesModule AppComponents
  */
 
- export { Stripe } from "./Stripe";
+ export { PaymentForm } from "./PaymentForm";
  
