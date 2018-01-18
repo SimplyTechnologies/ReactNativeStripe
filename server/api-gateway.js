@@ -3,13 +3,10 @@ const rp = require('request-promise');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
-
-
+const PORT = process.env.PORT || 3000;
 const endpointsMap = {
     'payments' : '3002'
 }
-
-const PORT = process.env.PORT || 3000;
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
