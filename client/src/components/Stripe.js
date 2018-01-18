@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import { View, Button, StryleSheet } from "react-native";
 import PropTypes from "prop-types";
 import Stripe, { PaymentCardTextField } from "tipsi-stripe";
+import { paymentProxy } from "AppProxies";
+import { fetchUtils } from "AppUtils";
+import { ResponseStatuses } from "AppConstants";
+
+const { requestHandler } = fetchUtils;
+const { STATUS_OK } = ResponseStatuses;
 
 // TODO: Flowify everything
 export class Stripe extends Component {
@@ -9,7 +15,12 @@ export class Stripe extends Component {
   
   state = {
       isValid: false,
-      params: null
+      params: null,
+      notification: ""
+  };
+
+  callbackMap = {
+    [STATUS_OK]: ({ msg: notification }) => this.setState({ notification })
   };
 
   fieldParamsChangedHandler = (isValid, params) => {
@@ -18,26 +29,12 @@ export class Stripe extends Component {
 
   payButtonPressedHandler = () => {
     const { isValid, params } = this.state;
+    const { payWithCard } = paymentProxy;
     if(isValid) {
       Stripe.createTokenWithCard(params).then(res=>{
         const { tokenId } = res;
-        console.log(tokenId);
-        fetch('http://localhost:3000/card/pay', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ tokenId })
-        }).then(res => {
-          return res.json()
-        }).then(res => {
-          this.setState({ notification: res.msg });
-        }).catch(err=>{
-          this.setState({ notification: err.message });
-        })
-      }).catch(err=>{
-        console.log(err)
+        const payWithCardRequest = payWithCard(tokenId);
+        requestHandler(payWithCardRequest, this.callbackMap);
       })
     }
   }
