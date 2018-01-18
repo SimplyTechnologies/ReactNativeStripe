@@ -1,0 +1,13 @@
+# Use iOS 8 and above
+platform :ios, '8.0'
+
+# Specify Workspace
+workspace 'stripeProject'
+
+target 'stripeProject' do
+  # Stripe
+  pod 'Stripe', '~> 11.2.0'
+
+  # Install additional dependencies
+
+end
