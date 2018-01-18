@@ -6,23 +6,12 @@
 import { PaymentCardTextField } from 'tipsi-stripe';
 import React, { Component } from 'react';
 import stripe from 'tipsi-stripe';
-import {
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-
-
+import { StyleSheet } from "react-native";
+import App from "./src";
 
 export default class App extends Component {
-
   render() {
-    return (
-      <View style={styles.container}>
-        <Text>Hello world</Text>
-      </View>
-    );
+    return <App />;
   }
 }
 
