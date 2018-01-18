@@ -1,7 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
-import api from '../api';
+import service from '../service';
 
 const app = express();
 
@@ -27,6 +27,6 @@ app
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended:  true }))
   .use(bodyParser.text())
-  .use('/', api);
+  .use('/', service);
 
 export default app;

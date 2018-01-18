@@ -8,8 +8,15 @@ import React, { Component } from 'react';
 import stripe from 'tipsi-stripe';
 import { StyleSheet } from "react-native";
 import { PaymentForm } from "AppComponents";
+import { stripeUtils } from "AppUtils";
 
 export default class App extends Component {
+
+  componentWillMount() {
+    //initialize Stripe before app rendering
+    stripeUtils.initializeStripe();
+  }
+
   render() {
     return <PaymentForm/>;
   }
