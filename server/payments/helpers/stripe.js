@@ -1,6 +1,6 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-export payWithCard(tokenId, amount) => {
+export const payWithCard = (tokenId, amount) => {
   return new Promise((resolve, reject) => {
     stripe.charges.create(
       {
@@ -14,9 +14,9 @@ export payWithCard(tokenId, amount) => {
       }
     );
   });
-}
+};
 
-export createCustomer => (tokenId, username) {
+export const createCustomer = (tokenId, username) => {
   return new Promise((resolve, reject) => {
     stripe.customers.create(
       {
@@ -29,18 +29,18 @@ export createCustomer => (tokenId, username) {
       }
     );
   });
-}
+};
 
-export retrieveCustomer(customerId) => {
+export const retrieveCustomer = customerId => {
   return new Promise((resolve, reject) => {
     stripe.customers.retrieve(customerId, (err, customer) => {
       if (err) reject(err);
       if (customer) resolve(customer);
     });
   });
-}
+};
 
-export createCustomerSource(customerId, tokenId) => {
+export const createCustomerSource = (customerId, tokenId) => {
   return new Promise((resolve, reject) => {
     tripe.customers.createSource(
       customerId,
@@ -51,27 +51,27 @@ export createCustomerSource(customerId, tokenId) => {
       }
     );
   });
-}
+};
 
-export deleteCustomerSource(customerId, cardId) => {
-    return new Promise((resolve, reject) => {
-        stripe.customers.deleteCard(
-            customerId,
-            cardId,
-            (err, confirmation) => {
-                if (err) reject(err);
-                if (card) resolve(confirmation);
-            }
-          );
+export const deleteCustomerSource = (customerId, cardId) => {
+  return new Promise((resolve, reject) => {
+    stripe.customers.deleteCard(customerId, cardId, (err, confirmation) => {
+      if (err) reject(err);
+      if (card) resolve(confirmation);
     });
-}
-export updateDefaultSource(ustomerId, cardId) => {
-    return new Promise((resolve, reject) => {
-        stripe.customers.update(customerId, {
-            default_source: cardId
-          }, function(err, customer) {
-            if (err) reject(err);
-            if (card) resolve(customer);
-          });
-    });
-}
+  });
+};
+export const updateDefaultSource = (ustomerId, cardId) => {
+  return new Promise((resolve, reject) => {
+    stripe.customers.update(
+      customerId,
+      {
+        default_source: cardId
+      },
+      function(err, customer) {
+        if (err) reject(err);
+        if (card) resolve(customer);
+      }
+    );
+  });
+};
