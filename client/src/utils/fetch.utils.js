@@ -10,18 +10,18 @@ const { STATUS_OK } = ResponseStatuses;
 /**
  * Checking response status
  * */
-const checkStatus = response => {
+const checkStatus = (response) => {
   const { status } = response;
   if ((status >= 200 && status < 300) || (status >= 400 && status < 500)) {
     return response;
   }
 
-  let error = new Error(response.statusText);
+  const error = new Error(response.statusText);
   error.response = response;
   throw error;
 };
 
-const defaultFailCallback = function(error) {
+const defaultFailCallback = function (error) {
   console.log("something went wrong", error);
 };
 
@@ -29,31 +29,25 @@ const defaultFailCallback = function(error) {
  * parsing response json
  * */
 const parseJSON = response =>
-  response.json().then(data => {
-    return {
-      data,
-      status: response.status
-    };
-  });
+  response.json().then(data => ({
+    data,
+    status: response.status
+  }));
 
 /**
  * parsing object to query string
  * */
-const objectToQueryString = queryObject => {
-  return Object.keys(queryObject)
-    .map(
-      key =>
-        `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`
-    )
-    .join("&");
-};
+const objectToQueryString = queryObject => Object.keys(queryObject)
+  .map(key =>
+    `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`)
+  .join("&");
 
 /**
  * making api request
  * */
 const makeRequest = (url, method = "GET", query = {}, body = {}) => {
   const queryString = objectToQueryString(query)
-    ? "?" + objectToQueryString(query)
+    ? `?${objectToQueryString(query)}`
     : "";
   const fetchUrl = `${BASE_URL}${url}${queryString}`;
   const fetchParams = { method, credentials: "include" };
@@ -69,7 +63,7 @@ const makeRequest = (url, method = "GET", query = {}, body = {}) => {
   return fetch(fetchUrl, fetchParams)
     .then(checkStatus)
     .then(parseJSON)
-    .catch(error => {
+    .catch((error) => {
       console.error("request failed - ", error);
     });
 };
@@ -89,12 +83,13 @@ const requestHandler = (
     .then(({ data, status }) => {
       if (status >= 200 && status < 305) {
         callbackMap[STATUS_OK](data);
-      } else
-        Object.keys(callbackMap).forEach(item => {
+      } else {
+        Object.keys(callbackMap).forEach((item) => {
           if (+item === status) {
             callbackMap[item](data);
           }
         });
+      }
     })
     .catch(failCallBack);
 };

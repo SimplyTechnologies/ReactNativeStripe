@@ -2,4 +2,4 @@
  * @providesModule AppProxies
  */
 
- export { paymentProxy } from "./payment.proxy";
+export { paymentProxy } from "./payment.proxy";

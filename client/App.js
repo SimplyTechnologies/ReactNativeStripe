@@ -1,15 +1,13 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-import { PaymentCardTextField } from 'tipsi-stripe';
-import React, { Component } from 'react';
-import stripe from 'tipsi-stripe';
+// @flow
+import { PaymentCardTextField } from "tipsi-stripe";
+import React, { Component } from "react";
+import stripe from "tipsi-stripe";
 import { StyleSheet } from "react-native";
 import { PaymentForm } from "AppComponents";
 import { stripeUtils } from "AppUtils";
 
+const ff = (): string => 1;
+ff();
 export default class App extends Component {
 
   componentWillMount() {
@@ -18,15 +16,15 @@ export default class App extends Component {
   }
 
   render() {
-    return <PaymentForm/>;
+    return <PaymentForm />;
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F5FCFF"
   }
 });

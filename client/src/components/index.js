@@ -2,5 +2,4 @@
  * @providesModule AppComponents
  */
 
- export { PaymentForm } from "./PaymentForm";
- 
+export { PaymentForm } from "./PaymentForm";

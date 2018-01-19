@@ -9,5 +9,5 @@ const { GET, POST } = HttpMethods;
 const payWithCard = tokenId => makeRequest("/pay", POST, EMPTY_OBJECT, { tokenId });
 
 export const paymentProxy = {
-    payWithCard
+  payWithCard
 };
