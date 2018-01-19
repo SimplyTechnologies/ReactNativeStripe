@@ -1,11 +1,18 @@
 {
   "parser": "babel-eslint",
-  "plugins": ["react", "react-native", "jsx-a11y", "import", "prettier", "flowtype"],
+  "plugins": [
+    "react",
+    "react-native",
+    "jsx-a11y",
+    "import",
+    "prettier",
+    "flowtype"
+  ],
   "env": {
     "node": true,
     "es6": true
   },
-  "extends": ["airbnb"],
+  "extends": ["airbnb", "plugin:flowtype/recommended"],
   "rules": {
     "prettier/prettier": "error",
     "quotes": ["error", "double"],

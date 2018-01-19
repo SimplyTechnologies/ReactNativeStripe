@@ -4,8 +4,6 @@ import { StyleSheet } from "react-native";
 import { PaymentForm } from "AppComponents";
 import { stripeUtils } from "AppUtils";
 
-const ff = (): string => 1;
-ff();
 export default class App extends Component {
   componentWillMount() {
     // initialize Stripe before app rendering
