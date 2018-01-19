@@ -25,19 +25,19 @@ export class PaymentForm extends Component {
 
   fieldParamsChangedHandler = (isValid, params) => {
     this.setState({ isValid, params });
-  }
+  };
 
   payButtonPressedHandler = () => {
     const { isValid, params } = this.state;
     const { payWithCard } = paymentProxy;
     if (isValid) {
-      Stripe.createTokenWithCard(params).then((res) => {
+      Stripe.createTokenWithCard(params).then(res => {
         const { tokenId } = res;
         const payWithCardRequest = payWithCard(tokenId);
         requestHandler(payWithCardRequest, this.callbackMap);
       });
     }
-  }
+  };
 
   render() {
     return (
