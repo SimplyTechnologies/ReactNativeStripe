@@ -11,7 +11,7 @@ ff();
 export default class App extends Component {
 
   componentWillMount() {
-    //initialize Stripe before app rendering
+    // initialize Stripe before app rendering
     stripeUtils.initializeStripe();
   }
 

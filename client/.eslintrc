@@ -4,7 +4,8 @@
       "react",
       "react-native",
       "jsx-a11y",
-      "import"
+      "import",
+      "prettier"
     ],
     "env": {
         "node": true, 
@@ -12,6 +13,7 @@
     },
     "extends": "airbnb",
     "rules": {
+        "prettier/prettier": "error",
         "quotes": ["error", "double"],
         "comma-dangle": ["error", "never"]
     }
