@@ -1,56 +1,55 @@
-const app = require('express')();
-const rp = require('request-promise');
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
+const app = require("express")();
+const rp = require("request-promise");
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
 
 const PORT = process.env.PORT || 3000;
 const endpointsMap = {
-    'payments' : '3002'
-}
+  users: "3001",
+  payments: "3002"
+};
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-  
-   res.setHeader("Access-Control-Allow-Methods", "GET, POST");
-  
-   res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-  
-   res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
-   next();
-  });
-  
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST");
 
-app.use(morgan('dev'))
-    .use(bodyParser.json())
-    .use(bodyParser.urlencoded({ extended:  true }))
-    .use(bodyParser.text())
-    .use((req, res, next) => {
-    const servicePORT = endpointsMap[req.url.split('/')[1]];
-    if(servicePORT) {
-        const uri = `http://localhost:${servicePORT}${req.url}`
-        rp({
-            method: req.method, 
-            uri,
-            body: req.body,
-            json: true
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+
+  res.setHeader("Access-Control-Allow-Credentials", true);
+
+  next();
+});
+
+app
+  .use(morgan("dev"))
+  .use(bodyParser.json())
+  .use(bodyParser.urlencoded({ extended: true }))
+  .use(bodyParser.text())
+  .use((req, res, next) => {
+    const servicePORT = endpointsMap[req.url.split("/")[1]];
+    if (servicePORT) {
+      const uri = `http://localhost:${servicePORT}${req.url}`;
+      rp({
+        method: req.method,
+        uri,
+        body: req.body,
+        json: true
+      })
+        .then(parsedBody => {
+          res.json(parsedBody);
         })
-        .then(function (parsedBody) {
-            res.send(parsedBody)
-        })
-        .catch(function (err) {
-            res.json(err.error);
+        .catch(err => {
+          res.status(404).json(err.error);
         });
     } else {
-        next();
+      next();
     }
-});
+  });
 
 app.listen(PORT, () => {
-    console.log('Api Gateway Started on Port %d', PORT);
+  console.log("Api Gateway Started on Port %d", PORT);
 });
-
-

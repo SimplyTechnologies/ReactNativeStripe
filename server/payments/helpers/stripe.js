@@ -42,7 +42,7 @@ export const retrieveCustomer = customerId => {
 
 export const createCustomerSource = (customerId, tokenId) => {
   return new Promise((resolve, reject) => {
-    tripe.customers.createSource(
+    stripe.customers.createSource(
       customerId,
       { source: tokenId },
       (err, card) => {

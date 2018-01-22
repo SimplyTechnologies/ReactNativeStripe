@@ -20,5 +20,7 @@ export const init = api => {
     usersHandlers.userLogin
   );
 
-  api.use("/", router);
+  router.post("/:id", usersHandlers.updateUser);
+
+  api.use("/users", router);
 };

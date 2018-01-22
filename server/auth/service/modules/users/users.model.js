@@ -14,6 +14,10 @@ const userSchema = new Schema({
     type: String,
     unique: true,
     required: true
+  },
+  customerId: {
+    type: String,
+    unique: true
   }
 });
 

@@ -56,3 +56,17 @@ export const userLogin = (req, res, next) => {
     return res.status(200).json({ token });
   });
 };
+
+export const updateUser = (req, res, next) => {
+  const { customerId } = req.body;
+  const { id } = req.params;
+  User.findOneAndUpdate(
+    { _id: mongoose.Types.ObjectId(id) },
+    { $set: { customerId } },
+    { new: true }
+  )
+    .then(user => {
+      return res.json(user);
+    })
+    .catch(error => next(error));
+};
