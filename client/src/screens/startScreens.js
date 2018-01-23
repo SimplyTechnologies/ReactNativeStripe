@@ -22,7 +22,7 @@ export const startApp = () => {
         label: PLANS_SCREEN_TITLE,
         screen: PLANS_SCREEN,
         title: PLANS_SCREEN_TITLE,
-        icon: require("../img/plan.png")
+        icon: require("../img/card.png")
       }
     ]
   });

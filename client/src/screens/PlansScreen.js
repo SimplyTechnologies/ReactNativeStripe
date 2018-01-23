@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Text } from "react-native";
 
-export class SecondScreen extends Component {
+export class PlansScreen extends Component {
   render() {
-    return <Text>Second</Text>;
+    return <Text>First</Text>;
   }
 }
