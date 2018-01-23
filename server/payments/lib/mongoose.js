@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
+const dbConnection = `${process.env.MONGO_URI || 'mongodb://localhost:27017'}/stripe_integration`;
+
 export function init() {
-    console.log('connecting ', process.env.db);
-    mongoose.connect(process.env.db);
+    console.log('connecting ', dbConnection);
+    mongoose
+        .connect(dbConnection, { useMongoClient: true })
+        .then((res) => console.log('Connection established'))
+        .catch(console.error);
 }

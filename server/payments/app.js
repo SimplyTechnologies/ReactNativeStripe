@@ -4,8 +4,10 @@ import app from "./lib/express";
 
 init();
 
-const PORT = process.env.port || 3002;
+const PORT = process.env.PORT || 3002;
 
-http.createServer(app).listen(PORT, () => {
-  console.log("Payments Service Started on Port %d", PORT);
-});
+http
+  .createServer(app)
+  .listen(PORT, () => {
+    console.log("Payments Service Started on Port %d", PORT);
+  });

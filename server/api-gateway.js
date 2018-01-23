@@ -5,8 +5,8 @@ const morgan = require("morgan");
 
 const PORT = process.env.PORT || 3000;
 const endpointsMap = {
-  users: "3001",
-  payments: "3002"
+  users: process.env.AUTH_MICROSERVICE_URI || 'http://localhost:3001',
+  payments: process.env.PAYMENTS_MICROSERVICE || 'http://localhost:3002',
 };
 
 app.use((req, res, next) => {
@@ -32,7 +32,7 @@ app
   .use((req, res, next) => {
     const servicePORT = endpointsMap[req.url.split("/")[1]];
     if (servicePORT) {
-      const uri = `http://localhost:${servicePORT}${req.url}`;
+      const uri = `${servicePORT}${req.url}`;
       rp({
         method: req.method,
         uri,
