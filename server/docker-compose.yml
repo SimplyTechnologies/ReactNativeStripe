@@ -6,8 +6,8 @@ services:
       - 3000:3000
     environment:
       - PORT=3000
-      - AUTH_MICROSERVICE_URI=http://auth
-      - PAYMENTS_MICROSERVICE=http://payment
+      - AUTH_MICROSERVICE_URI=http://auth:3001
+      - PAYMENTS_MICROSERVICE=http://payment:3002
     links:
       - auth_microservice:auth
       - payments_microservice:payment
