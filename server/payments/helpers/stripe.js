@@ -57,20 +57,20 @@ export const deleteCustomerSource = (customerId, cardId) => {
   return new Promise((resolve, reject) => {
     stripe.customers.deleteCard(customerId, cardId, (err, confirmation) => {
       if (err) reject(err);
-      if (card) resolve(confirmation);
+      if (confirmation) resolve(confirmation);
     });
   });
 };
-export const updateDefaultSource = (ustomerId, cardId) => {
+export const updateDefaultSource = (customerId, cardId) => {
   return new Promise((resolve, reject) => {
     stripe.customers.update(
       customerId,
       {
         default_source: cardId
       },
-      function(err, customer) {
+      (err, customer) => {
         if (err) reject(err);
-        if (card) resolve(customer);
+        if (customer) resolve(customer);
       }
     );
   });

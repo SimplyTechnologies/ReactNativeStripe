@@ -5,16 +5,14 @@ export const payWithCard = (req, res) => {
   const { tokenId } = req.body;
 
   if (!tokenId) {
-    res.status(400).json({ msg: "Token is required" });
+    res.status(400).json({ message: "Token is required" });
   } else {
     stripeHelper
       .payWithCard(tokenId, 20)
       .then(charge => {
-        res.status(200).json({ msg: "The amount is paid successfully" });
+        res.status(200).json({ message: "The amount is paid successfully" });
       })
-      .catch(err => {
-        res.status(500).send(err.message);
-      });
+      .catch(err => next(err.message));
   }
 };
 
@@ -30,7 +28,7 @@ const saveCustomer = (userId, customer) => {
 export const addCard = (req, res, next) => {
   req.user = {
     username: "ani",
-    customerId: "",
+    customerId: "cus_CBQpcvg36VnXh1",
     _id: "5a65a824e762c8e0226b5a3a"
   };
   const { username, customerId, _id } = req.user;
@@ -57,13 +55,93 @@ export const addCard = (req, res, next) => {
   addCardPromise
     .then(card => {
       return res.json({
+        id: card.id,
         customerId: card.customer,
         brand: card.brand,
         exp_year: card.exp_year,
         last4: card.last4
       });
     })
-    .catch(err => {
-      next(err.message);
-    });
+    .catch(err => next(err.message));
+};
+
+export const getCards = (req, res, next) => {
+  req.user = { customerId: "cus_CBiskr0VMBQ0dC" };
+  const { customerId } = req.user;
+  if (!customerId) {
+    return res.status(400).json({ message: "Customer does not exist" });
+  }
+  stripeHelper
+    .retrieveCustomer(customerId)
+    .then(customer => {
+      const data = customer.sources.data.map(source => {
+        return {
+          id: source.id,
+          isDefaultSource: source.id === customer.default_source,
+          brand: source.brand,
+          exp_month: source.exp_month,
+          exp_year: source.exp_year,
+          last4: source.last4
+        };
+      });
+      return res.json(data);
+    })
+    .catch(err => next(err.message));
+};
+
+export const deleteCard = (req, res, next) => {
+  req.user = { customerId: "cus_CBQpcvg36VnXh1" };
+  const { customerId } = req.user;
+  if (!customerId) {
+    return res.status(400).json({ message: "Customer does not exist" });
+  }
+  const { id } = req.params;
+  stripeHelper
+    .deleteCustomerSource(customerId, id)
+    .then(confirmation => res.json(confirmation))
+    .catch(err => next(err.message));
+};
+
+export const updateCard = (req, res, next) => {
+  req.user = { customerId: "cus_CBQtywlg6bNV7C" };
+  const { customerId } = req.user;
+  if (!customerId) {
+    return res.status(400).json({ message: "Customer does not exist" });
+  }
+  const { id } = req.params;
+  const { tokenId } = req.body;
+  if (!tokenId) {
+    res.status(400).json({ message: "Token is required" });
+  }
+  const deletePromise = stripeHelper.deleteCustomerSource(customerId, id);
+  const createPromise = stripeHelper.createCustomerSource(customerId, tokenId);
+  Promise.all([deletePromise, createPromise])
+    .then(data => {
+      res.json([
+        data[0],
+        {
+          id: data[1].id,
+          last4: data[1].last4,
+          exp_month: data[1].exp_month,
+          exp_year: data[1].exp_year,
+          brand: data[1].brand
+        }
+      ]);
+    })
+    .catch(err => next(err.message));
+};
+
+export const changeDefaultCard = (req, res, next) => {
+  req.user = { customerId: "cus_CBQpcvg36VnXh1" };
+  const { customerId } = req.user;
+  if (!customerId) {
+    return res.status(400).json({ message: "Customer does not exist" });
+  }
+  const { id } = req.params;
+  stripeHelper
+    .updateDefaultSource(customerId, id)
+    .then(customer => {
+      return res.json({ default_source: customer.default_source });
+    })
+    .catch(err => next(err.message));
 };
