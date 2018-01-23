@@ -31,7 +31,7 @@ app
   .use(bodyParser.text())
   .use((req, res, next) => {
     const serviceUrl = endpointsMap[req.url.split("/")[1]];
-    console.log(serviceUrl)
+
     if (serviceUrl) {
       const uri = `${serviceUrl}${req.url}`;
       rp({
