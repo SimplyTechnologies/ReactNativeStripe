@@ -8,7 +8,11 @@ import { userLogin } from "AppProxies";
 
 const { STATUS_OK } = ResponseStatuses;
 
-export class LoginScreen extends Component {
+type Props = {};
+
+type State = {};
+
+export class LoginScreen extends Component<Props, State> {
   constructor(props) {
     super(props);
     this.initializeCallbacks();
@@ -17,7 +21,7 @@ export class LoginScreen extends Component {
   initializeCallbacks = () => {
     const handleOk = () => console.log("OK");
     this.callbackMap = {
-      [STATUS_OK]: handleOk()
+      [STATUS_OK]: handleOk
     };
   };
 

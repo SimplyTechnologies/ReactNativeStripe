@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import { View } from "react-native";
-import { requestHandler } from "AppUtils";
+import { fetchUtils } from "AppUtils";
 import type { CallbackMap } from "AppTypes";
 
 type Props = {
@@ -13,9 +13,10 @@ type Props = {
 type State = {};
 
 export class RequestProvider extends Component<Props, State> {
-  handleRequest = data => {
+  handleRequest = (...data) => {
+    const { requestHandler } = fetchUtils;
     const { callbackMap, requestProxy } = this.props;
-    const request = requestProxy(data);
+    const request = requestProxy(...data);
     requestHandler(request, callbackMap);
   };
 

@@ -6,8 +6,5 @@ const PAYMENT_PROXY_URI = "/card";
 const { makeRequest } = fetchUtils;
 const { GET, POST } = HttpMethods;
 
-const payWithCard = tokenId => makeRequest("/pay", POST, EMPTY_OBJECT, { tokenId });
-
-export const paymentProxy = {
-  payWithCard
-};
+export const payWithCard = tokenId =>
+  makeRequest("/pay", POST, EMPTY_OBJECT, { tokenId });
