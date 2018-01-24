@@ -1,13 +1,7 @@
 import React from "react";
 import { Navigation } from "react-native-navigation";
+import * as Screens from "AppScreens";
 import * as ScreenNames from "./constants";
-import { CardsScreen } from "./CardsScreen";
-import { PlansScreen } from "./PlansScreen";
-// !!!this is temporary!!!
-const Screens = {
-  CardsScreen,
-  PlansScreen
-};
 
 export const initializeScreens = () => {
   const keys = Object.keys(ScreenNames);

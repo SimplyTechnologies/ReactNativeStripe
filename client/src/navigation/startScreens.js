@@ -2,14 +2,15 @@ import { Navigation } from "react-native-navigation";
 import {
   CARDS_SCREEN,
   PLANS_SCREEN,
+  PAYMENT_SCREEN,
   CARDS_SCREEN_TITLE,
-  PLANS_SCREEN_TITLE
+  PLANS_SCREEN_TITLE,
+  PAYMENT_SCREEN_TITLE
 } from "./constants";
 import { initializeScreens } from "./initializeScreens";
 
-initializeScreens();
-
 export const startApp = () => {
+  initializeScreens();
   Navigation.startTabBasedApp({
     tabs: [
       {
@@ -23,6 +24,12 @@ export const startApp = () => {
         screen: PLANS_SCREEN,
         title: PLANS_SCREEN_TITLE,
         icon: require("../img/card.png")
+      },
+      {
+        label: PAYMENT_SCREEN_TITLE,
+        screen: PAYMENT_SCREEN,
+        title: PAYMENT_SCREEN_TITLE,
+        icon: require("../img/product.png")
       }
     ]
   });

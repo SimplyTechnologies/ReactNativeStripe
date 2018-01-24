@@ -1,8 +1,7 @@
 /**
- * @providesModule AppNavigation
+ * @providesModule AppScreens
  */
 
-import { Navigation } from "react-native-navigation";
-
-export { initializeScreens } from "./initializeScreens";
-export { startApp } from "./startScreens";
+export { CardsScreen } from "./CardsScreen";
+export { PlansScreen } from "./PlansScreen";
+export { PaymentScreen } from "./PaymentScreen";
