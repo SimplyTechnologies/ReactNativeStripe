@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { View, Button, StyleSheet } from "react-native";
-import PropTypes from "prop-types";
 import Stripe, { PaymentCardTextField } from "tipsi-stripe";
 import { paymentProxy } from "AppProxies";
 import { fetchUtils } from "AppUtils";

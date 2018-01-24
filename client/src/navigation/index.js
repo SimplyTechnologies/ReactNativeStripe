@@ -3,4 +3,4 @@
  */
 
 export { initializeScreens } from "./initializeScreens";
-export { startApp } from "./startScreens";
+export { startLoginScreen, startApp } from "./startScreens";

@@ -3,14 +3,26 @@ import {
   CARDS_SCREEN,
   PLANS_SCREEN,
   PAYMENT_SCREEN,
+  LOGIN_SCREEN,
   CARDS_SCREEN_TITLE,
   PLANS_SCREEN_TITLE,
-  PAYMENT_SCREEN_TITLE
+  PAYMENT_SCREEN_TITLE,
+  LOGIN_SCREEN_TITLE
 } from "./constants";
 import { initializeScreens } from "./initializeScreens";
 
+initializeScreens();
+
+export const startLoginScreen = () => {
+  Navigation.startSingleScreenApp({
+    screen: {
+      screen: LOGIN_SCREEN,
+      title: LOGIN_SCREEN_TITLE
+    }
+  });
+};
+
 export const startApp = () => {
-  initializeScreens();
   Navigation.startTabBasedApp({
     tabs: [
       {
