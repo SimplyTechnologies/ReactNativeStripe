@@ -5,22 +5,29 @@ import { fetchUtils } from "AppUtils";
 import type { CallbackMap } from "AppTypes";
 
 type Props = {
-  callbackMap: CallbackMap,
-  requestProxy: Function,
-  render: Function
+  render: Function,
+  requestProxyMap: Object,
+  callbackMap: Object
 };
 
 type State = {};
 
 export class RequestProvider extends Component<Props, State> {
-  handleRequest = (...data) => {
+  handleRequest(...data: any) {
     const { requestHandler } = fetchUtils;
-    const { callbackMap, requestProxy } = this.props;
-    const request = requestProxy(...data);
-    requestHandler(request, callbackMap);
-  };
+    const request = this.requestProxy(...data);
+
+    requestHandler(request, this.callback);
+  }
 
   render() {
-    return this.props.render(this.handleRequest);
+    const { requestProxyMap, callbackMap } = this.props;
+    const args = Object.keys(requestProxyMap).map((key: string): any =>
+      this.handleRequest.bind({
+        callback: callbackMap[key],
+        requestProxy: requestProxyMap[key]
+      })
+    );
+    return this.props.render(...args);
   }
 }
