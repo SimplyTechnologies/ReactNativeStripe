@@ -8,14 +8,14 @@ export const init = api => {
 
   router.post(
     "/register",
-    usersValidator.validateUserRegister,
+    usersValidator.validateCredentials,
     checkExpressValidator,
     usersHandlers.userRegister
   );
 
   router.post(
     "/login",
-    usersValidator.validateUserLogin,
+    usersValidator.validateCredentials,
     checkExpressValidator,
     usersHandlers.userLogin
   );

@@ -1,6 +1,6 @@
 import { check } from "express-validator/check";
 
-export const validateUserLogin = [
+export const validateCredentials = [
   check("username")
     .exists()
     .isLength({ min: 5 })
@@ -9,13 +9,4 @@ export const validateUserLogin = [
     .exists()
     .isLength({ min: 5 })
     .withMessage("Password must be at least 5 chars long.")
-];
-
-export const validateUserRegister = [
-  ...validateUserLogin,
-  ...[
-    check("email")
-      .isEmail()
-      .withMessage("Please provide a valid email address.")
-  ]
 ];

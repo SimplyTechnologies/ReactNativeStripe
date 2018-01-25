@@ -9,7 +9,7 @@ type Props = {
 
 type State = {
   isValid: boolean,
-  params: object,
+  params: Object,
   notification: string
 };
 
