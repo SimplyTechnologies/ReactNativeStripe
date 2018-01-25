@@ -20,8 +20,14 @@ export class LoginScreen extends Component<Props, State> {
 
   initializeCallbacks = () => {
     const handleOk = () => console.log("OK");
+
     this.callbackMap = {
-      [STATUS_OK]: handleOk
+      submit: {
+        [STATUS_OK]: handleOk
+      }
+    };
+    this.requestProxyMap = {
+      submit: userLogin
     };
   };
 
@@ -34,8 +40,8 @@ export class LoginScreen extends Component<Props, State> {
   render() {
     return (
       <RequestProvider
+        requestProxyMap={this.requestProxyMap}
         callbackMap={this.callbackMap}
-        requestProxy={userLogin}
         render={this.renderRequestProvider}
       />
     );
