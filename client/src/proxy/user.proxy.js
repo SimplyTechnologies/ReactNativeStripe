@@ -2,9 +2,12 @@ import { fetchUtils } from "AppUtils";
 import { HttpMethods } from "AppConstants";
 
 const EMPTY_OBJECT = {};
-const PAYMENT_PROXY_URI = "/card";
+const USER_PROXY_URI = "/auth";
 const { makeRequest } = fetchUtils;
 const { GET, POST } = HttpMethods;
 
-export const payWithCard = tokenId =>
-  makeRequest("/pay", POST, EMPTY_OBJECT, { tokenId });
+export const userLogin = (username, password) =>
+  makeRequest(`${USER_PROXY_URI}/login`, POST, EMPTY_OBJECT, {
+    username,
+    password
+  });

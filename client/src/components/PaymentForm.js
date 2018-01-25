@@ -1,45 +1,45 @@
+// @flow
 import React, { Component } from "react";
-import { View, Button, StyleSheet } from "react-native";
-import PropTypes from "prop-types";
+import { View, Button, Text, StyleSheet } from "react-native";
 import Stripe, { PaymentCardTextField } from "tipsi-stripe";
-import { paymentProxy } from "AppProxies";
-import { fetchUtils } from "AppUtils";
-import { ResponseStatuses } from "AppConstants";
 
-const { requestHandler } = fetchUtils;
-const { STATUS_OK } = ResponseStatuses;
+type Props = {
+  handleSubmit: Function
+};
 
-// TODO: Flowify everything
-export class PaymentForm extends Component {
-  static propTypes = {};
+type State = {
+  isValid: boolean,
+  params: object,
+  notification: string
+};
 
+// TODO: Flowify everything deeper
+export class PaymentForm extends Component<Props, State> {
   state = {
     isValid: false,
     params: null,
     notification: ""
   };
 
-  callbackMap = {
-    [STATUS_OK]: ({ msg: notification }) => this.setState({ notification })
-  };
-
-  fieldParamsChangedHandler = (isValid, params) => {
+  fieldParamsChangedHandler = (isValid: boolean, params: Object) => {
     this.setState({ isValid, params });
   };
 
   payButtonPressedHandler = () => {
     const { isValid, params } = this.state;
-    const { payWithCard } = paymentProxy;
+    const createToken = Stripe.createTokenWithCard;
     if (isValid) {
-      Stripe.createTokenWithCard(params).then(res => {
-        const { tokenId } = res;
-        const payWithCardRequest = payWithCard(tokenId);
-        requestHandler(payWithCardRequest, this.callbackMap);
-      });
+      createToken(params).then(this.tokenReceiveHandler);
     }
   };
 
+  tokenReceiveHandler = ({ tokenId }: Object) => {
+    const { handleSubmit } = this.props;
+    handleSubmit(tokenId);
+  };
+
   render() {
+    const { notification } = this.state;
     return (
       <View>
         <PaymentCardTextField
@@ -52,6 +52,7 @@ export class PaymentForm extends Component {
           style={styles.payButon}
           color="black"
         />
+        <Text>{notification}</Text>
       </View>
     );
   }
