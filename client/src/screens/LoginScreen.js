@@ -25,8 +25,6 @@ export class LoginScreen extends Component<Props, State> {
     };
   };
 
-  handleLoginSubmit = () => {};
-
   renderRequestProvider = (handleRequest: Function): Element<*> => (
     <LoginForm handleSubmit={handleRequest} navigator={this.props.navigator} />
   );

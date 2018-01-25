@@ -1,6 +1,6 @@
 import { ResponseStatuses } from "AppConstants";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://192.168.2.11:3001";
 const { STATUS_OK } = ResponseStatuses;
 
 /**

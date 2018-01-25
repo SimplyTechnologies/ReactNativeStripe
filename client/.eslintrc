@@ -17,6 +17,7 @@
     "import/extensions": 0,
     "import/prefer-default-export": 0,
     "arrow-parens": 0,
+    "no-restricted-syntax": 0,
     "flowtype/boolean-style": [2, "boolean"],
     "flowtype/define-flow-type": 1,
     "flowtype/delimiter-dangle": [2, "never"],
