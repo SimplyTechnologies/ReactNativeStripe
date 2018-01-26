@@ -11,3 +11,10 @@ export const userLogin = (username, password) =>
     username,
     password
   });
+
+export const userRegister = (username, password) => 
+  makeRequest(`${USER_PROXY_URI}/register`, POST, EMPTY_OBJECT, {
+    username,
+    password
+  });
+

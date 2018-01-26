@@ -32,10 +32,10 @@ export class RequestProvider extends Component<Props, State> {
     }
   };
 
-  handleFunctionProxy = data => {
+  handleFunctionProxy = (...data) => {
     const { requestProxy, callbackMap } = this.props;
     const { requestHandler } = fetchUtils;
-    const request = requestProxy(data);
+    const request = requestProxy(...data);
     requestHandler(request, callbackMap);
   };
 

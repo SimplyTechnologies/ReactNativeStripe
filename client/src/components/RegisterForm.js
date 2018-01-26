@@ -84,10 +84,10 @@ export class RegisterForm extends Component<Props, State> {
   };
 
   registerButtonClickedHandler = () => {
-    const { username, password, confirmPassword } = this.state.values;
     const { handleSubmit } = this.props;
+    const { username, password } = this.state.values;
     if (!this.hasValidationErrors()) {
-      handleSubmit(username, password, confirmPassword);
+      handleSubmit(username, password);
     }
   };
 

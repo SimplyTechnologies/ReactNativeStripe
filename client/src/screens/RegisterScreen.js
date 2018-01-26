@@ -1,13 +1,37 @@
+// @flow
 import React, { Component } from "react";
-import { Text } from "react-native";
-import { RequestProvider } from "AppProviders";
+import type { Element } from "react";
 import { RegisterForm } from "AppComponents";
+import { RequestProvider } from "AppProviders";
+import { ResponseStatuses } from "AppConstants";
+import { userRegister } from "AppProxies";
 
-export class RegisterScreen extends Component {
-  renderRequestProvider = (requestHandler: Function) => (
-    <RegisterForm handleSubmit={requestHandler} />
+const { STATUS_OK } = ResponseStatuses;
+
+export class RegisterScreen extends Component<{}> {
+  constructor(props) {
+    super(props);
+    this.initializeCallbacks();
+  }
+
+  initializeCallbacks = () => {
+    const handleOk = () => console.log("OK");
+    this.callbackMap = {
+      [STATUS_OK]: handleOk
+    };
+  };
+
+  renderRequestProvider = (handleRequest: Function): Element<*> => (
+    <RegisterForm handleSubmit={handleRequest} />
   );
+
   render() {
-    return <RequestProvider render={this.renderRequestProvider} />;
+    return (
+      <RequestProvider
+        requestProxy={userRegister}
+        callbackMap={this.callbackMap}
+        render={this.renderRequestProvider}
+      />
+    );
   }
 }

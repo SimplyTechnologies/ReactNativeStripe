@@ -3,4 +3,4 @@
  */
 
 export { payWithCard } from "./payment.proxy";
-export { userLogin } from "./user.proxy";
+export { userLogin, userRegister } from "./user.proxy";
