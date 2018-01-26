@@ -5,3 +5,4 @@
 export { PaymentForm } from "./PaymentForm";
 export { LoginForm } from "./LoginForm";
 export { RegisterForm } from "./RegisterForm";
+export { FormInput } from "./FormInput";

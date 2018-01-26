@@ -7,10 +7,10 @@ const isLength = (
   lengths: { min?: number, max?: number }
 ): boolean => {
   let returnValue = true;
-  if (typeof lengths.min !== "undefined") {
+  if (lengths.min) {
     returnValue = returnValue && value.length < lengths.min;
   }
-  if (typeof lengths.max !== "undefined") {
+  if (lengths.max) {
     returnValue = returnValue && value.length > lengths.max;
   }
   return returnValue;

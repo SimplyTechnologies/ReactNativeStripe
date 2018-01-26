@@ -8,16 +8,8 @@ import {
   TouchableOpacity,
   StyleSheet
 } from "react-native";
-import { validateUtils } from "AppUtils";
-import {
-  REQUIRED,
-  MIN_LENGTH,
-  USERNAME_MIN_LENGTH,
-  PASSWRD_MIN_LENGTH,
-  PASSWORD_NOT_MATCH
-} from "AppConstants";
-
-const { isEmpty, isLength, matches } = validateUtils;
+import { FormInput } from "AppComponents";
+import { validateRegister } from "AppValidators";
 
 const styles = StyleSheet.create({
   buttonStyle: {
@@ -36,12 +28,12 @@ type Props = {
 };
 
 type State = {
-  formValues: {
+  values: {
     username: string,
     password: string,
     confirmPassword: string
   },
-  errorMessages: {
+  validations: {
     username: string,
     password: string,
     confirmPassword: string
@@ -50,12 +42,12 @@ type State = {
 
 export class RegisterForm extends Component<Props, State> {
   state = {
-    formValues: {
+    values: {
       username: "",
       password: "",
       confirmPassword: ""
     },
-    errorMessages: {
+    validations: {
       username: "",
       password: "",
       confirmPassword: ""
@@ -63,87 +55,76 @@ export class RegisterForm extends Component<Props, State> {
   };
 
   inputChangedHandler = (name: string, value: string) => {
-    const formValues = Object.assign({}, this.state.formValues);
-    formValues[name] = value;
-    this.setState({ formValues });
+    const values = Object.assign({}, this.state.values);
+    values[name] = value;
+    this.setState({ values });
   };
 
-  validate = (name: string, value: string): string => {
-    switch (name) {
-      case "username":
-        if (isEmpty(value)) {
-          return REQUIRED(name);
-        } else if (isLength(value, { min: USERNAME_MIN_LENGTH })) {
-          return MIN_LENGTH(name, USERNAME_MIN_LENGTH);
-        }
-        return "";
-
-      case "password":
-        if (isEmpty(value)) {
-          return REQUIRED(name);
-        } else if (isLength(value, { min: PASSWRD_MIN_LENGTH })) {
-          return MIN_LENGTH(name, USERNAME_MIN_LENGTH);
-        }
-        return "";
-
-      case "confirmPassword":
-        if (isEmpty(value)) {
-          return REQUIRED(name);
-        } else if (!matches(value, this.state.formValues.password)) {
-          return PASSWORD_NOT_MATCH;
-        }
-        return "";
-      default:
-        return "";
-    }
+  usernameInputChangedHandler = (username: string) => {
+    const values = { ...this.state.values };
+    values.username = username;
+    this.setState({ values });
   };
 
-  hasValidationErrors(): boolean {
-    const errorMessages = Object.keys(this.state.formValues).reduce(
-      (result: any, key: string): any => {
-        result[key] = this.validate(key, this.state.formValues[key]);
-        return result;
-      },
-      {}
-    );
-    if (Object.values(errorMessages).join("")) {
-      this.setState({
-        errorMessages
-      });
-      return true;
-    }
-    return false;
-  }
+  passwordInputChangedHandler = (password: string) => {
+    const values = { ...this.state.values };
+    values.password = password;
+    this.setState({ values });
+  };
+
+  confirmPasswordInputChangedHandler = (confirmPassword: string) => {
+    const values = { ...this.state.values };
+    values.confirmPassword = confirmPassword;
+    this.setState({ values });
+  };
+
+  validate = (): any =>
+    this.setState(({ validations }: any): any => ({
+      validations: validateRegister(validations)
+    }));
+
+  hasValidationErrors = (): boolean => {
+    const { validations } = this.state;
+    const keys = Object.keys(validations);
+    let hasError = false;
+    keys.forEach((key: string) => {
+      // hasError should be true if at least one field is invalid
+      const isError = validations[key].length > 0;
+      hasError = hasError || isError;
+    });
+    return hasError;
+  };
+
   registerButtonClickedHandler = () => {
     const { handleSubmit } = this.props;
-    const { username, password, confirmPassword } = this.state.formValues;
+    const { username, password, confirmPassword } = this.state.values;
     if (!this.hasValidationErrors()) {
       handleSubmit(username, password, confirmPassword);
     }
   };
 
   render() {
-    const { username, password, confirmPassword } = this.state.formValues;
+    const { values, validations } = this.state;
     return (
       <View>
-        <TextInput
+        <FormInput
+          value={values.username}
           placeholder="username"
-          value={username}
-          onChangeText={this.inputChangedHandler.bind(null, "username")}
+          handleChange={this.usernameInputChangedHandler}
+          validationMessage={validations.username}
         />
-        <Text>{this.state.errorMessages.username}</Text>
-        <TextInput
+        <FormInput
+          value={values.password}
           placeholder="password"
-          value={password}
-          onChangeText={this.inputChangedHandler.bind(null, "password")}
+          handleChange={this.passwordInputChangedHandler}
+          validationMessage={validations.password}
         />
-        <Text>{this.state.errorMessages.password}</Text>
-        <TextInput
+        <FormInput
+          value={values.confirmPassword}
           placeholder="confirm password"
-          value={confirmPassword}
-          onChangeText={this.inputChangedHandler.bind(null, "confirmPassword")}
+          handleChange={this.confirmPasswordInputChangedHandler}
+          validationMessage={validations.confirmPassword}
         />
-        <Text>{this.state.errorMessages.confirmPassword}</Text>
         <TouchableOpacity
           style={styles.buttonStyle}
           onPress={this.registerButtonClickedHandler}
