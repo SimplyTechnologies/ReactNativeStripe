@@ -68,14 +68,16 @@ export class LoginForm extends Component<Props, State> {
     return hasError;
   };
 
+  formSubmitHandler = () => {
+    const { handleSubmit } = this.props;
+    const { username, password } = this.state.values;
+    if (!this.hasValidationErrors()) {
+      handleSubmit(username, password);
+    }
+  };
+
   loginButtonClickedHandler = () => {
-    this.validate(() => {
-      const { handleSubmit } = this.props;
-      const { username, password } = this.state.values;
-      if (!this.hasValidationErrors()) {
-        handleSubmit(username, password);
-      }
-    });
+    this.validate(this.formSubmitHandler);
   };
 
   registerLinkClickHandler = () => {
