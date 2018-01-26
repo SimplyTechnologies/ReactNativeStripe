@@ -1,13 +1,7 @@
 // @flow
 
 import React, { Component } from "react";
-import {
-  TextInput,
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FormInput } from "AppComponents";
 import { validateRegister } from "AppValidators";
 
