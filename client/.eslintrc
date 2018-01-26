@@ -42,6 +42,8 @@
     "flowtype/union-intersection-spacing": [2, "always"],
     "flowtype/use-flow-type": 1,
     "flowtype/valid-syntax": 1,
-    "react/jsx-no-bind": 0
+    "react/jsx-no-bind": 0,
+    "no-prototype-builtins": 0,
+    "no-param-reassign": 0
   }
 }

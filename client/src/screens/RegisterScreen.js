@@ -4,7 +4,9 @@ import { RequestProvider } from "AppProviders";
 import { RegisterForm } from "AppComponents";
 
 export class RegisterScreen extends Component {
-  renderRequestProvider = () => <RegisterForm />;
+  renderRequestProvider = (requestHandler: Function) => (
+    <RegisterForm handleSubmit={requestHandler} />
+  );
   render() {
     return <RequestProvider render={this.renderRequestProvider} />;
   }
