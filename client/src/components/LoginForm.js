@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { View, Button, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { FormInput } from "AppComponents";
+import { FormHelper } from "AppHelpers";
 import { validateLogin } from "AppValidators";
 import {
   REGISTER_SCREEN,
@@ -25,6 +26,10 @@ type State = {
 };
 
 export class LoginForm extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.formHelper = new FormHelper(this, validateLogin);
+  }
   state = {
     values: {
       username: "",
@@ -48,36 +53,16 @@ export class LoginForm extends Component<Props, State> {
     this.setState({ values });
   };
 
-  validate = (callback: Function): any =>
-    this.setState(
-      ({ values }: any): any => ({
-        validations: validateLogin(values)
-      }),
-      callback
-    );
-
-  hasValidationErrors = (): boolean => {
-    const { validations } = this.state;
-    const keys = Object.keys(validations);
-    let hasError = false;
-    keys.forEach((key: string) => {
-      // hasError should be true if at least one field is invalid
-      const isError = validations[key].length > 0;
-      hasError = hasError || isError;
-    });
-    return hasError;
-  };
-
   formSubmitHandler = () => {
     const { handleSubmit } = this.props;
     const { username, password } = this.state.values;
-    if (!this.hasValidationErrors()) {
+    if (!this.formHelper.hasValidationErrors()) {
       handleSubmit(username, password);
     }
   };
 
   loginButtonClickedHandler = () => {
-    this.validate(this.formSubmitHandler);
+    this.formHelper.validate(this.formSubmitHandler);
   };
 
   registerLinkClickHandler = () => {
