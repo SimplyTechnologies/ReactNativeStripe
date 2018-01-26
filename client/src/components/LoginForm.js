@@ -1,13 +1,8 @@
 // @flow
 import React, { Component } from "react";
-import {
-  View,
-  TextInput,
-  Button,
-  StyleSheet,
-  Text,
-  TouchableOpacity
-} from "react-native";
+import { View, Button, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { FormInput } from "AppComponents";
+import { validateLogin } from "AppValidators";
 import {
   REGISTER_SCREEN,
   REGISTER_SCREEN_TITLE
@@ -19,28 +14,63 @@ type Props = {
 };
 
 type State = {
-  username: string,
-  password: string
+  values: {
+    username: string,
+    password: string
+  },
+  validations: {
+    username: string,
+    password: string
+  }
 };
 
 export class LoginForm extends Component<Props, State> {
   state = {
-    username: "",
-    password: ""
+    values: {
+      username: "",
+      password: ""
+    },
+    validations: {
+      username: "",
+      password: ""
+    }
   };
 
   usernameInputChangedHandler = (username: string) => {
-    this.setState({ username });
+    const values = { ...this.state.values };
+    values.username = username;
+    this.setState({ values });
   };
 
   passwordInputChangedHandler = (password: string) => {
-    this.setState({ password });
+    const values = { ...this.state.values };
+    values.password = password;
+    this.setState({ values });
+  };
+
+  validate = (): any =>
+    this.setState(({ validations }: any): any => ({
+      validations: validateLogin(validations)
+    }));
+
+  hasValidationErrors = (): boolean => {
+    const { validations } = this.state;
+    const keys = Object.keys(validations);
+    let hasError = false;
+    keys.forEach((key: string) => {
+      // hasError should be true if at least one field is invalid
+      const isError = validations[key].length > 0;
+      hasError = hasError || isError;
+    });
+    return hasError;
   };
 
   loginButtonClickedHandler = () => {
-    const { username, password } = this.state;
+    const { username, password } = this.state.values;
     const { handleSubmit } = this.props;
-    handleSubmit(username, password);
+    if (!this.hasValidationErrors()) {
+      handleSubmit(username, password);
+    }
   };
 
   registerLinkClickHandler = () => {
@@ -51,18 +81,20 @@ export class LoginForm extends Component<Props, State> {
   };
 
   render() {
-    const { username, password } = this.state;
+    const { values, validations } = this.state;
     return (
       <View>
-        <TextInput
-          placeholder="Login"
-          value={username}
-          onChangeText={this.usernameInputChangedHandler}
+        <FormInput
+          value={values.username}
+          placeholder="username"
+          handleChange={this.usernameInputChangedHandler}
+          validationMessage={validations.username}
         />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={this.passwordInputChangedHandler}
+        <FormInput
+          value={values.password}
+          placeholder="password"
+          handleChange={this.passwordInputChangedHandler}
+          validationMessage={validations.password}
         />
         <Button
           title="Login"
