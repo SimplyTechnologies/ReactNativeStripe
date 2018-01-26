@@ -99,12 +99,14 @@ export class RegisterForm extends Component<Props, State> {
           placeholder="password"
           handleChange={this.passwordInputChangedHandler}
           validationMessage={validations.password}
+          secureTextEntry
         />
         <FormInput
           value={values.confirmPassword}
           placeholder="confirm password"
           handleChange={this.confirmPasswordInputChangedHandler}
           validationMessage={validations.confirmPassword}
+          secureTextEntry
         />
         <TouchableOpacity
           style={styles.buttonStyle}

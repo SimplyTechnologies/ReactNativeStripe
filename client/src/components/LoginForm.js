@@ -88,6 +88,7 @@ export class LoginForm extends Component<Props, State> {
           placeholder="password"
           handleChange={this.passwordInputChangedHandler}
           validationMessage={validations.password}
+          secureTextEntry
         />
         <Button
           title="Login"

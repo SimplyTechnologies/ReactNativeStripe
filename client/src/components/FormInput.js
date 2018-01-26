@@ -8,7 +8,8 @@ type Props = {
   placeholder: string,
   handleChange: Function,
   validationMessage: string,
-  autoFocus: ?boolean
+  autoFocus: ?boolean,
+  secureTextEntry: ?boolean
 };
 
 export const FormInput = ({
@@ -16,7 +17,8 @@ export const FormInput = ({
   placeholder,
   handleChange,
   validationMessage,
-  autoFocus
+  autoFocus,
+  secureTextEntry
 }: Props): Element<*> => (
   <View>
     <TextInput
@@ -25,6 +27,7 @@ export const FormInput = ({
       placeholder={placeholder}
       onChangeText={handleChange}
       autoCapitalize="none"
+      secureTextEntry={secureTextEntry}
     />
     <Text>{validationMessage}</Text>
   </View>
