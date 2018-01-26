@@ -44,6 +44,7 @@
     "flowtype/valid-syntax": 1,
     "react/jsx-no-bind": 0,
     "no-prototype-builtins": 0,
-    "no-param-reassign": 0
+    "no-param-reassign": 0,
+    "react/no-unused-prop-types": 0
   }
 }

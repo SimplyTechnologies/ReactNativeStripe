@@ -66,10 +66,13 @@ export class RegisterForm extends Component<Props, State> {
     this.setState({ values });
   };
 
-  validate = (): any =>
-    this.setState(({ validations }: any): any => ({
-      validations: validateRegister(validations)
-    }));
+  validate = (callback: Function): any =>
+    this.setState(
+      ({ values }: any): any => ({
+        validations: validateRegister(values)
+      }),
+      callback
+    );
 
   hasValidationErrors = (): boolean => {
     const { validations } = this.state;
@@ -84,11 +87,13 @@ export class RegisterForm extends Component<Props, State> {
   };
 
   registerButtonClickedHandler = () => {
-    const { handleSubmit } = this.props;
-    const { username, password } = this.state.values;
-    if (!this.hasValidationErrors()) {
-      handleSubmit(username, password);
-    }
+    this.validate(() => {
+      const { handleSubmit } = this.props;
+      const { username, password } = this.state.values;
+      if (!this.hasValidationErrors()) {
+        handleSubmit(username, password);
+      }
+    });
   };
 
   render() {
@@ -96,6 +101,7 @@ export class RegisterForm extends Component<Props, State> {
     return (
       <View>
         <FormInput
+          autoFocus
           value={values.username}
           placeholder="username"
           handleChange={this.usernameInputChangedHandler}
