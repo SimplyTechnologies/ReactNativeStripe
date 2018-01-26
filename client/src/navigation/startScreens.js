@@ -15,6 +15,15 @@ import { initializeScreens } from "./initializeScreens";
 
 initializeScreens();
 
+const navigatorButtons = {
+  rightButtons: [
+    {
+      title: "logout",
+      id: "logout"
+    }
+  ]
+};
+
 const startLoginScreen = () => {
   Navigation.startSingleScreenApp({
     screen: {
@@ -31,19 +40,22 @@ const startDashboardScreen = () => {
         label: CARDS_SCREEN_TITLE,
         screen: CARDS_SCREEN,
         title: CARDS_SCREEN_TITLE,
-        icon: require("../img/card.png")
+        icon: require("../img/card.png"),
+        navigatorButtons
       },
       {
         label: PLANS_SCREEN_TITLE,
         screen: PLANS_SCREEN,
         title: PLANS_SCREEN_TITLE,
-        icon: require("../img/card.png")
+        icon: require("../img/card.png"),
+        navigatorButtons
       },
       {
         label: PAYMENT_SCREEN_TITLE,
         screen: PAYMENT_SCREEN,
         title: PAYMENT_SCREEN_TITLE,
-        icon: require("../img/product.png")
+        icon: require("../img/product.png"),
+        navigatorButtons
       }
     ]
   });

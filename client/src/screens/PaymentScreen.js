@@ -5,6 +5,7 @@ import { PaymentForm } from "AppComponents";
 import { payWithCard } from "AppProxies";
 import { RequestProvider } from "AppProviders";
 import { ResponseStatuses } from "AppConstants";
+import withEventHandlers from "./withEventHandlers";
 
 const { STATUS_OK } = ResponseStatuses;
 
@@ -12,6 +13,7 @@ type Props = {};
 
 type State = {};
 
+@withEventHandlers
 export class PaymentScreen extends Component<Props, State> {
   constructor(props) {
     super(props);

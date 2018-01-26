@@ -10,7 +10,9 @@ import { startApp } from "AppNavigation";
 
 const { STATUS_OK } = ResponseStatuses;
 
-type Props = {};
+type Props = {
+  navigator: any
+};
 
 type State = {};
 
