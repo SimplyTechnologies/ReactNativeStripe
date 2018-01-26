@@ -48,12 +48,6 @@ export class RegisterForm extends Component<Props, State> {
     }
   };
 
-  inputChangedHandler = (name: string, value: string) => {
-    const values = Object.assign({}, this.state.values);
-    values[name] = value;
-    this.setState({ values });
-  };
-
   usernameInputChangedHandler = (username: string) => {
     const values = { ...this.state.values };
     values.username = username;
@@ -91,9 +85,9 @@ export class RegisterForm extends Component<Props, State> {
 
   registerButtonClickedHandler = () => {
     const { handleSubmit } = this.props;
-    const { username, password, confirmPassword } = this.state.values;
+    const { username, password } = this.state.values;
     if (!this.hasValidationErrors()) {
-      handleSubmit(username, password, confirmPassword);
+      handleSubmit(username, password);
     }
   };
 
