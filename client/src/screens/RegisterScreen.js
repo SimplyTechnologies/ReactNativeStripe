@@ -6,6 +6,7 @@ import { RequestProvider } from "AppProviders";
 import { ResponseStatuses } from "AppConstants";
 import { userRegister } from "AppProxies";
 import { AsyncStorage } from "react-native";
+import { startApp } from "AppNavigation";
 
 const { STATUS_OK } = ResponseStatuses;
 
@@ -16,8 +17,10 @@ export class RegisterScreen extends Component<{}> {
   }
 
   initializeCallbacks = () => {
-    const handleOk = ({ token }: { token: string }): void =>
+    const handleOk = ({ token }: { token: string }) => {
       AsyncStorage.setItem("token", token);
+      startApp();
+    };
     this.callbackMap = {
       [STATUS_OK]: handleOk
     };

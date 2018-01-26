@@ -1,3 +1,3 @@
-import { startLoginScreen } from "AppNavigation";
+import { startApp } from "AppNavigation";
 
-startLoginScreen();
+startApp();

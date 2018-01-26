@@ -6,6 +6,7 @@ import { LoginForm } from "AppComponents";
 import { RequestProvider } from "AppProviders";
 import { ResponseStatuses } from "AppConstants";
 import { userLogin } from "AppProxies";
+import { startApp } from "AppNavigation";
 
 const { STATUS_OK } = ResponseStatuses;
 
@@ -20,8 +21,10 @@ export class LoginScreen extends Component<Props, State> {
   }
 
   initializeCallbacks = () => {
-    const handleOk = ({ token }: { token: string }): void =>
+    const handleOk = ({ token }: { token: string }) => {
       AsyncStorage.setItem("token", token);
+      startApp();
+    };
     this.callbackMap = {
       [STATUS_OK]: handleOk
     };

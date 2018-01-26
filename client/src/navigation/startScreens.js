@@ -1,3 +1,5 @@
+// @flow
+import { AsyncStorage } from "react-native";
 import { Navigation } from "react-native-navigation";
 import {
   CARDS_SCREEN,
@@ -13,7 +15,7 @@ import { initializeScreens } from "./initializeScreens";
 
 initializeScreens();
 
-export const startLoginScreen = () => {
+const startLoginScreen = () => {
   Navigation.startSingleScreenApp({
     screen: {
       screen: LOGIN_SCREEN,
@@ -22,7 +24,7 @@ export const startLoginScreen = () => {
   });
 };
 
-export const startApp = () => {
+const startDashboardScreen = () => {
   Navigation.startTabBasedApp({
     tabs: [
       {
@@ -44,5 +46,15 @@ export const startApp = () => {
         icon: require("../img/product.png")
       }
     ]
+  });
+};
+
+export const startApp = () => {
+  AsyncStorage.getItem("token").then((token: string | null) => {
+    if (token) {
+      startDashboardScreen();
+    } else {
+      startLoginScreen();
+    }
   });
 };
