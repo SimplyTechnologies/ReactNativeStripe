@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import type { Element } from "react";
+import { AsyncStorage } from "react-native";
 import { LoginForm } from "AppComponents";
 import { RequestProvider } from "AppProviders";
 import { ResponseStatuses } from "AppConstants";
@@ -19,7 +20,8 @@ export class LoginScreen extends Component<Props, State> {
   }
 
   initializeCallbacks = () => {
-    const handleOk = () => console.log("OK");
+    const handleOk = ({ token }: { token: string }): void =>
+      AsyncStorage.setItem("token", token);
     this.callbackMap = {
       [STATUS_OK]: handleOk
     };

@@ -6,20 +6,18 @@ const isLength = (
   value: string,
   lengths: { min?: number, max?: number }
 ): boolean => {
+  const { min, max } = lengths;
   let returnValue = true;
-  if (lengths.min) {
-    returnValue = returnValue && value.length < lengths.min;
+  if (min) {
+    returnValue = returnValue && value.length > min;
   }
-  if (lengths.max) {
-    returnValue = returnValue && value.length > lengths.max;
+  if (max) {
+    returnValue = returnValue && value.length < max;
   }
   return returnValue;
 };
 
-const matches = (value1: string, value2: string): boolean => {
-  console.log(value1, value2);
-  return value1 === value2;
-};
+const matches = (value1: string, value2: string): boolean => value1 === value2;
 
 export const validateUtils = {
   isEmpty,

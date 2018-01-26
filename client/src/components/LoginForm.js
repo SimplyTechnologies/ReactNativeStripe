@@ -48,10 +48,13 @@ export class LoginForm extends Component<Props, State> {
     this.setState({ values });
   };
 
-  validate = (): any =>
-    this.setState(({ validations }: any): any => ({
-      validations: validateLogin(validations)
-    }));
+  validate = (callback: Function): any =>
+    this.setState(
+      ({ values }: any): any => ({
+        validations: validateLogin(values)
+      }),
+      callback
+    );
 
   hasValidationErrors = (): boolean => {
     const { validations } = this.state;
@@ -66,11 +69,13 @@ export class LoginForm extends Component<Props, State> {
   };
 
   loginButtonClickedHandler = () => {
-    const { username, password } = this.state.values;
-    const { handleSubmit } = this.props;
-    if (!this.hasValidationErrors()) {
-      handleSubmit(username, password);
-    }
+    this.validate(() => {
+      const { handleSubmit } = this.props;
+      const { username, password } = this.state.values;
+      if (!this.hasValidationErrors()) {
+        handleSubmit(username, password);
+      }
+    });
   };
 
   registerLinkClickHandler = () => {
@@ -85,6 +90,7 @@ export class LoginForm extends Component<Props, State> {
     return (
       <View>
         <FormInput
+          autoFocus
           value={values.username}
           placeholder="username"
           handleChange={this.usernameInputChangedHandler}
