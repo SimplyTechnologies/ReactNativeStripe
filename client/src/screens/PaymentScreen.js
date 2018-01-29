@@ -5,13 +5,15 @@ import { PaymentForm } from "AppComponents";
 import { payWithCard } from "AppProxies";
 import { RequestProvider } from "AppProviders";
 import { ResponseStatuses } from "AppConstants";
-import { withEventHandlers } from "../navigation/withEventHandlers";
+import { NavigatorEventHandlers } from "AppNavigation";
 
 const { STATUS_OK } = ResponseStatuses;
 
-type Props = {};
+type Props = {
+  navigator: any
+};
 
-class Payment extends Component<Props> {
+export class PaymentScreen extends Component<Props> {
   constructor(props: Props) {
     super(props);
     this.initializeCallbacks();
@@ -32,15 +34,20 @@ class Payment extends Component<Props> {
     <PaymentForm handleSubmit={handleRequest} />
   );
 
+  renderHandler = (): Element<typeof RequestProvider> => (
+    <RequestProvider
+      callbackMap={this.callbackMap}
+      requestProxy={payWithCard}
+      render={this.renderRequestProvider}
+    />
+  );
+
   render() {
     return (
-      <RequestProvider
-        callbackMap={this.callbackMap}
-        requestProxy={payWithCard}
-        render={this.renderRequestProvider}
+      <NavigatorEventHandlers
+        render={this.renderHandler}
+        navigator={this.props.navigator}
       />
     );
   }
 }
-
-export const PaymentScreen = withEventHandlers(Payment);

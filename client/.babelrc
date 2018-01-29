@@ -1,5 +1,4 @@
 {
   "presets": ["flow", "react-native"],
-  "plugins": ["transform-decorators-legacy"],
   "retainLines": true
 }

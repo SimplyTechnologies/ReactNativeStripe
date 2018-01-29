@@ -1,12 +1,23 @@
+// @flow
+
 import React, { Component } from "react";
 import { Text } from "react-native";
-import { withEventHandlers } from "../navigation/withEventHandlers";
+import { NavigatorEventHandlers } from "AppNavigation";
 
-// @withEventHandlers
-class Plans extends Component {
+type Props = {
+  navigator: any
+};
+
+export class PlansScreen extends Component<Props> {
+  renderHandler() {
+    return <Text>first</Text>;
+  }
   render() {
-    return <Text>First</Text>;
+    return (
+      <NavigatorEventHandlers
+        render={this.renderHandler}
+        navigator={this.props.navigator}
+      />
+    );
   }
 }
-
-export const PlansScreen = withEventHandlers(Plans);
