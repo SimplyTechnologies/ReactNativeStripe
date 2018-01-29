@@ -1,9 +1,10 @@
 // @flow
 import { Platform } from "react-native";
 import { ResponseStatuses } from "AppConstants";
-import { IP_ADDRESS } from "../../config";
+import config from "../../config";
 
 const { OS } = Platform;
+const { IP_ADDRESS } = config;
 const BASE_URL =
   OS === "ios" ? "http://localhost:3000" : `http://${IP_ADDRESS}:3000`;
 
