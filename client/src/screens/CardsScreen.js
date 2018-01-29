@@ -9,10 +9,10 @@ type Props = {
 
 type State = {};
 
-class CardsScreen extends Component<Props, State> {
+class WrappedCardsScreen extends Component<Props, State> {
   render() {
     return <Text>Second</Text>;
   }
 }
 
-export const WithEventHandlers = InitEventHandlers(CardsScreen);
+export const CardsScreen = InitEventHandlers(WrappedCardsScreen);

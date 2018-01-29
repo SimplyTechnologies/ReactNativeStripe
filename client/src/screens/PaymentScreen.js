@@ -14,7 +14,7 @@ type Props = {
 
 type State = {};
 
-class PaymentScreen extends Component<Props, State> {
+class WrappedPaymentScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.initializeCallbacks();
@@ -46,4 +46,4 @@ class PaymentScreen extends Component<Props, State> {
   }
 }
 
-export const WithEventHandlers = InitEventHandlers(PaymentScreen);
+export const PaymentScreen = InitEventHandlers(WrappedPaymentScreen);

@@ -10,10 +10,10 @@ type Props = {
 
 type State = {};
 
-class PlansScreen extends Component<Props, State> {
+class WrappedPlansScreen extends Component<Props, State> {
   render() {
     return <Text>first</Text>;
   }
 }
 
-export const WithEventHandlers = InitEventHandlers(PlansScreen);
+export const PlansScreen = InitEventHandlers(WrappedPlansScreen);
