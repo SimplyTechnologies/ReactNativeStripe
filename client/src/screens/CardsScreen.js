@@ -1,21 +1,18 @@
 // @flow
-
 import React, { Component } from "react";
 import { Text } from "react-native";
-import { NavigatorEventHandlers } from "AppNavigation";
+import { InitEventHandlers } from "AppProviders";
 
 type Props = {
   navigator: any
 };
 
-export class CardsScreen extends Component<Props> {
-  renderHandler = (): any => <Text>Second</Text>;
+type State = {};
+
+class WrappedCardsScreen extends Component<Props, State> {
   render() {
-    return (
-      <NavigatorEventHandlers
-        render={this.renderHandler}
-        navigator={this.props.navigator}
-      />
-    );
+    return <Text>Second</Text>;
   }
 }
+
+export const CardsScreen = InitEventHandlers(WrappedCardsScreen);
