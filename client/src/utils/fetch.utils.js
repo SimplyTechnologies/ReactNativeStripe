@@ -1,8 +1,12 @@
 // @flow
-
+import { Platform } from "react-native";
 import { ResponseStatuses } from "AppConstants";
+import { IP_ADDRESS } from "../../config";
 
-const BASE_URL = "http://localhost:3001";
+const { OS } = Platform;
+const BASE_URL =
+  OS === "ios" ? "http://localhost:3001" : `http://${IP_ADDRESS}:3001`;
+
 const { STATUS_OK } = ResponseStatuses;
 
 /**
@@ -39,16 +43,23 @@ const parseJSON = response =>
 /**
  * parsing object to query string
  * */
-const objectToQueryString = queryObject =>
+const objectToQueryString = (queryObject: Object): string =>
   Object.keys(queryObject)
-    .map(key =>
-        `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`)
+    .map(
+      (key: string) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`
+    )
     .join("&");
 
 /**
  * making api request
  * */
-const makeRequest = (url, method = "GET", query = {}, body = {}) => {
+const makeRequest = (
+  url,
+  method = "GET",
+  query = {},
+  body = {}
+): Promise<*> => {
   const queryString = objectToQueryString(query)
     ? `?${objectToQueryString(query)}`
     : "";
