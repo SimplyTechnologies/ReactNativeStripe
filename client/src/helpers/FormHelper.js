@@ -1,6 +1,8 @@
 // @flow
 
 export class FormHelper {
+  context: any;
+  validator: Function;
   constructor(context: any, validator: Function) {
     this.context = context;
     this.validator = validator;

@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "flow": "flow",
+    "flow": "./node_modules/flow-bin/cli.js",
     "flow:start": "flow:start",
     "flow:stop": "flow stop",
     "flow:status": "flow status",

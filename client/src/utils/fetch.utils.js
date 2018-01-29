@@ -16,8 +16,9 @@ const { STATUS_OK } = ResponseStatuses;
 /**
  * Checking response status
  * */
-const checkStatus = response => {
-  const { status } = response;
+
+const checkStatus = (response: any): any => {
+  const { status }: { status: number } = response;
   if ((status >= 200 && status < 300) || (status >= 400 && status < 500)) {
     return response;
   }
@@ -27,15 +28,15 @@ const checkStatus = response => {
   throw error;
 };
 
-const defaultFailCallback = error => {
+const defaultFailCallback = (error: any) => {
   console.log("something went wrong", error);
 };
 
 /**
  * parsing response json
  * */
-const parseJSON = response =>
-  response.json().then(data => ({
+const parseJSON = (response: any): Promise<*> =>
+  response.json().then((data: any): { data: any, status: number } => ({
     data,
     status: response.status
   }));
@@ -46,7 +47,7 @@ const parseJSON = response =>
 const objectToQueryString = (queryObject: Object): string =>
   Object.keys(queryObject)
     .map(
-      (key: string) =>
+      (key: string): string =>
         `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`
     )
     .join("&");
@@ -54,17 +55,25 @@ const objectToQueryString = (queryObject: Object): string =>
 /**
  * making api request
  * */
+
+type FetchParams = {
+  method: string,
+  credentials: string,
+  headers: Object,
+  body: string
+};
+
 const makeRequest = (
-  url,
-  method = "GET",
-  query = {},
-  body = {}
+  url: string,
+  method: string = "GET",
+  query: Object = {},
+  body: Object = {}
 ): Promise<*> => {
   const queryString = objectToQueryString(query)
     ? `?${objectToQueryString(query)}`
     : "";
   const fetchUrl = `${BASE_URL}${url}${queryString}`;
-  const fetchParams = { method, credentials: "include" };
+  const fetchParams: FetchParams = { method, credentials: "include" };
 
   if (method === "POST") {
     fetchParams.body = JSON.stringify(body);
@@ -77,7 +86,7 @@ const makeRequest = (
   return fetch(fetchUrl, fetchParams)
     .then(checkStatus)
     .then(parseJSON)
-    .catch(error => {
+    .catch((error: Error) => {
       console.error("request failed - ", error);
     });
 };
@@ -89,9 +98,9 @@ const makeRequest = (
  * @param {Function} failCallBack 'callback for handling request fail status'
  * */
 const requestHandler = (
-  request,
-  callbackMap,
-  failCallBack = defaultFailCallback
+  request: Request,
+  callbackMap: any,
+  failCallBack: Function = defaultFailCallback
 ) => {
   request
     .then(({ data, status }: { data: any, status: number }) => {
