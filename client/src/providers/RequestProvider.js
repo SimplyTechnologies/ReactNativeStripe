@@ -21,21 +21,25 @@ export class RequestProvider extends Component<Props> {
     }
   };
 
+  generateRequestHandler = (proxy: any, callbacks: any): Function => (
+    ...data: any
+  ) => {
+    const { requestHandler } = fetchUtils;
+    const request = proxy(data);
+    requestHandler(request, callbacks);
+  };
+
   handleMapProxy = (): any => {
     const { requestProxy } = this.props;
-    const { requestHandler } = fetchUtils;
     const handlersMap = {};
     for (const [proxy, callbacks] of requestProxy) {
       const proxyName = proxy.name;
-      handlersMap[proxyName] = (...data) => {
-        const request = proxy(...data);
-        requestHandler(request, callbacks);
-      };
+      handlersMap[proxyName] = this.generateRequestHandler(proxy, callbacks);
     }
     return handlersMap;
   };
 
-  handleFunctionProxy = (...data) => {
+  handleFunctionProxy = (...data: any) => {
     const { requestProxy, callbackMap } = this.props;
     const { requestHandler } = fetchUtils;
     const request = requestProxy(...data);
