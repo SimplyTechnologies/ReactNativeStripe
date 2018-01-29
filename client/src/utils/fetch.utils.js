@@ -5,7 +5,7 @@ import { IP_ADDRESS } from "../../config";
 
 const { OS } = Platform;
 const BASE_URL =
-  OS === "ios" ? "http://localhost:3001" : `http://${IP_ADDRESS}:3001`;
+  OS === "ios" ? "http://localhost:3000" : `http://${IP_ADDRESS}:3000`;
 
 const { STATUS_OK } = ResponseStatuses;
 
