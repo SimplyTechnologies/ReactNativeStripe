@@ -10,10 +10,8 @@ type Props = {
   callbackMap: Object
 };
 
-type State = {};
-
-export class RequestProvider extends Component<Props, State> {
-  getRequestHandler = (): Function => {
+export class RequestProvider extends Component<Props> {
+  getRequestHandler = (): Function | void => {
     const { requestProxy } = this.props;
     if (requestProxy instanceof Map) {
       return this.handleMapProxy;
@@ -23,13 +21,18 @@ export class RequestProvider extends Component<Props, State> {
     }
   };
 
-  handleMapProxy = data => {
+  handleMapProxy = (): any => {
     const { requestProxy } = this.props;
     const { requestHandler } = fetchUtils;
+    const handlersMap = {};
     for (const [proxy, callbacks] of requestProxy) {
-      const request = proxy(data);
-      requestHandler(request, callbacks);
+      const proxyName = proxy.name;
+      handlersMap[proxyName] = (...data) => {
+        const request = proxy(...data);
+        requestHandler(request, callbacks);
+      };
     }
+    return handlersMap;
   };
 
   handleFunctionProxy = (...data) => {

@@ -18,8 +18,14 @@ const styles = StyleSheet.create({
   }
 });
 
+type BadRequestError = {
+  errors: {
+    username?: { msg: string } | null,
+    password?: { msg: string } | null
+  }
+};
 type Props = {
-  handleSubmit: Function
+  handleSubmit: (username: string, password: string) => void
 };
 
 type State = {
@@ -29,9 +35,9 @@ type State = {
     confirmPassword: string
   },
   validations: {
-    username: string,
-    password: string,
-    confirmPassword: string
+    username?: string,
+    password?: string,
+    confirmPassword?: string
   }
 };
 
@@ -52,6 +58,8 @@ export class RegisterForm extends Component<Props, State> {
       confirmPassword: ""
     }
   };
+
+  formHelper: FormHelper;
 
   usernameInputChangedHandler = (username: string) => {
     const values = { ...this.state.values };
@@ -81,6 +89,14 @@ export class RegisterForm extends Component<Props, State> {
 
   registerButtonClickedHandler = () => {
     this.formHelper.validate(this.formSubmitHandler);
+  };
+
+  handleBadRequest = ({ errors: { username, password } }: BadRequestError) => {
+    const usernameErr = username ? username.msg : "";
+    const passswordErr = password ? password.msg : "";
+    this.setState({
+      validations: { username: usernameErr, password: passswordErr }
+    });
   };
 
   render() {

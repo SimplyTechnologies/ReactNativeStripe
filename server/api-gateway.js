@@ -38,13 +38,14 @@ app
         method: req.method,
         uri,
         body: req.body,
-        json: true
+        json: true,
+        resolveWithFullResponse: true
       })
-        .then(parsedBody => {
-          res.json(parsedBody);
+        .then(response => {
+          res.status(response.statusCode).json(response.body);
         })
         .catch(err => {
-          res.status(404).json(err.error);
+          res.status(err.statusCode).json(err.error);
         });
     } else {
       next();

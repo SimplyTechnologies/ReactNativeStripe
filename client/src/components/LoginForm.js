@@ -10,7 +10,7 @@ import {
 } from "../navigation/constants";
 
 type Props = {
-  handleSubmit: Function,
+  handleSubmit: (username: string, password: string) => void,
   navigator: any
 };
 
@@ -20,8 +20,8 @@ type State = {
     password: string
   },
   validations: {
-    username: string,
-    password: string
+    username?: string,
+    password?: string
   }
 };
 
@@ -39,6 +39,11 @@ export class LoginForm extends Component<Props, State> {
       username: "",
       password: ""
     }
+  };
+  formHelper: FormHelper;
+
+  handleForbiddenRequest = ({ message }: { message: string }) => {
+    this.setState({ validations: { password: message } });
   };
 
   usernameInputChangedHandler = (username: string) => {

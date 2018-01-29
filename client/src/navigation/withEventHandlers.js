@@ -5,7 +5,7 @@ import type { ComponentType } from "react";
 import { AsyncStorage } from "react-native";
 import { startApp } from "AppNavigation";
 
-const withEventHandlers = <PropsInput: {}, PropsOutput: {}>(
+export const withEventHandlers = <PropsInput: {}, PropsOutput: {}>(
   PassedComponent: ComponentType<PropsOutput>
 ): ComponentType<PropsInput> =>
   class WithEventHandlers extends Component<PropsInput> {
@@ -24,5 +24,3 @@ const withEventHandlers = <PropsInput: {}, PropsOutput: {}>(
       return <PassedComponent {...this.props} />;
     }
   };
-
-export default withEventHandlers;

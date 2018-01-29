@@ -9,10 +9,10 @@ const isLength = (
   const { min, max } = lengths;
   let returnValue = true;
   if (min) {
-    returnValue = returnValue && value.length > min;
+    returnValue = returnValue && value.length >= min;
   }
   if (max) {
-    returnValue = returnValue && value.length < max;
+    returnValue = returnValue && value.length <= max;
   }
   return returnValue;
 };

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { checkExpressValidator } from "../../../middleware/validator";
+import { checkExpressValidator } from "../middleware/validator";
 import * as usersHandlers from "./users.handlers";
 import * as usersValidator from "./users.validator";
 

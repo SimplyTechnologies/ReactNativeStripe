@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { Text } from "react-native";
-import withEventHandlers from "./withEventHandlers";
+import { withEventHandlers } from "../navigation/withEventHandlers";
 
-@withEventHandlers
-export class PlansScreen extends Component {
+// @withEventHandlers
+class Plans extends Component {
   render() {
     return <Text>First</Text>;
   }
 }
+
+export const PlansScreen = withEventHandlers(Plans);

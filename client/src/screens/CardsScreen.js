@@ -1,10 +1,13 @@
+// @flow
+
 import React, { Component } from "react";
 import { Text } from "react-native";
-import withEventHandlers from "./withEventHandlers";
+import { withEventHandlers } from "../navigation/withEventHandlers";
 
-@withEventHandlers
-export class CardsScreen extends Component {
+class Cards extends Component<void> {
   render() {
     return <Text>Second</Text>;
   }
 }
+
+export const CardsScreen = withEventHandlers(Cards);

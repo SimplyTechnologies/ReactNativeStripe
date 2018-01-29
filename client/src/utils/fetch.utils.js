@@ -1,3 +1,5 @@
+// @flow
+
 import { ResponseStatuses } from "AppConstants";
 
 const BASE_URL = "http://localhost:3001";
@@ -10,7 +12,7 @@ const { STATUS_OK } = ResponseStatuses;
 /**
  * Checking response status
  * */
-const checkStatus = (response) => {
+const checkStatus = response => {
   const { status } = response;
   if ((status >= 200 && status < 300) || (status >= 400 && status < 500)) {
     return response;
@@ -21,7 +23,7 @@ const checkStatus = (response) => {
   throw error;
 };
 
-const defaultFailCallback = function (error) {
+const defaultFailCallback = error => {
   console.log("something went wrong", error);
 };
 
@@ -37,10 +39,11 @@ const parseJSON = response =>
 /**
  * parsing object to query string
  * */
-const objectToQueryString = queryObject => Object.keys(queryObject)
-  .map(key =>
-    `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`)
-  .join("&");
+const objectToQueryString = queryObject =>
+  Object.keys(queryObject)
+    .map(key =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`)
+    .join("&");
 
 /**
  * making api request
@@ -63,7 +66,7 @@ const makeRequest = (url, method = "GET", query = {}, body = {}) => {
   return fetch(fetchUrl, fetchParams)
     .then(checkStatus)
     .then(parseJSON)
-    .catch((error) => {
+    .catch(error => {
       console.error("request failed - ", error);
     });
 };
@@ -80,11 +83,11 @@ const requestHandler = (
   failCallBack = defaultFailCallback
 ) => {
   request
-    .then(({ data, status }) => {
+    .then(({ data, status }: { data: any, status: number }) => {
       if (status >= 200 && status < 305) {
         callbackMap[STATUS_OK](data);
       } else {
-        Object.keys(callbackMap).forEach((item) => {
+        Object.keys(callbackMap).forEach((item: number) => {
           if (+item === status) {
             callbackMap[item](data);
           }

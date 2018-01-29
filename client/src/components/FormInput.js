@@ -26,6 +26,7 @@ export const FormInput = ({
       value={value}
       placeholder={placeholder}
       onChangeText={handleChange}
+      autoCorrect={false}
       autoCapitalize="none"
       secureTextEntry={secureTextEntry}
     />

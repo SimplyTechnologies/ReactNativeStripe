@@ -8,7 +8,7 @@ const DEFAULT_PASSWORD_HASH =
   "$2a$04$dly.zbwDpj/q7tEvH6ZEm.LFkVkFzEUS/ETrXkXrQHqRFkwi8Gi1e";
 
 const userToSend = userDoc => ({
-  username: userDoc.username,
+  username: userDoc.username
 });
 
 export const userRegister = (req, res, next) => {
@@ -16,15 +16,15 @@ export const userRegister = (req, res, next) => {
 
   User.findOne({ username }).then(user => {
     if (user) {
-      return res
-        .status(403)
-        .json({ msg: "Please provide unique username" });
+      return res.status(400).json({
+        errors: { username: { msg: "Please provide unique username" } }
+      });
     }
     const salt = bcrypt.genSaltSync(10);
     const passwordHash = bcrypt.hashSync(password, salt);
     const newUser = new User({
       username,
-      password: passwordHash,
+      password: passwordHash
     });
     newUser
       .save()
@@ -44,7 +44,7 @@ export const userLogin = (req, res, next) => {
     const passwordHash = user ? user.password : DEFAULT_PASSWORD_HASH;
     const isUserValid = bcrypt.compareSync(password, passwordHash);
     if (!user || !isUserValid) {
-      return res.status(403).json({ msg: "Invalid credentials." });
+      return res.status(403).json({ message: "Invalid credentials." });
     }
     // generate JWT
     const token = jwt.sign(userToSend(user), JWT_SECRET);
