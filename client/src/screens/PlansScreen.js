@@ -2,22 +2,22 @@
 
 import React, { Component } from "react";
 import { Text } from "react-native";
-import { NavigatorEventHandlers } from "AppNavigation";
+import { initializeEvents } from "AppNavigation";
 
 type Props = {
   navigator: any
 };
 
-export class PlansScreen extends Component<Props> {
-  renderHandler() {
-    return <Text>first</Text>;
+type State = {};
+
+export class PlansScreen extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    const { navigator } = props;
+    initializeEvents(navigator);
   }
+
   render() {
-    return (
-      <NavigatorEventHandlers
-        render={this.renderHandler}
-        navigator={this.props.navigator}
-      />
-    );
+    return <Text>first</Text>;
   }
 }

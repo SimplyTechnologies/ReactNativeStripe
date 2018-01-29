@@ -3,4 +3,3 @@
  */
 
 export { RequestProvider } from "./RequestProvider";
-export { NavigatorEventProvider } from "./NavigatorEventProvider";
