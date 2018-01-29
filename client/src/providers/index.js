@@ -3,3 +3,4 @@
  */
 
 export { RequestProvider } from "./RequestProvider";
+export { InitEventHandlers } from "./InitEventHandlers";

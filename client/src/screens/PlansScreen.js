@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { Text } from "react-native";
-import { initializeEvents } from "AppNavigation";
+import { InitEventHandlers } from "AppProviders";
 
 type Props = {
   navigator: any
@@ -10,14 +10,10 @@ type Props = {
 
 type State = {};
 
-export class PlansScreen extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    const { navigator } = props;
-    initializeEvents(navigator);
-  }
-
+class PlansScreen extends Component<Props, State> {
   render() {
     return <Text>first</Text>;
   }
 }
+
+export const WithEventHandlers = InitEventHandlers(PlansScreen);

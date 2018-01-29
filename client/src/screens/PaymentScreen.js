@@ -3,9 +3,8 @@ import React, { Component } from "react";
 import type { Element } from "react";
 import { PaymentForm } from "AppComponents";
 import { payWithCard } from "AppProxies";
-import { RequestProvider } from "AppProviders";
+import { RequestProvider, InitEventHandlers } from "AppProviders";
 import { ResponseStatuses } from "AppConstants";
-import { initializeEvents } from "AppNavigation";
 
 const { STATUS_OK } = ResponseStatuses;
 
@@ -15,11 +14,9 @@ type Props = {
 
 type State = {};
 
-export class PaymentScreen extends Component<Props, State> {
+class PaymentScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    const { navigator } = props;
-    initializeEvents(navigator);
     this.initializeCallbacks();
   }
 
@@ -48,3 +45,5 @@ export class PaymentScreen extends Component<Props, State> {
     );
   }
 }
+
+export const WithEventHandlers = InitEventHandlers(PaymentScreen);

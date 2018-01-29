@@ -2,7 +2,7 @@
 
 import { ResponseStatuses } from "AppConstants";
 
-const BASE_URL = "http://localhost:3001";
+const BASE_URL = "http://192.168.2.11:3001";
 const { STATUS_OK } = ResponseStatuses;
 
 /**
@@ -41,8 +41,10 @@ const parseJSON = response =>
  * */
 const objectToQueryString = queryObject =>
   Object.keys(queryObject)
-    .map(key =>
-        `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`)
+    .map(
+      key =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`
+    )
     .join("&");
 
 /**
