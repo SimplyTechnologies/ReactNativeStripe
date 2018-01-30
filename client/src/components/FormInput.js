@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import type { Element } from "react";
-import { View, TextInput, Text } from "react-native";
+import { View, TextInput, Text, StyleSheet } from "react-native";
 
 type Props = {
   value: string,
