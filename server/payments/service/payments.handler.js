@@ -66,7 +66,7 @@ export const addCard = (req, res, next) => {
 };
 
 export const getCards = (req, res, next) => {
-  req.user = { customerId: "cus_CBiskr0VMBQ0dC" };
+  req.user = { customerId: "cus_CBQA3C94QhymgL" };
   const { customerId } = req.user;
   if (!customerId) {
     return res.status(400).json({ message: "Customer does not exist" });
@@ -90,7 +90,7 @@ export const getCards = (req, res, next) => {
 };
 
 export const deleteCard = (req, res, next) => {
-  req.user = { customerId: "cus_CBQtywlg6bNV7C" };
+  req.user = { customerId: "cus_CBQA3C94QhymgL" };
   const { customerId } = req.user;
   if (!customerId) {
     return res.status(400).json({ message: "Customer does not exist" });
@@ -102,14 +102,12 @@ export const deleteCard = (req, res, next) => {
   );
   Promise.all([deleteCardPromise, retrieveCustomerPromise])
     .then(data => {
-      res.json([
-        data[0],
-        {
-          default_source: data[1].default_source
-        }
-      ]);
+      return res.json({
+        deletedCardId: data[0].id,
+        defaultSource: data[1].default_source,
+        
+      })
     })
-    .then(confirmation => res.json(confirmation))
     .catch(err => next(err.message));
 };
 

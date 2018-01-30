@@ -1,17 +1,67 @@
 // @flow
 import React, { Component } from "react";
-import { Text } from "react-native";
-import { InitEventHandlers } from "AppProviders";
+import type { Element } from "react";
+import { InitEventHandlers, RequestProvider } from "AppProviders";
+import { getCards } from "AppProxies";
+import { CardsList } from "AppComponents";
+import { ResponseStatuses } from "AppConstants";
+import type { Card } from "../types";
+
+const { STATUS_OK } = ResponseStatuses;
 
 type Props = {
   navigator: any
 };
 
-type State = {};
+type State = {
+  cards: Array<Card>,
+  loading: boolean
+};
 
 class WrappedCardsScreen extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      loading: true,
+      cards: []
+    };
+    this.initializeCallbacks(this);
+  }
+  callbackMap: Object;
+  initializeCallbacks = (context: any) => {
+    const handleOk = (data: Array<Card>) => {
+      context.setState({ cards: data, loading: false });
+    };
+    this.callbackMap = {
+      [STATUS_OK]: handleOk
+    };
+  };
+
+  removeDeletedCard = ({ deletedCardId }: { deletedCardId: string }) => {
+    this.setState(({ cards }: State): { cards: Card[] } => ({
+      cards: cards.filter((card: Card): boolean => card.id !== deletedCardId)
+    }));
+  };
+
+  renderRequestProvider = (
+    handleRequest: Function
+  ): Element<typeof CardsList> => (
+    <CardsList
+      removeDeletedCard={this.removeDeletedCard}
+      getCards={handleRequest}
+      cards={this.state.cards}
+      loading={this.state.loading}
+    />
+  );
+
   render() {
-    return <Text>Second</Text>;
+    return (
+      <RequestProvider
+        render={this.renderRequestProvider}
+        requestProxy={getCards}
+        callbackMap={this.callbackMap}
+      />
+    );
   }
 }
 
