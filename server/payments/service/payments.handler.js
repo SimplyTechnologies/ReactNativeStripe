@@ -57,11 +57,10 @@ export const addCard = (req, res, next) => {
 };
 
 export const getCards = (req, res, next) => {
-  console.log(req.user);
   const { _id, customerId } = req.user;
   if (!customerId) {
+    return res.status(400).json({ message: "Customer does not exist" });
   }
-  return res.status(400).json({ message: "Customer does not exist" });
   stripeHelper
     .retrieveCustomer(customerId)
     .then(customer => {
