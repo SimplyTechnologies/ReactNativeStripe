@@ -5,7 +5,7 @@ import { requiresToBeLoggedIn } from "../middleware/auth";
 export function init(api) {
   const router = Router();
 
-  router.post("/pay-with-card", paymentsHandler.payWithCard);
+  router.post("/payWithCard", paymentsHandler.payWithCard);
 
   router.post("/cards", paymentsHandler.addCard);
 
