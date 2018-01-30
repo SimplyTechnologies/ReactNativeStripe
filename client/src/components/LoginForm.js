@@ -59,7 +59,6 @@ export class LoginForm extends Component<Props, State> {
   };
 
   formSubmitHandler = () => {
-    console.log("ON SUBMIT");
     const { handleSubmit } = this.props;
     const { username, password } = this.state.values;
     if (!this.formHelper.hasValidationErrors()) {
@@ -81,32 +80,59 @@ export class LoginForm extends Component<Props, State> {
   render() {
     const { values, validations } = this.state;
     return (
-      <View>
-        <FormInput
-          autoFocus
-          value={values.username}
-          placeholder="username"
-          handleChange={this.usernameInputChangedHandler}
-          validationMessage={validations.username}
-        />
-        <FormInput
-          value={values.password}
-          placeholder="password"
-          handleChange={this.passwordInputChangedHandler}
-          validationMessage={validations.password}
-          secureTextEntry
-        />
-        <Button
-          title="Login"
-          color="black"
-          onPress={this.loginButtonClickedHandler}
-        />
-        <TouchableOpacity onPress={this.registerLinkClickHandler}>
-          <Text>Register</Text>
-        </TouchableOpacity>
+      <View style={styles.formContainer}>
+        <View style={styles.form}>
+          <FormInput
+            autoFocus
+            value={values.username}
+            placeholder="username"
+            handleChange={this.usernameInputChangedHandler}
+            validationMessage={validations.username}
+          />
+          <FormInput
+            value={values.password}
+            placeholder="password"
+            handleChange={this.passwordInputChangedHandler}
+            validationMessage={validations.password}
+            secureTextEntry
+          />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.loginButtonClickedHandler}
+          >
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.registerLinkClickHandler}>
+            <Text style={styles.register}>Don't have an account?</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  formContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  form: {
+    width: 300
+  },
+  button: {
+    padding: 10,
+    backgroundColor: "black",
+    borderRadius: 5
+  },
+  buttonText: {
+    textAlign: "center",
+    color: "white"
+  },
+  register: {
+    marginTop: 5,
+    fontSize: 16,
+    textDecorationLine: "underline"
+  }
+});

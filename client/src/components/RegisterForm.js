@@ -6,18 +6,6 @@ import { FormInput } from "AppComponents";
 import { FormHelper } from "AppHelpers";
 import { validateRegister } from "AppValidators";
 
-const styles = StyleSheet.create({
-  buttonStyle: {
-    padding: 10,
-    backgroundColor: "#202646",
-    borderRadius: 5
-  },
-  textStyle: {
-    textAlign: "center",
-    color: "white"
-  }
-});
-
 type BadRequestError = {
   errors: {
     username?: { msg: string } | null,
@@ -102,35 +90,58 @@ export class RegisterForm extends Component<Props, State> {
   render() {
     const { values, validations } = this.state;
     return (
-      <View>
-        <FormInput
-          autoFocus
-          value={values.username}
-          placeholder="username"
-          handleChange={this.usernameInputChangedHandler}
-          validationMessage={validations.username}
-        />
-        <FormInput
-          value={values.password}
-          placeholder="password"
-          handleChange={this.passwordInputChangedHandler}
-          validationMessage={validations.password}
-          secureTextEntry
-        />
-        <FormInput
-          value={values.confirmPassword}
-          placeholder="confirm password"
-          handleChange={this.confirmPasswordInputChangedHandler}
-          validationMessage={validations.confirmPassword}
-          secureTextEntry
-        />
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          onPress={this.registerButtonClickedHandler}
-        >
-          <Text style={styles.textStyle}>Register</Text>
-        </TouchableOpacity>
+      <View style={styles.formContainer}>
+        <View style={styles.form}>
+          <FormInput
+            autoFocus
+            value={values.username}
+            placeholder="username"
+            handleChange={this.usernameInputChangedHandler}
+            validationMessage={validations.username}
+          />
+          <FormInput
+            value={values.password}
+            placeholder="password"
+            handleChange={this.passwordInputChangedHandler}
+            validationMessage={validations.password}
+            secureTextEntry
+          />
+          <FormInput
+            value={values.confirmPassword}
+            placeholder="confirm password"
+            handleChange={this.confirmPasswordInputChangedHandler}
+            validationMessage={validations.confirmPassword}
+            secureTextEntry
+          />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.registerButtonClickedHandler}
+          >
+            <Text style={styles.buttonText}>Register</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  formContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  form: {
+    width: 300
+  },
+  button: {
+    padding: 10,
+    backgroundColor: "#202646",
+    borderRadius: 5
+  },
+  buttonText: {
+    textAlign: "center",
+    color: "white"
+  }
+});
