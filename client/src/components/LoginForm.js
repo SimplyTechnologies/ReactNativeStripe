@@ -42,7 +42,7 @@ export class LoginForm extends Component<Props, State> {
   };
   formHelper: FormHelper;
 
-  handleForbiddenRequest = ({ message }: { message: string }) => {
+  handleForbiddenResponse = ({ message }: { message: string }) => {
     this.setState({ validations: { password: message } });
   };
 
@@ -59,6 +59,7 @@ export class LoginForm extends Component<Props, State> {
   };
 
   formSubmitHandler = () => {
+    console.log("ON SUBMIT");
     const { handleSubmit } = this.props;
     const { username, password } = this.state.values;
     if (!this.formHelper.hasValidationErrors()) {

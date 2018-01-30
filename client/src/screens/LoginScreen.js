@@ -25,19 +25,23 @@ export class LoginScreen extends Component<Props, State> {
   _form: ?Element<typeof LoginForm>;
   callbackMap: Object;
 
+  formReference = (form: ElementRef<typeof LoginForm>): void =>
+    (this._form = form);
+
   initializeCallbacks = () => {
     const handleOk = ({ token }: { token: string }) => {
       AsyncStorage.setItem("token", token);
       startApp();
     };
-    const handleForbiddenRequest = (data: { message: string }) => {
-      if (this._form) {
-        this._form.handleForbiddenRequest(data);
+    const handleForbidden = (data: { message: string }) => {
+      const form = this._form;
+      if (form) {
+        form.handleForbiddenResponse(data);
       }
     };
     this.callbackMap = {
       [STATUS_OK]: handleOk,
-      [STATUS_403]: handleForbiddenRequest
+      [STATUS_403]: handleForbidden
     };
   };
 
@@ -47,7 +51,7 @@ export class LoginScreen extends Component<Props, State> {
     <LoginForm
       handleSubmit={handleRequest}
       navigator={this.props.navigator}
-      ref={(form: ElementRef<typeof LoginForm>): void => (this._form = form)}
+      ref={this.formReference}
     />
   );
 
