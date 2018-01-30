@@ -1,5 +1,5 @@
 // @flow
-import { Platform } from "react-native";
+import { Platform, AsyncStorage } from "react-native";
 import { ResponseStatuses } from "AppConstants";
 import config from "../../config";
 
@@ -60,8 +60,35 @@ const objectToQueryString = (queryObject: Object): string =>
 type FetchParams = {
   method: string,
   credentials: string,
-  headers: Object,
-  body: string
+  headers?: Object,
+  body?: string
+};
+
+const fetchRequest = (
+  url: string,
+  method: string,
+  query: Object,
+  body: Object,
+  token: string | null
+): Promise<*> => {
+  const queryString = objectToQueryString(query)
+    ? `?${objectToQueryString(query)}`
+    : "";
+  const fetchUrl = `${BASE_URL}${url}${queryString}`;
+  const fetchParams: FetchParams = { method, credentials: "include" };
+  const authToken = token || "";
+  fetchParams.headers = {
+    Authorization: `Bearer ${authToken}`
+  };
+  if (method === "POST") {
+    fetchParams.body = JSON.stringify(body);
+    fetchParams.headers = {
+      ...fetchParams.headers,
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    };
+  }
+  return fetch(fetchUrl, fetchParams);
 };
 
 const makeRequest = (
@@ -69,28 +96,14 @@ const makeRequest = (
   method: string = "GET",
   query: Object = {},
   body: Object = {}
-): Promise<*> => {
-  const queryString = objectToQueryString(query)
-    ? `?${objectToQueryString(query)}`
-    : "";
-  const fetchUrl = `${BASE_URL}${url}${queryString}`;
-  const fetchParams: FetchParams = { method, credentials: "include" };
-
-  if (method === "POST") {
-    fetchParams.body = JSON.stringify(body);
-    fetchParams.headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    };
-  }
-
-  return fetch(fetchUrl, fetchParams)
+): Promise<*> =>
+  AsyncStorage.getItem("token")
+    .then(fetchRequest.bind(null, url, method, query, body))
     .then(checkStatus)
     .then(parseJSON)
     .catch((error: Error) => {
       console.error("request failed - ", error);
     });
-};
 
 /**
  * Global request handler methods,

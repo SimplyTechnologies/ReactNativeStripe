@@ -1,5 +1,5 @@
 import * as stripeHelper from "../helpers/stripe";
-const rp = require("request-promise");
+import { saveCustomer } from "../helpers/proxy";
 
 export const payWithCard = (req, res) => {
   const { tokenId } = req.body;
@@ -14,15 +14,6 @@ export const payWithCard = (req, res) => {
       })
       .catch(err => next(err.message));
   }
-};
-
-const saveCustomer = (userId, customer) => {
-  return rp({
-    url: `http://localhost:3001/users/${userId}`,
-    method: "POST",
-    body: { customerId: customer.id },
-    json: true // Automatically stringifies the body to JSON
-  });
 };
 
 export const addCard = (req, res, next) => {
@@ -66,11 +57,11 @@ export const addCard = (req, res, next) => {
 };
 
 export const getCards = (req, res, next) => {
-  req.user = { customerId: "cus_CBQA3C94QhymgL" };
-  const { customerId } = req.user;
+  console.log(req.user);
+  const { _id, customerId } = req.user;
   if (!customerId) {
-    return res.status(400).json({ message: "Customer does not exist" });
   }
+  return res.status(400).json({ message: "Customer does not exist" });
   stripeHelper
     .retrieveCustomer(customerId)
     .then(customer => {
@@ -90,7 +81,6 @@ export const getCards = (req, res, next) => {
 };
 
 export const deleteCard = (req, res, next) => {
-  req.user = { customerId: "cus_CBQA3C94QhymgL" };
   const { customerId } = req.user;
   if (!customerId) {
     return res.status(400).json({ message: "Customer does not exist" });
@@ -104,15 +94,13 @@ export const deleteCard = (req, res, next) => {
     .then(data => {
       return res.json({
         deletedCardId: data[0].id,
-        defaultSource: data[1].default_source,
-        
-      })
+        defaultSource: data[1].default_source
+      });
     })
     .catch(err => next(err.message));
 };
 
 export const updateCard = (req, res, next) => {
-  req.user = { customerId: "cus_CBQtywlg6bNV7C" };
   const { customerId } = req.user;
   if (!customerId) {
     return res.status(400).json({ message: "Customer does not exist" });
@@ -150,7 +138,6 @@ export const updateCard = (req, res, next) => {
 };
 
 export const changeDefaultCard = (req, res, next) => {
-  req.user = { customerId: "cus_CBQpcvg36VnXh1" };
   const { customerId } = req.user;
   if (!customerId) {
     return res.status(400).json({ message: "Customer does not exist" });

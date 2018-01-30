@@ -5,8 +5,8 @@ const morgan = require("morgan");
 
 const PORT = process.env.PORT || 3000;
 const endpointsMap = {
-  users: process.env.AUTH_MICROSERVICE_URI || 'http://localhost:3001',
-  payments: process.env.PAYMENTS_MICROSERVICE || 'http://localhost:3002',
+  users: process.env.AUTH_MICROSERVICE_URI || "http://localhost:3001",
+  payments: process.env.PAYMENTS_MICROSERVICE || "http://localhost:3002"
 };
 
 app.use((req, res, next) => {
@@ -38,6 +38,7 @@ app
         method: req.method,
         uri,
         body: req.body,
+        headers: req.headers,
         json: true,
         resolveWithFullResponse: true
       })

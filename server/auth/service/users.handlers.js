@@ -8,7 +8,9 @@ const DEFAULT_PASSWORD_HASH =
   "$2a$04$dly.zbwDpj/q7tEvH6ZEm.LFkVkFzEUS/ETrXkXrQHqRFkwi8Gi1e";
 
 const userToSend = userDoc => ({
-  username: userDoc.username
+  _id: userDoc._id,
+  username: userDoc.username,
+  customerId: userDoc.customerId
 });
 
 export const userRegister = (req, res, next) => {
