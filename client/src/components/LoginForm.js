@@ -97,11 +97,12 @@ export class LoginForm extends Component<Props, State> {
             validationMessage={validations.password}
             secureTextEntry
           />
-          <Button
-            title="Login"
-            color="black"
+          <TouchableOpacity
+            style={styles.button}
             onPress={this.loginButtonClickedHandler}
-          />
+          >
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
           <TouchableOpacity onPress={this.registerLinkClickHandler}>
             <Text style={styles.register}>Don't have an account?</Text>
           </TouchableOpacity>
@@ -120,6 +121,15 @@ const styles = StyleSheet.create({
   },
   form: {
     width: 300
+  },
+  button: {
+    padding: 10,
+    backgroundColor: "black",
+    borderRadius: 5
+  },
+  buttonText: {
+    textAlign: "center",
+    color: "white"
   },
   register: {
     marginTop: 5,
