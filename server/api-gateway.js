@@ -31,14 +31,14 @@ app
   .use(bodyParser.text())
   .use((req, res, next) => {
     const serviceUrl = endpointsMap[req.url.split("/")[1]];
-
+    const Authorization = req.header("Authorization");
     if (serviceUrl) {
       const uri = `${serviceUrl}${req.url}`;
       rp({
         method: req.method,
         uri,
         body: req.body,
-        headers: req.headers,
+        headers: { Authorization },
         json: true,
         resolveWithFullResponse: true
       })
