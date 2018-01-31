@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import * as stripeHelper from "../helpers/stripe";
+import {
+  UNIQUE_USERNAME_ERROR_MESSAGE,
+  INVALID_CREDENTIALS_ERROR_MESSAGE
+} from "./users.constants";
 
 const User = mongoose.model("User");
 const JWT_SECRET = process.env.JWT_SECRET || "example";
@@ -20,7 +24,7 @@ export const userRegister = (req, res, next) => {
   User.findOne({ username }).then(user => {
     if (user) {
       return res.status(400).json({
-        errors: { username: { msg: "Please provide unique username" } }
+        errors: { username: { msg: UNIQUE_USERNAME_ERROR_MESSAGE } }
       });
     }
     const salt = bcrypt.genSaltSync(10);
@@ -50,7 +54,9 @@ export const userLogin = (req, res, next) => {
     const passwordHash = user ? user.password : DEFAULT_PASSWORD_HASH;
     const isUserValid = bcrypt.compareSync(password, passwordHash);
     if (!user || !isUserValid) {
-      return res.status(403).json({ message: "Invalid credentials." });
+      return res
+        .status(403)
+        .json({ message: INVALID_CREDENTIALS_ERROR_MESSAGE });
     }
     // generate JWT
     const token = jwt.sign(userToSend(user), JWT_SECRET);
