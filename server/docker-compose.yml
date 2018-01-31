@@ -1,15 +1,17 @@
 version: "2"
 services:
   api_gateway:
-    build: .
+    build: ./gateway
     ports:
       - 3000:3000
     environment:
       - PORT=3000
       - AUTH_MICROSERVICE_URI=http://auth:3001
-      - PAYMENTS_MICROSERVICE=http://payment:3002
+      - cards_MICROSERVICE_URI=http://cards:3002
+      - PAYMENTS_MICROSERVICE_URI=http://payments:3003
     links:
       - auth_microservice:auth
+      - cards_microservice:card
       - payments_microservice:payment
   auth_microservice:
     build: ./auth
@@ -20,8 +22,8 @@ services:
     environment:
       - PORT=3001
       - MONGO_URI=http://db_1
-  payments_microservice:
-    build: ./payments
+  cards_microservice:
+    build: ./cards
     links:
       - mongo:db_2
     ports:
@@ -29,6 +31,15 @@ services:
     environment:
       - PORT=3002
       - MONGO_URI=mongodb://db_2
+  payments_microservice:
+    build: ./payments
+    links:
+      - mongo:db_3
+    ports:
+      - 3003:3003
+    environment:
+      - PORT=3003
+      - MONGO_URI=mongodb://db_3
   mongo:
     image: mongo
     ports:

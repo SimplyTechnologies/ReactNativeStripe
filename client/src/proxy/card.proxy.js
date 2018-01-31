@@ -6,7 +6,7 @@ import { HttpMethods } from "AppConstants";
 const EMPTY_OBJECT = {};
 const { makeRequest } = fetchUtils;
 const { POST, DELETE } = HttpMethods;
-const CARD_PROXY_URI = "/payments/cards";
+const CARD_PROXY_URI = "/cards";
 
 export const getCards = (): Promise<*> => makeRequest(CARD_PROXY_URI);
 
