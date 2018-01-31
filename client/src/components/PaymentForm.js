@@ -4,7 +4,8 @@ import { View, Button, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Stripe, { PaymentCardTextField } from "tipsi-stripe";
 
 type Props = {
-  handleSubmit: Function
+  handleSubmit: Function,
+  buttonTitle: string
 };
 
 type State = {
@@ -39,6 +40,7 @@ export class PaymentForm extends Component<Props, State> {
   };
 
   render() {
+    const { buttonTitle } = this.props;
     const { notification } = this.state;
     return (
       <View style={styles.formContainer}>

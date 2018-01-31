@@ -8,10 +8,11 @@ import {
 } from "AppProviders";
 import { getCards } from "AppProxies";
 import { CardsList } from "AppComponents";
-import { ResponseStatuses } from "AppConstants";
+import { ResponseStatuses, ModalTypes } from "AppConstants";
 import type { Card } from "../types";
 
 const { STATUS_OK } = ResponseStatuses;
+const { ADD_CARD } = ModalTypes;
 
 type Props = {
   navigator: any
@@ -31,6 +32,11 @@ class WrappedCardsScreen extends Component<Props, State> {
     };
     this.initializeCallbacks(this);
   }
+
+  componentDidMount() {
+    setTimeout(() => this.props.openModal(ADD_CARD, {}), 2000);
+  }
+
   callbackMap: Object;
   initializeCallbacks = (context: any) => {
     const handleOk = (data: Array<Card>) => {

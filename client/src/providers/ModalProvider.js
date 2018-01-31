@@ -23,7 +23,7 @@ export const ModalProvider = (WrappedComponent: any): any => {
 
     getModalComponent = (): any => {
       const { modalType } = this.state;
-      if (modalType.length) {
+      if (modalType.length !== 0) {
         return modals[modalType];
       }
       return null;
@@ -49,6 +49,7 @@ export const ModalProvider = (WrappedComponent: any): any => {
             visible={isModalOpen}
             animationType={animationType}
             onRequestClose={this.closeModal}
+            transparent
           >
             <ModalComponent data={modalData} />
           </Modal>
