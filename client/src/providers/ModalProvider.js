@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from "react";
-import { Modal } from "react-native";
+import { Modal, View } from "react-native";
 import * as modals from "AppModals";
 
 type Props = {};
@@ -12,36 +12,45 @@ type State = {
   modalData: any // TODO: add a shape later
 };
 
-export class ModalProvider extends Component<Props, State> {
-  state = {
-    isModalOpen: false,
-    modalType: "",
-    modalData: null,
-    animationType: "slide"
-  };
+export const ModalProvider = (WrappedComponent: any): any => {
+  class Wrapper extends Component<Props, State> {
+    state = {
+      isModalOpen: false,
+      modalType: "",
+      modalData: null,
+      animationType: "slide"
+    };
 
-  getModalComponent = (): any => {
-    const { modalType } = this.state;
-    return modals[modalType];
-  };
+    getModalComponent = (): any => {
+      const { modalType } = this.state;
+      if (modalType.length) {
+        return modals[modalType];
+      }
+      return null;
+    };
 
-  closeModal = (): void =>
-    this.setState({ isModalOpen: false, modalType: "", modalData: null });
+    closeModal = (): void =>
+      this.setState({ isModalOpen: false, modalType: "", modalData: null });
 
-  openModal = (modalType: string, modalData: any): void =>
-    this.setState({ isModalOpen: true, modalType, modalData });
+    openModal = (modalType: string, modalData: any): void =>
+      this.setState({ isModalOpen: true, modalType, modalData });
 
-  render() {
-    const { animationType, isModalOpen, modalData } = this.state;
-    const ModalComponent = this.getModalComponent();
-    return (
-      <Modal
-        visible={isModalOpen}
-        animationType={animationType}
-        onRequestClose={this.closeModal}
-      >
-        <ModalComponent data={modalData} />
-      </Modal>
-    );
+    render() {
+      const { animationType, isModalOpen, modalData } = this.state;
+      const ModalComponent = this.getModalComponent();
+      return (
+        <View>
+          <WrappedComponent {...this.props} />
+          <Modal
+            visible={isModalOpen}
+            animationType={animationType}
+            onRequestClose={this.closeModal}
+          >
+            <ModalComponent data={modalData} />
+          </Modal>
+        </View>
+      );
+    }
   }
-}
+  return Wrapper;
+};
