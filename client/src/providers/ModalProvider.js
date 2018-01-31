@@ -40,7 +40,11 @@ export const ModalProvider = (WrappedComponent: any): any => {
       const ModalComponent = this.getModalComponent();
       return (
         <View>
-          <WrappedComponent {...this.props} />
+          <WrappedComponent
+            closeModal={this.closeModal}
+            openModal={this.openModal}
+            {...this.props}
+          />
           <Modal
             visible={isModalOpen}
             animationType={animationType}

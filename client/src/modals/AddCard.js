@@ -7,7 +7,8 @@ type Props = {};
 type State = {};
 
 export class AddCard extends Component<Props, State> {
+  state = {};
   render() {
-    return <View />;
+    return <View>Add a card here...</View>;
   }
 }

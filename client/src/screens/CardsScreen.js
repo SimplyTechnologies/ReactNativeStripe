@@ -1,7 +1,11 @@
 // @flow
 import React, { Component } from "react";
 import type { Element } from "react";
-import { InitEventHandlers, RequestProvider } from "AppProviders";
+import {
+  InitEventHandlers,
+  RequestProvider,
+  ModalProvider
+} from "AppProviders";
 import { getCards } from "AppProxies";
 import { CardsList } from "AppComponents";
 import { ResponseStatuses } from "AppConstants";
@@ -65,4 +69,4 @@ class WrappedCardsScreen extends Component<Props, State> {
   }
 }
 
-export const CardsScreen = InitEventHandlers(WrappedCardsScreen);
+export const CardsScreen = InitEventHandlers(ModalProvider(WrappedCardsScreen));
