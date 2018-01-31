@@ -17,33 +17,16 @@ export const payWithCard = (req, res) => {
 };
 
 export const addCard = (req, res, next) => {
-  req.user = {
-    username: "ani",
-    customerId: "cus_CBQtywlg6bNV7C",
-    _id: "5a65a824e762c8e0226b5a3a"
-  };
-  const { username, customerId, _id } = req.user;
+  const { customerId } = req.user;
   const { tokenId } = req.body;
   if (!tokenId) {
     return res.status(400).json({ message: "Token is required" });
   }
-  let addCardPromise;
   if (!customerId) {
-    const createCustomerPromise = stripeHelper.createCustomer(
-      tokenId,
-      username
-    );
-    const saveCustomerPromise = createCustomerPromise.then(
-      saveCustomer.bind(null, _id)
-    );
-    addCardPromise = Promise.all([
-      createCustomerPromise,
-      saveCustomerPromise
-    ]).then(data => data[0].sources.data[0]);
-  } else {
-    addCardPromise = stripeHelper.createCustomerSource(customerId, tokenId);
+    return res.status(400).json({ message: "Customer does not exist" });
   }
-  addCardPromise
+  stripeHelper
+    .createCustomerSource(customerId, tokenId)
     .then(card => {
       return res.json({
         id: card.id,
