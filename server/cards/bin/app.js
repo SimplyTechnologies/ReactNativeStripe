@@ -1,3 +1,3 @@
-require('dotenv').config()
-require('babel-register');
-require('../app');
+require("dotenv").config();
+require("babel-register");
+require("../app");

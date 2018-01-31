@@ -1,6 +1,6 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-export const createCustomer = (tokenId, username) => {
+export const createCustomer = username => {
   return new Promise((resolve, reject) => {
     stripe.customers.create(
       {

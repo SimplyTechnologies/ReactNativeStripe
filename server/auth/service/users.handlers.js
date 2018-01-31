@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import * as stripeHelper from "../helpers/stripe";
 
 const User = mongoose.model("User");
 const JWT_SECRET = process.env.JWT_SECRET || "example";
@@ -24,12 +25,15 @@ export const userRegister = (req, res, next) => {
     }
     const salt = bcrypt.genSaltSync(10);
     const passwordHash = bcrypt.hashSync(password, salt);
-    const newUser = new User({
-      username,
-      password: passwordHash
-    });
-    newUser
-      .save()
+    stripeHelper
+      .createCustomer(username)
+      .then(customer =>
+        User.create({
+          username,
+          password: passwordHash,
+          customerId: customer.id
+        })
+      )
       .then(savedUser => {
         // generate JWT
         const token = jwt.sign(userToSend(savedUser), JWT_SECRET);
