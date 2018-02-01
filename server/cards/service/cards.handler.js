@@ -7,12 +7,12 @@ import {
 
 export const addCard = (req, res, next) => {
   const { customerId } = req.user;
+  if (!customerId) {
+    return res.status(400).json({ message: CUSTOMER_DOES_NOT_EXIST });
+  }
   const { tokenId } = req.body;
   if (!tokenId) {
     return res.status(400).json({ message: TOKEN_IS_REQUIRED_MESSAGE });
-  }
-  if (!customerId) {
-    return res.status(400).json({ message: CUSTOMER_DOES_NOT_EXIST });
   }
   stripeHelper
     .createCustomerSource(customerId, tokenId)
@@ -25,7 +25,7 @@ export const addCard = (req, res, next) => {
         last4: card.last4
       });
     })
-    .catch(err => next(err.message));
+    .catch(err => next(err));
 };
 
 export const getCards = (req, res, next) => {
@@ -48,7 +48,7 @@ export const getCards = (req, res, next) => {
       });
       return res.json(data);
     })
-    .catch(err => next(err.message));
+    .catch(err => next(err));
 };
 
 export const deleteCard = (req, res, next) => {
@@ -68,7 +68,7 @@ export const deleteCard = (req, res, next) => {
         defaultSource: data[1].default_source
       });
     })
-    .catch(err => next(err.message));
+    .catch(err => next(err));
 };
 
 export const updateCard = (req, res, next) => {
@@ -105,7 +105,7 @@ export const updateCard = (req, res, next) => {
         }
       ]);
     })
-    .catch(err => next(err.message));
+    .catch(err => next(err));
 };
 
 export const changeDefaultCard = (req, res, next) => {
@@ -119,5 +119,5 @@ export const changeDefaultCard = (req, res, next) => {
     .then(customer => {
       return res.json({ default_source: customer.default_source });
     })
-    .catch(err => next(err.message));
+    .catch(err => next(err));
 };

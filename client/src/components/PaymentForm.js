@@ -4,21 +4,21 @@ import { View, Button, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Stripe, { PaymentCardTextField } from "tipsi-stripe";
 
 type Props = {
-  handleSubmit: Function
+  handleSubmit: Function,
+  message: string,
+  style: Object
 };
 
 type State = {
   isValid: boolean,
-  params: Object | null,
-  notification: string
+  params: Object | null
 };
 
 // TODO: Flowify everything deeper
 export class PaymentForm extends Component<Props, State> {
   state = {
     isValid: false,
-    params: null,
-    notification: ""
+    params: null
   };
 
   fieldParamsChangedHandler = (isValid: boolean, params: Object) => {
@@ -39,21 +39,24 @@ export class PaymentForm extends Component<Props, State> {
   };
 
   render() {
-    const { notification } = this.state;
+    const { message, style } = this.props;
     return (
-      <View style={styles.formContainer}>
+      <View style={style}>
+        <View stle={styles.header}>
+          <Text>Pay with card</Text>
+        </View>
         <View style={styles.form}>
           <PaymentCardTextField
             style={styles.cardTextField}
             onParamsChange={this.fieldParamsChangedHandler}
           />
+          <Text>{message}</Text>
           <TouchableOpacity
             style={styles.button}
             onPress={this.payButtonPressedHandler}
           >
             <Text style={styles.buttonText}>Pay</Text>
           </TouchableOpacity>
-          <Text>{notification}</Text>
         </View>
       </View>
     );
@@ -61,31 +64,17 @@ export class PaymentForm extends Component<Props, State> {
 }
 
 const styles = StyleSheet.create({
-  formContainer: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  form: {
-    width: 300,
-    padding: 20,
-    borderRadius: 0,
-    borderWidth: 0.5,
-    borderColor: "black",
-    backgroundColor: "#EFEDEB"
-  },
+  form: {},
   cardTextField: {
     width: 300,
-    color: "#449aeb",
-    borderColor: "#000",
-    borderWidth: 1,
-    borderRadius: 5
+    marginTop: 20,
+    marginBottom: 20
   },
+  notification: {},
   button: {
-    padding: 10,
-    backgroundColor: "black",
-    borderRadius: 5
+    backgroundColor: "blue",
+    borderRadius: 5,
+    width: 50
   },
   buttonText: {
     textAlign: "center",

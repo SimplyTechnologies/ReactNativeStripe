@@ -6,21 +6,21 @@ export function init(api) {
   const router = Router();
 
   router.post(
-    "/token/:token,
+    "/payWithToken",
     requiresToBeLoggedIn,
     paymentsHandler.payWithToken
   );
 
   router.post(
-    "/customer/:customerId/source/:sourceId",
+    "/payWithCard",
     requiresToBeLoggedIn,
-    paymentsHandler.payWithSourceId
+    paymentsHandler.payWithCard
   );
 
   router.post(
-    "/customer/:customerId",
+    "/payWithDefaultCard",
     requiresToBeLoggedIn,
-    paymentsHandler.payWithCustomerId
+    paymentsHandler.payWithDefaultCard
   );
 
   api.use("/payments", router);

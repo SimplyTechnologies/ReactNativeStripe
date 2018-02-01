@@ -20,11 +20,11 @@ const { STATUS_OK } = ResponseStatuses;
 
 const checkStatus = (response: any): any => {
   const { status }: { status: number } = response;
-  if ((status >= 200 && status < 300) || (status >= 400 && status < 500)) {
+  if (status >= 200 && status < 305) {
     return response;
   }
 
-  const error = new Error(response.statusText);
+  const error = new Error(response.status);
   error.response = response;
   throw error;
 };
@@ -99,36 +99,29 @@ const makeRequest = (
 ): Promise<*> =>
   AsyncStorage.getItem("token")
     .then(fetchRequest.bind(null, url, method, query, body))
-    .then(checkStatus)
     .then(parseJSON)
-    .catch((error: Error) => {
-      console.error("request failed - ", error);
-    });
-
+    .then(checkStatus);
 /**
  * Global request handler methods,
  * @param {Promise} request Promise
  * @param {Object}  callbackMap 'map with status keys and appropriate callback values'
  * @param {Function} failCallBack 'callback for handling request fail status'
  * */
-const requestHandler = (
-  request: Request,
-  callbackMap: any,
-  failCallBack: Function = defaultFailCallback
-) => {
+const requestHandler = (request: Request, callbackMap: any) => {
   request
-    .then(({ data, status }: { data: any, status: number }) => {
-      if (status >= 200 && status < 305) {
-        callbackMap[STATUS_OK](data);
-      } else {
-        Object.keys(callbackMap).forEach((item: number) => {
-          if (+item === status) {
-            callbackMap[item](data);
-          }
-        });
-      }
+    .then(({ data }: { data: any }) => {
+      callbackMap[STATUS_OK](data);
     })
-    .catch(failCallBack);
+    .catch(({ response: { data, status } }: any) => {
+      let failCallBack = defaultFailCallback;
+      Object.keys(callbackMap).some((item: number): any => {
+        if (+item === status) {
+          failCallBack = callbackMap[item];
+          return true;
+        }
+      });
+      failCallBack(data);
+    });
 };
 
 export const fetchUtils = {
