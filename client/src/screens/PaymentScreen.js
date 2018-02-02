@@ -4,9 +4,10 @@ import type { Element } from "react";
 import { PaymentForm } from "AppComponents";
 import { payWithCard } from "AppProxies";
 import { RequestProvider, InitEventHandlers } from "AppProviders";
-import { ResponseStatuses } from "AppConstants";
+import { ResponseStatuses, ModalTypes } from "AppConstants";
 
 const { STATUS_OK } = ResponseStatuses;
+const { ADD_CARD } = ModalTypes;
 
 type Props = {
   navigator: any
@@ -32,7 +33,7 @@ class WrappedPaymentScreen extends Component<Props, State> {
   renderRequestProvider = (
     handleRequest: Function
   ): Element<typeof PaymentForm> => (
-    <PaymentForm handleSubmit={handleRequest} />
+    <PaymentForm handleSubmit={handleRequest} buttonTitle="Pay" />
   );
 
   render() {

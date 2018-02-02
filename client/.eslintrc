@@ -1,6 +1,13 @@
 {
   "parser": "babel-eslint",
-  "plugins": ["react", "react-native", "jsx-a11y", "import", "prettier", "flowtype"],
+  "plugins": [
+    "react",
+    "react-native",
+    "jsx-a11y",
+    "import",
+    "prettier",
+    "flowtype"
+  ],
   "env": {
     "node": true,
     "es6": true
@@ -42,6 +49,7 @@
     "flowtype/union-intersection-spacing": [2, "always"],
     "flowtype/use-flow-type": 1,
     "flowtype/valid-syntax": 1,
+    "flowtype/require-return-type": 0,
     "react/jsx-no-bind": 0,
     "no-prototype-builtins": 0,
     "no-param-reassign": 0,

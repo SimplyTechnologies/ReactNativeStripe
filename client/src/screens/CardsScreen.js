@@ -1,6 +1,9 @@
 // @flow
 import React, { Component } from "react";
 import type { Element } from "react";
+import { View, StyleSheet } from "react-native";
+import ActionButton from "react-native-action-button";
+import Icon from "react-native-vector-icons/Ionicons";
 import {
   InitEventHandlers,
   RequestProvider,
@@ -8,6 +11,7 @@ import {
 } from "AppProviders";
 import { getCards } from "AppProxies";
 import { CardsList } from "AppComponents";
+import { CardsContainer } from "AppContainers";
 import { ResponseStatuses, ModalTypes } from "AppConstants";
 import type { Card } from "../types";
 
@@ -15,32 +19,27 @@ const { STATUS_OK } = ResponseStatuses;
 const { ADD_CARD } = ModalTypes;
 
 type Props = {
-  navigator: any
+  navigator: any,
+  openModal: Function
 };
 
 type State = {
-  cards: Array<Card>,
-  loading: boolean
+  cards: any
 };
 
 class WrappedCardsScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      loading: true,
-      cards: []
+      cards: null
     };
-    this.initializeCallbacks(this);
-  }
-
-  componentDidMount() {
-    setTimeout(() => this.props.openModal(ADD_CARD, {}), 2000);
+    this.initializeCallbacks();
   }
 
   callbackMap: Object;
-  initializeCallbacks = (context: any) => {
+  initializeCallbacks = () => {
     const handleOk = (data: Array<Card>) => {
-      context.setState({ cards: data, loading: false });
+      this.setState({ cards: data });
     };
     this.callbackMap = {
       [STATUS_OK]: handleOk
@@ -53,6 +52,11 @@ class WrappedCardsScreen extends Component<Props, State> {
     }));
   };
 
+  openAddCardModal = () => {
+    const { openModal } = this.props;
+    openModal(ADD_CARD, {});
+  };
+
   renderRequestProvider = (
     handleRequest: Function
   ): Element<typeof CardsList> => (
@@ -60,19 +64,37 @@ class WrappedCardsScreen extends Component<Props, State> {
       removeDeletedCard={this.removeDeletedCard}
       getCards={handleRequest}
       cards={this.state.cards}
-      loading={this.state.loading}
     />
   );
 
   render() {
     return (
-      <RequestProvider
-        render={this.renderRequestProvider}
-        requestProxy={getCards}
-        callbackMap={this.callbackMap}
-      />
+      <View>
+        <RequestProvider
+          render={this.renderRequestProvider}
+          requestProxy={getCards}
+          callbackMap={this.callbackMap}
+        />
+        <ActionButton buttonColor="rgba(231,76,60,1)">
+          <ActionButton.Item
+            buttonColor="#1abc9c"
+            title="All Card"
+            onPress={this.openAddCardModal}
+          >
+            <Icon name="md-create" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+        </ActionButton>
+      </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: "white"
+  }
+});
 
 export const CardsScreen = InitEventHandlers(ModalProvider(WrappedCardsScreen));

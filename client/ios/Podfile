@@ -10,4 +10,6 @@ target 'stripeProject' do
 
   # Install additional dependencies
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
 end

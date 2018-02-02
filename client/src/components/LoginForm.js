@@ -11,6 +11,7 @@ import {
 
 type Props = {
   handleSubmit: (username: string, password: string) => void,
+  updateValidations: any,
   navigator: any
 };
 
@@ -41,6 +42,15 @@ export class LoginForm extends Component<Props, State> {
     }
   };
   formHelper: FormHelper;
+
+  componentWillReceiveProps(nextProps: Props) {
+    const { updateValidations } = nextProps;
+    if (updateValidations) {
+      this.setState(({ validations }) => {
+        return { ...validations, ...updateValidations };
+      });
+    }
+  }
 
   handleForbiddenResponse = ({ message }: { message: string }) => {
     this.setState({ validations: { password: message } });

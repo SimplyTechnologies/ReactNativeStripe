@@ -53,7 +53,7 @@ export class PaymentForm extends Component<Props, State> {
             style={styles.button}
             onPress={this.payButtonPressedHandler}
           >
-            <Text style={styles.buttonText}>Pay</Text>
+            <Text style={styles.buttonText}>{buttonTitle}</Text>
           </TouchableOpacity>
           <Text>{notification}</Text>
         </View>

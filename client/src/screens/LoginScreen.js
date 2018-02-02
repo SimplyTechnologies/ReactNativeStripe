@@ -14,19 +14,20 @@ type Props = {
   navigator: any
 };
 
-type State = {};
+type State = {
+  updateValidations: any
+};
 
 export class LoginScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.initializeCallbacks();
+    this.state = {
+      updateValidations: null
+    };
   }
 
-  _form: ?Element<typeof LoginForm>;
   callbackMap: Object;
-
-  formReference = (form: ElementRef<typeof LoginForm>): void =>
-    (this._form = form);
 
   initializeCallbacks = () => {
     const handleOk = ({ token }: { token: string }) => {
@@ -34,10 +35,9 @@ export class LoginScreen extends Component<Props, State> {
       startApp();
     };
     const handleForbidden = (data: { message: string }) => {
-      const form = this._form;
-      if (form) {
-        form.handleForbiddenResponse(data);
-      }
+      const { message: password } = data;
+      const updateValidations = { password };
+      this.setState({ updateValidations });
     };
     this.callbackMap = {
       [STATUS_OK]: handleOk,
@@ -51,7 +51,7 @@ export class LoginScreen extends Component<Props, State> {
     <LoginForm
       handleSubmit={handleRequest}
       navigator={this.props.navigator}
-      ref={this.formReference}
+      updateValidations={this.state.updateValidations}
     />
   );
 
