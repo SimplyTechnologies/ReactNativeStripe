@@ -16,3 +16,7 @@ export { PayWithCardForm } from "./forms/PayWithCardForm";
 // minor/reusable components
 export { Loading } from "./minor/Loading";
 export { NoItems } from "./minor/NoItems";
+
+// buttons
+export { FloatingButton } from "./buttons/FloatingButton";
+export { PaymentButton } from "./buttons/PaymentButton";
