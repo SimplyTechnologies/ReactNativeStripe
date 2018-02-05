@@ -5,7 +5,7 @@ import { Loading } from "AppComponents";
 import { RequestProvider } from "AppProviders";
 import { getCards } from "AppProxies";
 import { ResponseStatuses } from "AppConstants";
-import type { Cards } from "../types";
+import type { Card } from "../types";
 
 const { STATUS_OK } = ResponseStatuses;
 
@@ -38,20 +38,18 @@ export class CardsProvider extends Component<Props, State> {
     return <Loading />;
   };
 
-  renderPending = () => {
-    return (
-      <RequestProvider
-        render={this.renderRequestProvider}
-        requestProxy={getCards}
-        callbackMap={this.callbackMap}
-      />
-    );
-  };
+  renderPending = () => (
+    <RequestProvider
+      render={this.renderRequestProvider}
+      requestProxy={getCards}
+      callbackMap={this.callbackMap}
+    />
+  );
 
   renderChildren = () => {
     const { render } = this.props;
     const { cards } = this.state;
-    render(cards);
+    return render(cards);
   };
 
   render() {

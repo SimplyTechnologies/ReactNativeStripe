@@ -1,4 +1,4 @@
 import React from "react";
 import { Text } from "react-native";
 
-export const SomeComponent = () => <Text>Loading...</Text>;
+export const Loading = () => <Text>Loading...</Text>;
