@@ -18,11 +18,11 @@ export class CardsList extends Component<Props, State> {
     removeDeletedCard(data);
   };
 
-  _renderItem = ({ item }: { item: Card }): Element<typeof CardsListItem> => (
+  renderItem = ({ item }: { item: Card }): Element<typeof CardsListItem> => (
     <CardsListItem card={item} removeDeletedCard={this.removeDeletedCard} />
   );
 
-  _keyExtractor = (item: Card): string => item.id;
+  keyExtractor = (item: Card): string => item.id;
 
   isEmpty = (): boolean => {
     const { cards } = this.props;
@@ -37,8 +37,8 @@ export class CardsList extends Component<Props, State> {
     ) : (
       <FlatList
         data={cards}
-        renderItem={this._renderItem}
-        keyExtractor={this._keyExtractor}
+        renderItem={this.renderItem}
+        keyExtractor={this.keyExtractor}
       />
     );
   }

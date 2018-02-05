@@ -2,14 +2,17 @@
  * @providesModule AppComponents
  */
 
-export { PaymentForm } from "./PaymentForm";
-export { LoginForm } from "./LoginForm";
-export { RegisterForm } from "./RegisterForm";
-export { FormInput } from "./FormInput";
 export { CardsList } from "./CardsList";
 export { CardsListItem } from "./CardsListItem";
-export { PayWithDefaultCardForm } from "./PayWithDefaultCardForm";
-export { PayWithCardForm } from "./PayWithCardForm";
+export { FormInput } from "./FormInput";
+
+// forms
+export { PaymentForm } from "./forms/PaymentForm";
+export { LoginForm } from "./forms/LoginForm";
+export { RegisterForm } from "./forms/RegisterForm";
+export { PayWithDefaultCardForm } from "./forms/PayWithDefaultCardForm";
+export { PayWithCardForm } from "./forms/PayWithCardForm";
+
 // minor/reusable components
-export { Loading } from "./Loading";
-export { NoItems } from "./NoItems";
+export { Loading } from "./minor/Loading";
+export { NoItems } from "./minor/NoItems";
