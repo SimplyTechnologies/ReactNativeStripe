@@ -1,29 +1,18 @@
 // @flow
-
 import React, { Component } from "react";
 import { FlatList, ActivityIndicator, View, Text } from "react-native";
 import type { Element } from "react";
-import { CardsListItem } from "AppComponents";
+import { CardsListItem, NoItems } from "AppComponents";
 import type { Card } from "../types";
 
 type Props = {
-  getCards: Function,
   cards: Array<Card>,
   removeDeletedCard: Function
 };
 
 type State = {};
 
-export class CardsList extends Component<Props, State> {}
-
-/////////////////////
-
-export class CardsList1 extends Component<Props, State> {
-  componentDidMount() {
-    const { getCards } = this.props;
-    getCards();
-  }
-
+export class CardsList extends Component<Props, State> {
   removeDeletedCard = (data: any) => {
     const { removeDeletedCard } = this.props;
     removeDeletedCard(data);
@@ -35,33 +24,22 @@ export class CardsList1 extends Component<Props, State> {
 
   _keyExtractor = (item: Card): string => item.id;
 
-  isLoading = (): boolean => this.props.cards === null;
-
   isEmpty = (): boolean => {
     const { cards } = this.props;
     return cards && cards.length === 0;
   };
 
-  renderCards = () => {
+  render() {
     const { cards } = this.props;
-    const loading = this.isLoading();
     const empty = this.isEmpty();
-    if (loading) {
-      return <ActivityIndicator />;
-    }
-    if (empty) {
-      return <Text>No items to show</Text>;
-    }
-    return (
+    return empty ? (
+      <NoItems itemName="cards" />
+    ) : (
       <FlatList
         data={cards}
         renderItem={this._renderItem}
         keyExtractor={this._keyExtractor}
       />
     );
-  };
-
-  render() {
-    return this.renderCards();
   }
 }
