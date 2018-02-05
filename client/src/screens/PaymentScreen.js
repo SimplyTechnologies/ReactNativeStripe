@@ -7,9 +7,18 @@ import {
   PayWithDefaultCardForm,
   PayWithCardForm
 } from "AppComponents";
-import { payWithToken, payWithCard, payWithDefaultCard } from "AppProxies";
+import {
+  payWithToken,
+  payWithCard,
+  payWithDefaultCard,
+  getCards
+} from "AppProxies";
 import { RequestProvider, InitEventHandlers } from "AppProviders";
 import { stripeUtils } from "AppUtils";
+import type { Card } from "AppTypes";
+import { ResponseStatuses } from "AppConstants";
+
+const { STATUS_OK } = ResponseStatuses;
 
 const { initializeStripe, initializeCallbackMaps } = stripeUtils;
 
@@ -20,7 +29,8 @@ type Props = {
 type State = {
   payWithTokenMessage: string,
   payWithDefaultCardMessage: string,
-  payWithCardMessage: string
+  payWithCardMessage: string,
+  cards: Array<Card>
 };
 
 class WrappedPaymentScreen extends Component<Props, State> {
@@ -29,13 +39,24 @@ class WrappedPaymentScreen extends Component<Props, State> {
     this.state = {
       payWithTokenMessage: "",
       payWithDefaultCardMessage: "",
-      payWithCardMessage: ""
+      payWithCardMessage: "",
+      cards: []
     };
+    this.initializeGetCardsCallbacks(this);
   }
 
   componentDidMount() {
     initializeStripe();
   }
+  getCardsCallbackMap: Object;
+  initializeGetCardsCallbacks = (context: any) => {
+    const handleOk = (data: Array<Card>) => {
+      context.setState({ cards: data });
+    };
+    this.getCardsCallbackMap = {
+      [STATUS_OK]: handleOk
+    };
+  };
 
   renderRequestProvider = (
     handleRequest: Function
@@ -43,37 +64,38 @@ class WrappedPaymentScreen extends Component<Props, State> {
     const {
       payWithTokenMessage,
       payWithDefaultCardMessage,
-      payWithCardMessage
+      payWithCardMessage,
+      cards
     } = this.state;
     return (
       <View style={styles.container}>
         <PaymentForm
-          style={styles.component}
-          handleSubmit={handleRequest().payWithToken}
+          payButtonPressedHandler={handleRequest().payWithToken}
           message={payWithTokenMessage}
         />
-        <PayWithDefaultCardForm
-          style={styles.component}
-          handleSubmit={handleRequest().payWithDefaultCard}
-          message={payWithDefaultCardMessage}
-        />
         <PayWithCardForm
-          style={styles.component}
-          handleSubmit={handleRequest().payWithCard}
+          getCards={handleRequest().getCards}
+          cards={cards}
+          payButtonPressedHandler={handleRequest().payWithCard}
           message={payWithCardMessage}
+        />
+        <PayWithDefaultCardForm
+          payButtonPressedHandler={handleRequest().payWithDefaultCard}
+          message={payWithDefaultCardMessage}
         />
       </View>
     );
   };
 
-  render() {
+  render = () => {
     const requestProxy = new Map([
       [payWithToken, initializeCallbackMaps(this, "payWithTokenMessage")],
       [
         payWithDefaultCard,
         initializeCallbackMaps(this, "payWithDefaultCardMessage")
       ],
-      [payWithCard, initializeCallbackMaps(this, "payWithCardMessage")]
+      [payWithCard, initializeCallbackMaps(this, "payWithCardMessage")],
+      [getCards, this.getCardsCallbackMap]
     ]);
     return (
       <RequestProvider
@@ -81,7 +103,7 @@ class WrappedPaymentScreen extends Component<Props, State> {
         render={this.renderRequestProvider}
       />
     );
-  }
+  };
 }
 
 const styles = StyleSheet.create({
@@ -89,10 +111,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F0F8FF",
     alignItems: "center"
-  },
-  component: {
-    flex: 1,
-    justifyContent: "center"
   }
 });
 

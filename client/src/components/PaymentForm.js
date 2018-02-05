@@ -1,12 +1,13 @@
 // @flow
 import React, { Component } from "react";
-import { View, Button, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Stripe, { PaymentCardTextField } from "tipsi-stripe";
+import { PaymentButton } from "AppButtons";
 
 type Props = {
   handleSubmit: Function,
   message: string,
-  style: Object
+  payButtonPressedHandler: Function
 };
 
 type State = {
@@ -35,49 +36,38 @@ export class PaymentForm extends Component<Props, State> {
 
   tokenReceiveHandler = ({ tokenId }: Object) => {
     const { handleSubmit } = this.props;
+    console.log(tokenId);
     handleSubmit(tokenId);
   };
 
   render() {
-    const { message, style } = this.props;
+    const { message, payButtonPressedHandler } = this.props;
     return (
-      <View style={style}>
-        <View stle={styles.header}>
-          <Text>Pay with card</Text>
-        </View>
-        <View style={styles.form}>
-          <PaymentCardTextField
-            style={styles.cardTextField}
-            onParamsChange={this.fieldParamsChangedHandler}
-          />
-          <Text>{message}</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={this.payButtonPressedHandler}
-          >
-            <Text style={styles.buttonText}>Pay</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.container}>
+        <Text style={styles.title}>Pay with card form</Text>
+        <PaymentCardTextField
+          style={styles.cardTextField}
+          onParamsChange={this.fieldParamsChangedHandler}
+        />
+        <Text>{message}</Text>
+        <PaymentButton payButtonPressedHandler={payButtonPressedHandler} />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  form: {},
+  container: {
+    flex: 2,
+    alignItems: "center"
+  },
+  title: {
+    fontSize: 25,
+    marginTop: 10
+  },
   cardTextField: {
     width: 300,
     marginTop: 20,
     marginBottom: 20
-  },
-  notification: {},
-  button: {
-    backgroundColor: "blue",
-    borderRadius: 5,
-    width: 50
-  },
-  buttonText: {
-    textAlign: "center",
-    color: "white"
   }
 });

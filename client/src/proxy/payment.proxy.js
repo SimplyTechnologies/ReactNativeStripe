@@ -12,13 +12,10 @@ export const payWithToken = (token: string): Promise<*> =>
     token
   });
 
-export const payWithCard = (customerId: string, sourceId: string): Promise<*> =>
+export const payWithCard = (sourceId: string): Promise<*> =>
   makeRequest(`${PAYMENT_PROXY_URI}/payWithCard`, POST, EMPTY_OBJECT, {
-    customerId,
     sourceId
   });
 
-export const payWithDefaultCard = (customerId: string): Promise<*> =>
-  makeRequest(`${PAYMENT_PROXY_URI}/payWithDefaultCard`, POST, EMPTY_OBJECT, {
-    customerId
-  });
+export const payWithDefaultCard = (): Promise<*> =>
+  makeRequest(`${PAYMENT_PROXY_URI}/payWithDefaultCard`, POST);

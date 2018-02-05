@@ -1,37 +1,31 @@
 // @flow
 
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { PaymentButton } from "AppButtons";
 
 type Props = {
-  style: Object,
-  handleSubmit: Function
+  handleSubmit: Function,
+  payButtonPressedHandler: Function,
+  message: string
 };
 
 export const PayWithDefaultCardForm = (props: Props): any => (
-  <View style={props.style}>
-    <Text>Pay with default card</Text>
+  <View style={styles.container}>
+    <Text style={styles.title}>Pay with default card</Text>
     <Text>{props.message}</Text>
-    <TouchableOpacity
-      style={styles.button}
-      onPress={() => {
-        props.handleSubmit();
-      }}
-    >
-      <Text style={styles.buttonText}>Pay</Text>
-    </TouchableOpacity>
+    <PaymentButton payButtonPressedHandler={props.payButtonPressedHandler} />
   </View>
 );
 
 const styles = StyleSheet.create({
-  notification: {},
-  button: {
-    backgroundColor: "blue",
-    borderRadius: 5,
-    width: 50
+  container: {
+    flex: 1,
+    alignItems: "center"
   },
-  buttonText: {
-    textAlign: "center",
-    color: "white"
+  title: {
+    fontSize: 25,
+    marginTop: 10,
+    marginBottom: 20
   }
 });
