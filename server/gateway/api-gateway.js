@@ -7,7 +7,8 @@ const PORT = process.env.PORT || 3000;
 const endpointsMap = {
   users: process.env.AUTH_MICROSERVICE_URI || "http://localhost:3001",
   cards: process.env.CARDS_MICROSERVICE_URI || "http://localhost:3002",
-  payments: process.env.PAYMENTS_MICROSERVICE_URI || "http://localhost:3003"
+  payments: process.env.PAYMENTS_MICROSERVICE_URI || "http://localhost:3003",
+  subscriptions: process.env.SUBSCRIPTIONS_MICROSERVICE_URI || "http://localhost:3004",
 };
 
 app.use((req, res, next) => {
