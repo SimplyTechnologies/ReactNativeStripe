@@ -35,13 +35,12 @@ export class PaymentForm extends Component<Props, State> {
   };
 
   tokenReceiveHandler = ({ tokenId }: Object) => {
-    const { handleSubmit } = this.props;
-    console.log(tokenId);
-    handleSubmit(tokenId);
+    const { payButtonPressedHandler } = this.props;
+    payButtonPressedHandler(tokenId);
   };
 
   render() {
-    const { message, payButtonPressedHandler } = this.props;
+    const { message } = this.props;
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Pay with card form</Text>
@@ -50,7 +49,7 @@ export class PaymentForm extends Component<Props, State> {
           onParamsChange={this.fieldParamsChangedHandler}
         />
         <Text>{message}</Text>
-        <PaymentButton payButtonPressedHandler={payButtonPressedHandler} />
+        <PaymentButton payButtonPressedHandler={this.payButtonPressedHandler} />
       </View>
     );
   }
