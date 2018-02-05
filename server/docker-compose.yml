@@ -7,12 +7,14 @@ services:
     environment:
       - PORT=3000
       - AUTH_MICROSERVICE_URI=http://auth:3001
-      - cards_MICROSERVICE_URI=http://cards:3002
-      - PAYMENTS_MICROSERVICE_URI=http://payments:3003
+      - CARDS_MICROSERVICE_URI=http://card:3002
+      - PAYMENTS_MICROSERVICE_URI=http://payment:3003
+      - SUBSCRIPTIONS_MICROSERVICE_URI=http://payment:3004
     links:
       - auth_microservice:auth
       - cards_microservice:card
       - payments_microservice:payment
+      - subscriptions_microservice:subscription
   auth_microservice:
     build: ./auth
     links:
@@ -21,25 +23,34 @@ services:
       - 3001:3001
     environment:
       - PORT=3001
-      - MONGO_URI=http://db_1
+      - MONGO_URI=mongodb://db_1
   cards_microservice:
     build: ./cards
     links:
-      - mongo:db_2
+      - mongo:db_1
     ports:
       - 3002:3002
     environment:
       - PORT=3002
-      - MONGO_URI=mongodb://db_2
+      - MONGO_URI=mongodb://db_1
   payments_microservice:
     build: ./payments
     links:
-      - mongo:db_3
+      - mongo:db_1
     ports:
       - 3003:3003
     environment:
       - PORT=3003
-      - MONGO_URI=mongodb://db_3
+      - MONGO_URI=mongodb://db_1
+  subscriptions_microservice:
+    build: ./subscriptions
+    links:
+      - mongo:db_1
+    ports:
+      - 3004:3004
+    environment:
+      - PORT=3004
+      - MONGO_URI=mongodb://db_1
   mongo:
     image: mongo
     ports:

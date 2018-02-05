@@ -25,7 +25,7 @@ export class RequestProvider extends Component<Props> {
     ...data: any
   ) => {
     const { requestHandler } = fetchUtils;
-    const request = proxy(data);
+    const request = proxy(...data);
     requestHandler(request, callbacks);
   };
 

@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import service from '../service';
 import { initAuth } from '../middleware/auth';
+import { handleErrors } from "../middleware/errors";
 
 const app = express();
 
@@ -29,6 +30,7 @@ app
   .use(bodyParser.urlencoded({ extended:  true }))
   .use(bodyParser.text())
   .use(initAuth)
-  .use('/', service);
+  .use('/', service)
+  .use(handleErrors);
 
 export default app;

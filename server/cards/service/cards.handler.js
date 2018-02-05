@@ -1,29 +1,18 @@
 import * as stripeHelper from "../helpers/stripe";
 import { saveCustomer } from "../helpers/proxy";
-
-export const payWithCard = (req, res) => {
-  const { tokenId } = req.body;
-
-  if (!tokenId) {
-    res.status(400).json({ message: "Token is required" });
-  } else {
-    stripeHelper
-      .payWithCard(tokenId, 20)
-      .then(charge => {
-        res.status(200).json({ message: "The amount is paid successfully" });
-      })
-      .catch(err => next(err.message));
-  }
-};
+import {
+  TOKEN_IS_REQUIRED_MESSAGE,
+  CUSTOMER_DOES_NOT_EXIST
+} from "./cards.constants";
 
 export const addCard = (req, res, next) => {
   const { customerId } = req.user;
+  if (!customerId) {
+    return res.status(400).json({ message: CUSTOMER_DOES_NOT_EXIST });
+  }
   const { tokenId } = req.body;
   if (!tokenId) {
-    return res.status(400).json({ message: "Token is required" });
-  }
-  if (!customerId) {
-    return res.status(400).json({ message: "Customer does not exist" });
+    return res.status(400).json({ message: TOKEN_IS_REQUIRED_MESSAGE });
   }
   stripeHelper
     .createCustomerSource(customerId, tokenId)
@@ -36,13 +25,13 @@ export const addCard = (req, res, next) => {
         last4: card.last4
       });
     })
-    .catch(err => next(err.message));
+    .catch(err => next(err));
 };
 
 export const getCards = (req, res, next) => {
   const { _id, customerId } = req.user;
   if (!customerId) {
-    return res.status(400).json({ message: "Customer does not exist" });
+    return res.status(400).json({ message: CUSTOMER_DOES_NOT_EXIST });
   }
   stripeHelper
     .retrieveCustomer(customerId)
@@ -59,13 +48,13 @@ export const getCards = (req, res, next) => {
       });
       return res.json(data);
     })
-    .catch(err => next(err.message));
+    .catch(err => next(err));
 };
 
 export const deleteCard = (req, res, next) => {
   const { customerId } = req.user;
   if (!customerId) {
-    return res.status(400).json({ message: "Customer does not exist" });
+    return res.status(400).json({ message: CUSTOMER_DOES_NOT_EXIST });
   }
   const { id } = req.params;
   const deleteCardPromise = stripeHelper.deleteCustomerSource(customerId, id);
@@ -79,18 +68,18 @@ export const deleteCard = (req, res, next) => {
         defaultSource: data[1].default_source
       });
     })
-    .catch(err => next(err.message));
+    .catch(err => next(err));
 };
 
 export const updateCard = (req, res, next) => {
   const { customerId } = req.user;
   if (!customerId) {
-    return res.status(400).json({ message: "Customer does not exist" });
+    return res.status(400).json({ message: CUSTOMER_DOES_NOT_EXIST });
   }
   const { id } = req.params;
   const { tokenId } = req.body;
   if (!tokenId) {
-    res.status(400).json({ message: "Token is required" });
+    res.status(400).json({ message: TOKEN_IS_REQUIRED_MESSAGE });
   }
   const deleteCardPromise = stripeHelper.deleteCustomerSource(customerId, id);
   const retrieveCustomerPromise = deleteCardPromise.then(() =>
@@ -116,13 +105,13 @@ export const updateCard = (req, res, next) => {
         }
       ]);
     })
-    .catch(err => next(err.message));
+    .catch(err => next(err));
 };
 
 export const changeDefaultCard = (req, res, next) => {
   const { customerId } = req.user;
   if (!customerId) {
-    return res.status(400).json({ message: "Customer does not exist" });
+    return res.status(400).json({ message: CUSTOMER_DOES_NOT_EXIST });
   }
   const { id } = req.params;
   stripeHelper
@@ -130,5 +119,5 @@ export const changeDefaultCard = (req, res, next) => {
     .then(customer => {
       return res.json({ default_source: customer.default_source });
     })
-    .catch(err => next(err.message));
+    .catch(err => next(err));
 };

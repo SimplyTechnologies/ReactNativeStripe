@@ -1,25 +1,25 @@
 // @flow
 import React, { Component } from "react";
-import { View, Button, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Stripe, { PaymentCardTextField } from "tipsi-stripe";
+import { PaymentButton } from "AppButtons";
 
 type Props = {
   handleSubmit: Function,
-  buttonTitle: string
+  message: string,
+  payButtonPressedHandler: Function
 };
 
 type State = {
   isValid: boolean,
-  params: Object | null,
-  notification: string
+  params: Object | null
 };
 
 // TODO: Flowify everything deeper
 export class PaymentForm extends Component<Props, State> {
   state = {
     isValid: false,
-    params: null,
-    notification: ""
+    params: null
   };
 
   fieldParamsChangedHandler = (isValid: boolean, params: Object) => {
@@ -35,62 +35,38 @@ export class PaymentForm extends Component<Props, State> {
   };
 
   tokenReceiveHandler = ({ tokenId }: Object) => {
-    const { handleSubmit } = this.props;
-    handleSubmit(tokenId);
+    const { payButtonPressedHandler } = this.props;
+    payButtonPressedHandler(tokenId);
   };
 
   render() {
-    const { buttonTitle } = this.props;
-    const { notification } = this.state;
+    const { message } = this.props;
     return (
-      <View style={styles.formContainer}>
-        <View style={styles.form}>
-          <PaymentCardTextField
-            style={styles.cardTextField}
-            onParamsChange={this.fieldParamsChangedHandler}
-          />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={this.payButtonPressedHandler}
-          >
-            <Text style={styles.buttonText}>{buttonTitle}</Text>
-          </TouchableOpacity>
-          <Text>{notification}</Text>
-        </View>
+      <View style={styles.container}>
+        <Text style={styles.title}>Pay with card form</Text>
+        <PaymentCardTextField
+          style={styles.cardTextField}
+          onParamsChange={this.fieldParamsChangedHandler}
+        />
+        <Text>{message}</Text>
+        <PaymentButton payButtonPressedHandler={this.payButtonPressedHandler} />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  formContainer: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
+  container: {
+    flex: 2,
+    alignItems: "center"
   },
-  form: {
-    width: 300,
-    padding: 20,
-    borderRadius: 0,
-    borderWidth: 0.5,
-    borderColor: "black",
-    backgroundColor: "#EFEDEB"
+  title: {
+    fontSize: 25,
+    marginTop: 10
   },
   cardTextField: {
     width: 300,
-    color: "#449aeb",
-    borderColor: "#000",
-    borderWidth: 1,
-    borderRadius: 5
-  },
-  button: {
-    padding: 10,
-    backgroundColor: "black",
-    borderRadius: 5
-  },
-  buttonText: {
-    textAlign: "center",
-    color: "white"
+    marginTop: 20,
+    marginBottom: 20
   }
 });
