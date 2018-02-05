@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { View } from "react-native";
 import { Loading } from "AppComponents";
 import { RequestProvider } from "AppProviders";
-import { getCards } from "AppProxies";
+import { getCards, deleteCard } from "AppProxies";
 import { ResponseStatuses } from "AppConstants";
 import type { Card } from "../types";
 
@@ -23,15 +23,32 @@ export class CardsProvider extends Component<Props, State> {
     this.state = {
       cards: null
     };
-    this.initializeCallbacks();
+    this.initializeDeleteCardCallbacks();
+    this.initializeGetCardsCallbacks();
+    this.initializeMap();
   }
 
-  initializeCallbacks = () => {
+  initializeMap = () => {
+    const proxyMap = new Map();
+    proxyMap.set(getCards, this.getCardsCallbacks);
+    proxyMap.set(deleteCard, this.deleteCardCallbacks);
+  };
+
+  initializeGetCardsCallbacks = () => {
     const handleOk = cards => this.setState({ cards });
-    this.callbackMap = {
+    this.getCardsCallbacks = {
       [STATUS_OK]: handleOk
     };
   };
+
+  initializeDeleteCardCallbacks = () => {
+    const handleOk = () => this.removeCard();
+    this.deleteCardCallbacks = {
+      [STATUS_OK]: handleOk
+    };
+  };
+
+  removeCard = () => {};
 
   renderRequestProvider = (getCardsRequest: Function) => {
     getCardsRequest();
@@ -44,6 +61,11 @@ export class CardsProvider extends Component<Props, State> {
       requestProxy={getCards}
       callbackMap={this.callbackMap}
     />
+    //   !--- SHOULD RENDER THIS ---!
+    //   <RequestProvider
+    //     render={this.renderRequestProvider}
+    //     requestProxy={this.proxyMap}
+    //   />
   );
 
   renderChildren = () => {
