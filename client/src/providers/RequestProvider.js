@@ -14,7 +14,7 @@ export class RequestProvider extends Component<Props> {
   getRequestHandler = (): Function | void => {
     const { requestProxy } = this.props;
     if (requestProxy instanceof Map) {
-      return this.handleMapProxy;
+      return this.handleMapProxy();
     }
     if (requestProxy instanceof Function) {
       return this.handleFunctionProxy;

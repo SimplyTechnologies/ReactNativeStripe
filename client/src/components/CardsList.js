@@ -12,13 +12,17 @@ type Props = {
 
 type State = {};
 
+type CardsItem = {
+  item: Card
+};
+
 export class CardsList extends Component<Props, State> {
   removeDeletedCard = (data: any) => {
     const { removeDeletedCard } = this.props;
     removeDeletedCard(data);
   };
 
-  renderItem = ({ item }: { item: Card }): Element<typeof CardsListItem> => (
+  renderItem = ({ item }: CardsItem): Element<typeof CardsListItem> => (
     <CardsListItem card={item} removeDeletedCard={this.removeDeletedCard} />
   );
 

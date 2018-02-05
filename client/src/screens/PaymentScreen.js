@@ -71,17 +71,17 @@ class WrappedPaymentScreen extends Component<Props, State> {
     return (
       <View style={styles.container}>
         <PaymentForm
-          payButtonPressedHandler={handleRequest().payWithToken}
+          payButtonPressedHandler={handleRequest.payWithToken}
           message={payWithTokenMessage}
         />
         <PayWithCardForm
-          getCards={handleRequest().getCards}
+          getCards={handleRequest.getCards}
           cards={cards}
-          payButtonPressedHandler={handleRequest().payWithCard}
+          payButtonPressedHandler={handleRequest.payWithCard}
           message={payWithCardMessage}
         />
         <PayWithDefaultCardForm
-          payButtonPressedHandler={handleRequest().payWithDefaultCard}
+          payButtonPressedHandler={handleRequest.payWithDefaultCard}
           message={payWithDefaultCardMessage}
         />
       </View>
