@@ -14,14 +14,16 @@ type Props = {
 };
 
 type State = {
-  cards: Array
+  cards: Array,
+  requests: any
 };
 
 export class CardsProvider extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      cards: null
+      cards: null,
+      requests: null
     };
     this.initializeDeleteCardCallbacks();
     this.initializeGetCardsCallbacks();
@@ -50,28 +52,23 @@ export class CardsProvider extends Component<Props, State> {
 
   removeCard = () => {};
 
-  renderRequestProvider = (getCardsRequest: Function) => {
-    getCardsRequest();
+  renderRequestProvider = (requests: any) => {
+    requests.getCards();
+    this.setState({ requests });
     return <Loading />;
   };
 
   renderPending = () => (
     <RequestProvider
       render={this.renderRequestProvider}
-      requestProxy={getCards}
-      callbackMap={this.callbackMap}
+      requestProxy={this.proxyMap}
     />
-    //   !--- SHOULD RENDER THIS ---!
-    //   <RequestProvider
-    //     render={this.renderRequestProvider}
-    //     requestProxy={this.proxyMap}
-    //   />
   );
 
   renderChildren = () => {
     const { render } = this.props;
-    const { cards } = this.state;
-    return render(cards);
+    const { cards, requests } = this.state;
+    return render(cards, requests);
   };
 
   render() {

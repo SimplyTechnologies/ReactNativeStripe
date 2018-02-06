@@ -23,8 +23,15 @@ class WrappedCardsScreen extends Component<Props, State> {
     openModal(ADD_CARD, {});
   };
 
-  renderCardsProvider = (cards: Array): Element<typeof CardsList> => (
-    <CardsList removeDeletedCard={this.removeDeletedCard} cards={cards} />
+  renderCardsProvider = (
+    cards: Array,
+    { deleteCard }: any
+  ): Element<typeof CardsList> => (
+    <CardsList
+      removeDeletedCard={this.removeDeletedCard}
+      deleteCardRequest={deleteCard}
+      cards={cards}
+    />
   );
 
   render() {

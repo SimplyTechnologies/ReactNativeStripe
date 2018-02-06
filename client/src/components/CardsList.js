@@ -7,6 +7,7 @@ import type { Card } from "../types";
 
 type Props = {
   cards: Array<Card>,
+  deleteCardRequest: Function,
   removeDeletedCard: Function
 };
 
@@ -23,7 +24,11 @@ export class CardsList extends Component<Props, State> {
   };
 
   renderItem = ({ item }: CardsItem): Element<typeof CardsListItem> => (
-    <CardsListItem card={item} removeDeletedCard={this.removeDeletedCard} />
+    <CardsListItem
+      card={item}
+      deleteCardRequest={this.props.deleteCardRequest}
+      removeDeletedCard={this.removeDeletedCard}
+    />
   );
 
   keyExtractor = (item: Card): string => item.id;
