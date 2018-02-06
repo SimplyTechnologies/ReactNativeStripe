@@ -2,8 +2,14 @@
 import React, { Component } from "react";
 import type { Element } from "react";
 import { View } from "react-native";
-import { CardsList, FloatingButton } from "AppComponents";
-import { InitEventHandlers, ModalProvider, CardsProvider } from "AppProviders";
+import { FloatingButton } from "AppComponents";
+import { CardsContainer } from "AppContainers";
+import {
+  InitEventHandlers,
+  ModalProvider,
+  RequestProvider
+} from "AppProviders";
+import { getCards, deleteCard } from "AppProxies";
 import { ModalTypes } from "AppConstants";
 
 const { ADD_CARD } = ModalTypes;
@@ -16,6 +22,8 @@ type Props = {
 type State = {};
 
 class WrappedCardsScreen extends Component<Props, State> {
+  cardProxies = { getCards, deleteCard };
+
   removeDeletedCard = () => {};
 
   openAddCardModal = () => {
@@ -23,21 +31,17 @@ class WrappedCardsScreen extends Component<Props, State> {
     openModal(ADD_CARD, {});
   };
 
-  renderCardsProvider = (
-    cards: Array,
-    { deleteCard }: any
-  ): Element<typeof CardsList> => (
-    <CardsList
-      removeDeletedCard={this.removeDeletedCard}
-      deleteCardRequest={deleteCard}
-      cards={cards}
-    />
+  renderRequestProvider = ({ getCards, deleteCard }: any) => (
+    <CardsContainer getCards={getCards} deleteCard={deleteCard} />
   );
 
   render() {
     return (
       <View>
-        <CardsProvider render={this.renderCardsProvider} />
+        <RequestProvider
+          render={this.renderRequestProvider}
+          requestProxy={this.cardProxies}
+        />
         <FloatingButton
           itemTitle="Add Card"
           handleButtonPress={this.openAddCardModal}

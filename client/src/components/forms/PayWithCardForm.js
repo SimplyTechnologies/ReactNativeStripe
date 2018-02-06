@@ -7,10 +7,11 @@ import { PaymentButton } from "AppButtons";
 import type { Card } from "AppCards";
 
 type Props = {
-  payButtonPressedHandler: () => void,
+  payWithCard: () => Function,
+  callbackMap: Object,
   cards: Array<Card>,
   message: string,
-  getCards: () => void
+  getCards: () => Function
 };
 
 type State = {
@@ -32,10 +33,10 @@ export class PayWithCardForm extends Component<Props, State> {
   };
 
   payButtonPressedHandler = () => {
-    const { payButtonPressedHandler } = this.props;
+    const { payWithCard, callbackMap } = this.props;
     const { value } = this.state;
     if (value) {
-      payButtonPressedHandler(value);
+      payWithCard(value)(callbackMap);
     }
   };
   renderOptions(): Array<Option> {

@@ -7,7 +7,8 @@ import { PaymentButton } from "AppButtons";
 type Props = {
   handleSubmit: Function,
   message: string,
-  payButtonPressedHandler: Function
+  payWithToken: Function,
+  callbackMap: Object
 };
 
 type State = {
@@ -35,8 +36,8 @@ export class PaymentForm extends Component<Props, State> {
   };
 
   tokenReceiveHandler = ({ tokenId }: Object) => {
-    const { payButtonPressedHandler } = this.props;
-    payButtonPressedHandler(tokenId);
+    const { payWithToken, callbackMap } = this.props;
+    payWithToken(tokenId)(callbackMap);
   };
 
   render() {

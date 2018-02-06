@@ -7,12 +7,13 @@ import { validateLogin } from "AppValidators";
 import {
   REGISTER_SCREEN,
   REGISTER_SCREEN_TITLE
-} from "../navigation/constants";
+} from "../../navigation/constants";
 
 type Props = {
-  handleSubmit: (username: string, password: string) => void,
+  handleSubmit: (username: string, password: string) => Function,
   updateValidations: any,
-  navigator: any
+  navigator: any,
+  callbackMap: Object
 };
 
 type State = {
@@ -69,10 +70,10 @@ export class LoginForm extends Component<Props, State> {
   };
 
   formSubmitHandler = () => {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, callbackMap } = this.props;
     const { username, password } = this.state.values;
     if (!this.formHelper.hasValidationErrors()) {
-      handleSubmit(username, password);
+      handleSubmit(username, password)(callbackMap);
     }
   };
 

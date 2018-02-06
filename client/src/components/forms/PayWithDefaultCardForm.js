@@ -6,15 +6,25 @@ import { PaymentButton } from "AppButtons";
 
 type Props = {
   handleSubmit: Function,
-  payButtonPressedHandler: Function,
+  payWithDefaultCard: Function,
+  callbackMap: Object,
   message: string
 };
 
-export const PayWithDefaultCardForm = (props: Props): any => (
+const payHandler = (payWithDefaultCard, callbackMap) => () =>
+  payWithDefaultCard()(callbackMap);
+
+export const PayWithDefaultCardForm = ({
+  message,
+  payWithDefaultCard,
+  callbackMap
+}: Props): any => (
   <View style={styles.container}>
     <Text style={styles.title}>Pay with default card</Text>
-    <Text>{props.message}</Text>
-    <PaymentButton payButtonPressedHandler={props.payButtonPressedHandler} />
+    <Text>{message}</Text>
+    <PaymentButton
+      payButtonPressedHandler={payHandler(payWithDefaultCard, callbackMap)}
+    />
   </View>
 );
 

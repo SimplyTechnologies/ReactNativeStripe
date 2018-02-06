@@ -43,45 +43,74 @@ class WrappedPaymentScreen extends Component<Props, State> {
       payWithCardMessage: "",
       cards: []
     };
-    this.initializeGetCardsCallbacks(this);
+    this.paymentProxies = {
+      payWithToken,
+      payWithCard,
+      payWithDefaultCard,
+      getCards
+    };
+    this.callbacks = {};
+    this.initializeCallbacks();
   }
 
   componentDidMount() {
     initializeStripe();
   }
-  getCardsCallbackMap: Object;
-  initializeGetCardsCallbacks = (context: any) => {
-    const handleOk = (data: Array<Card>) => {
-      context.setState({ cards: data });
+
+  initializeCallbacks = () => {
+    const payWithToken = initializeCallbackMaps(this, "payWithTokenMessage");
+    const payWithCard = initializeCallbackMaps(this, "payWithCardMessage");
+    const payWithDefaultCard = initializeCallbackMaps(
+      this,
+      "payWithDefaultCardMessage"
+    );
+    this.callbacks = {
+      payWithToken,
+      payWithCard,
+      payWithDefaultCard
     };
-    this.getCardsCallbackMap = {
+    this.initializeGetCardsCallbacks();
+  };
+
+  initializeGetCardsCallbacks = () => {
+    const handleOk = (data: Array<Card>) => {
+      this.setState({ cards: data });
+    };
+    this.callbacks.getCards = {
       [STATUS_OK]: handleOk
     };
   };
 
-  renderRequestProvider = (
-    handleRequest: Function
-  ): Element<typeof PaymentForm> => {
+  renderRequestProvider = ({
+    payWithToken,
+    payWithCard,
+    payWithDefaultCard,
+    getCards
+  }: any): Element<typeof PaymentForm> => {
     const {
       payWithTokenMessage,
       payWithDefaultCardMessage,
       payWithCardMessage,
       cards
     } = this.state;
+    const callbacks = this.callbacks;
     return (
       <View style={styles.container}>
         <PaymentForm
-          payButtonPressedHandler={handleRequest.payWithToken}
+          callbackMap={callbacks.payWithToken}
+          payWithToken={payWithToken}
           message={payWithTokenMessage}
         />
         <PayWithCardForm
-          getCards={handleRequest.getCards}
+          callbackMap={callbacks.payWithCard}
+          getCards={getCards}
           cards={cards}
-          payButtonPressedHandler={handleRequest.payWithCard}
+          payWithCard={payWithCard}
           message={payWithCardMessage}
         />
         <PayWithDefaultCardForm
-          payButtonPressedHandler={handleRequest.payWithDefaultCard}
+          callbackMap={callbacks.payWithDefaultCard}
+          payWithDefaultCard={payWithDefaultCard}
           message={payWithDefaultCardMessage}
         />
       </View>
@@ -89,18 +118,9 @@ class WrappedPaymentScreen extends Component<Props, State> {
   };
 
   render = () => {
-    const requestProxy = new Map([
-      [payWithToken, initializeCallbackMaps(this, "payWithTokenMessage")],
-      [
-        payWithDefaultCard,
-        initializeCallbackMaps(this, "payWithDefaultCardMessage")
-      ],
-      [payWithCard, initializeCallbackMaps(this, "payWithCardMessage")],
-      [getCards, this.getCardsCallbackMap]
-    ]);
     return (
       <RequestProvider
-        requestProxy={requestProxy}
+        requestProxy={this.paymentProxies}
         render={this.renderRequestProvider}
       />
     );

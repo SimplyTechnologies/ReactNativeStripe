@@ -13,7 +13,8 @@ type BadRequestError = {
   }
 };
 type Props = {
-  handleSubmit: (username: string, password: string) => void
+  handleSubmit: (username: string, password: string) => Function,
+  callbackMap: Object
 };
 
 type State = {
@@ -68,10 +69,10 @@ export class RegisterForm extends Component<Props, State> {
   };
 
   formSubmitHandler = () => {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, callbackMap } = this.props;
     const { username, password } = this.state.values;
     if (!this.formHelper.hasValidationErrors()) {
-      handleSubmit(username, password);
+      handleSubmit(username, password)(callbackMap);
     }
   };
 

@@ -49,6 +49,7 @@ export class LoginScreen extends Component<Props, State> {
     handleRequest: Function
   ): Element<typeof LoginForm> => (
     <LoginForm
+      callbackMap={this.callbackMap}
       handleSubmit={handleRequest}
       navigator={this.props.navigator}
       updateValidations={this.state.updateValidations}
@@ -59,7 +60,6 @@ export class LoginScreen extends Component<Props, State> {
     return (
       <RequestProvider
         requestProxy={userLogin}
-        callbackMap={this.callbackMap}
         render={this.renderRequestProvider}
       />
     );
