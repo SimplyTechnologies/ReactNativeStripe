@@ -26,10 +26,12 @@ export class PayWithCardForm extends Component<Props, State> {
     label: "Select Me Please",
     value: ""
   };
+
   componentDidMount() {
     const { getCards, getCardsCallbackMap } = this.props;
     getCards()(getCardsCallbackMap);
   }
+
   onSelect = (value: string, label: string) => {
     this.setState({ label, value });
   };
@@ -41,17 +43,20 @@ export class PayWithCardForm extends Component<Props, State> {
       payWithCard(value)(payCallbackMap);
     }
   };
+
   renderOptions(): Array<Option> {
     const { cards } = this.props;
     return cards.map((card: Card): Option => {
-      const { id, last4, exp_month, exp_year } = card;
+      const { id, last4, exp_month: month, exp_year: year } = card;
+      const cardInfo = `...${last4}  ${month}${year}`;
       return (
         <Option value={id} key={id}>
-          {`...${last4}  ${exp_month}/${exp_year}`}
+          {cardInfo}
         </Option>
       );
     });
   }
+
   render() {
     const { message, cards } = this.props;
     return cards ? (
