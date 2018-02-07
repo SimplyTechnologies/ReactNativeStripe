@@ -43,7 +43,6 @@ export class RequestProvider extends Component<Props> {
   handleFunctionProxy = (...data: any) => (callbackMap: any) => {
     const { requestProxy } = this.props;
     const requestHandler = this.generateRequestHandler(requestProxy);
-    console.log("DATA", data);
     requestHandler(...data)(callbackMap);
   };
 

@@ -26,7 +26,7 @@ const { initializeCallbackMaps } = stripeUtils;
 const { STATUS_OK, STATUS_402, STATUS_400 } = ResponseStatuses;
 
 export class PaymentContainer extends Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       payWithTokenMessage: "",
