@@ -3,9 +3,9 @@
  */
 
 // cards
-export { CardsList } from "./CardsList";
-export { CardsListItem } from "./CardsListItem";
-export { CardSelect } from "./CardSelect";
+export { CardsList } from "./cards/CardsList";
+export { CardsListItem } from "./cards/CardsListItem";
+export { CardSelect } from "./cards/CardSelect";
 
 // forms
 export { PaymentForm } from "./forms/PaymentForm";
