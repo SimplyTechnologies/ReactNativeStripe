@@ -5,7 +5,6 @@ import Stripe, { PaymentCardTextField } from "tipsi-stripe";
 import { PaymentButton } from "AppButtons";
 
 type Props = {
-  handleSubmit: Function,
   message: string,
   payWithToken: Function,
   callbackMap: Object

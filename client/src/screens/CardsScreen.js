@@ -15,6 +15,7 @@ import { ModalTypes } from "AppConstants";
 const { ADD_CARD } = ModalTypes;
 
 // calculate container height for displaying FloatButton on the bottom
+// TODO: make the calculation more precise
 const { height } = Dimensions.get("window");
 const containerHeight = height - height * 0.2;
 
