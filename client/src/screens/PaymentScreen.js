@@ -9,6 +9,7 @@ import {
   getCards
 } from "AppProxies";
 import { RequestProvider, InitEventHandlers } from "AppProviders";
+import { stripeUtils } from "AppUtils";
 
 type Props = {
   navigator: any
@@ -25,7 +26,7 @@ class WrappedPaymentScreen extends Component<Props, State> {
   };
 
   componentDidMount() {
-    initializeStripe();
+    stripeUtils.initializeStripe();
   }
 
   renderRequestProvider = (requests: Object) => (

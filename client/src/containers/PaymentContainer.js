@@ -39,35 +39,37 @@ export class PaymentContainer extends Component<Props, State> {
   }
 
   setMessage = (messageTitle: string, message: string) => {
-      this.setState({ [messageTitle]: message };
-      setTimeout(() => this.clearMessage(messageTitle), 3000);
+    this.setState({ [messageTitle]: message });
+    setTimeout(() => this.clearMessage(messageTitle), 3000);
   };
 
   clearMessage = messageTitle => this.setState({ [messageTitle]: "" });
 
-  getNotificationHandler = (messageTitle: string) =>
-    ({ message }: Message) => this.setMessage(messageTitle, message);
+  getNotificationHandler = (messageTitle: string) => ({ message }: Message) =>
+    this.setMessage(messageTitle, message);
 
   getCallbackMaps = (messageTitle: string) => {
-      const notificationhandler = this.getNotificationHandler(messageTitle);
-      return {
-        [STATUS_OK]: notificationhandler,
-        [STATUS_402]: notificationhandler,
-        [STATUS_400]: notificationhandler
-      };
+    const notificationhandler = this.getNotificationHandler(messageTitle);
+    return {
+      [STATUS_OK]: notificationhandler,
+      [STATUS_402]: notificationhandler,
+      [STATUS_400]: notificationhandler
+    };
   };
 
   initializeCallbacks = () => {
     // payment forms callbacks
     const payWithToken = this.getCallbackMaps("payWithTokenMessage");
     const payWithCard = this.getCallbackMaps("payWithCardMessage");
-    const payWithDefaultCard = this.getCallbackMaps("payWithDefaultCardMessage");
+    const payWithDefaultCard = this.getCallbackMaps(
+      "payWithDefaultCardMessage"
+    );
 
     // fetching cards callbacks
     const getCards = {
-        [STATUS_OK]: (data: Array<Card>) => {
-            this.setState({ cards: data });
-        }
+      [STATUS_OK]: (data: Array<Card>) => {
+        this.setState({ cards: data });
+      }
     };
 
     // setting callbacks
@@ -101,7 +103,8 @@ export class PaymentContainer extends Component<Props, State> {
           message={payWithTokenMessage}
         />
         <PayWithCardForm
-          callbackMap={callbacks.payWithCard}
+          payCallbackMap={callbacks.payWithCard}
+          getCardsCallbackMap={callbacks.getCards}
           getCards={getCards}
           cards={cards}
           payWithCard={payWithCard}

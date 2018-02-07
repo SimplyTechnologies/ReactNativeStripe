@@ -3,12 +3,14 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Select, Option } from "react-native-chooser";
+import { Loading } from "AppComponents";
 import { PaymentButton } from "AppButtons";
 import type { Card } from "AppCards";
 
 type Props = {
   payWithCard: () => Function,
-  callbackMap: Object,
+  payCallbackMap: Object,
+  getCardsCallbackMap: Object,
   cards: Array<Card>,
   message: string,
   getCards: () => Function
@@ -25,18 +27,18 @@ export class PayWithCardForm extends Component<Props, State> {
     value: ""
   };
   componentDidMount() {
-    const { getCards } = this.props;
-    getCards();
+    const { getCards, getCardsCallbackMap } = this.props;
+    getCards()(getCardsCallbackMap);
   }
   onSelect = (value: string, label: string) => {
     this.setState({ label, value });
   };
 
   payButtonPressedHandler = () => {
-    const { payWithCard, callbackMap } = this.props;
+    const { payWithCard, payCallbackMap } = this.props;
     const { value } = this.state;
     if (value) {
-      payWithCard(value)(callbackMap);
+      payWithCard(value)(payCallbackMap);
     }
   };
   renderOptions(): Array<Option> {
@@ -51,8 +53,8 @@ export class PayWithCardForm extends Component<Props, State> {
     });
   }
   render() {
-    const { message } = this.props;
-    return (
+    const { message, cards } = this.props;
+    return cards ? (
       <View style={styles.container}>
         <Text style={styles.title}>Pay wtih selected card</Text>
         <View style={styles.selectBox}>
@@ -69,6 +71,8 @@ export class PayWithCardForm extends Component<Props, State> {
         <Text>{message}</Text>
         <PaymentButton payButtonPressedHandler={this.payButtonPressedHandler} />
       </View>
+    ) : (
+      <Loading />
     );
   }
 }
