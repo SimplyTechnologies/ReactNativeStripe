@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import type { Element } from "react";
-import { View } from "react-native";
+import { View, Dimensions, StyleSheet } from "react-native";
 import { FloatingButton } from "AppComponents";
 import { CardsContainer } from "AppContainers";
 import {
@@ -13,6 +13,10 @@ import { getCards, deleteCard } from "AppProxies";
 import { ModalTypes } from "AppConstants";
 
 const { ADD_CARD } = ModalTypes;
+
+// calculate container height for displaying FloatButton on the bottom
+const { height } = Dimensions.get("window");
+const containerHeight = height - height * 0.2;
 
 type Props = {
   navigator: any,
@@ -37,7 +41,7 @@ class WrappedCardsScreen extends Component<Props, State> {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <RequestProvider
           render={this.renderRequestProvider}
           requestProxy={this.cardProxies}
@@ -50,5 +54,9 @@ class WrappedCardsScreen extends Component<Props, State> {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: containerHeight
+});
 
 export const CardsScreen = InitEventHandlers(ModalProvider(WrappedCardsScreen));
