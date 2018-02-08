@@ -59,7 +59,7 @@ export class CardsContainer extends Component<Props, State> {
   };
 
   addCard = (card: Card) => {
-    const cards = [...this.state.cards, card];
+    const cards = [card, ...this.state.cards];
     this.setState({ cards });
   };
 
