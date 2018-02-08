@@ -56,6 +56,7 @@ export class CardsContainer extends Component<Props, State> {
     const cards = [...this.state.cards];
     const index = this.getCardIndexById(id);
     cards.splice(index, 1);
+    this.setState({ cards });
   };
 
   addCard = (card: Card) => {
