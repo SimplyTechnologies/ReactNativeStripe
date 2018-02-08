@@ -5,8 +5,12 @@ import { PaymentForm } from "AppComponents";
 import { RequestProvider } from "AppProviders";
 import { addCard } from "AppProxies";
 import { ResponseStatuses } from "AppConstants";
+import type { Card } from "AppTypes";
 
-type Props = {};
+type Props = {
+  data: Object,
+  closeModal: Function
+};
 
 type State = {
   message: string
@@ -25,20 +29,23 @@ export class AddCard extends Component<Props, State> {
   }
 
   initializeCallbackMap = () => {
-    const handleOk = ({ message }) => this.setState({ message });
+    const { closeModal, data: { setNewCard } } = this.props;
+    const handleOk = (card: Card) => {
+      setNewCard(card);
+      closeModal();
+    };
     this.callbackMap = {
       [STATUS_OK]: handleOk
     };
   };
 
-  renderRequestProvider = (handleRequest: Function) =>
-    console.log("HANDLER", handleRequest) || (
-      <PaymentForm
-        payWithToken={handleRequest}
-        message={this.state.message}
-        callbackMap={this.callbackMap}
-      />
-    );
+  renderRequestProvider = (handleRequest: Function) => (
+    <PaymentForm
+      payWithToken={handleRequest}
+      message={this.state.message}
+      callbackMap={this.callbackMap}
+    />
+  );
 
   render() {
     return (

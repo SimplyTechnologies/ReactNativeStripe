@@ -11,6 +11,7 @@ import {
 } from "AppProviders";
 import { getCards, deleteCard } from "AppProxies";
 import { ModalTypes } from "AppConstants";
+import type { Card } from "AppTypes";
 
 const { ADD_CARD } = ModalTypes;
 
@@ -24,20 +25,36 @@ type Props = {
   openModal: Function
 };
 
-type State = {};
+type State = {
+  newCard: any
+};
 
 class WrappedCardsScreen extends Component<Props, State> {
+  state = {
+    newCard: null
+  };
+
   cardProxies = { getCards, deleteCard };
 
   removeDeletedCard = () => {};
 
+  setNewCard = (newCard: Card) => this.setState({ newCard });
+
+  removeNewCard = () => this.setState({ newCard: null });
+
   openAddCardModal = () => {
     const { openModal } = this.props;
-    openModal(ADD_CARD, {});
+    const setNewCard = this.setNewCard;
+    openModal(ADD_CARD, { setNewCard });
   };
 
   renderRequestProvider = ({ getCards, deleteCard }: any) => (
-    <CardsContainer getCards={getCards} deleteCard={deleteCard} />
+    <CardsContainer
+      newCard={this.state.newCard}
+      removeNewCard={this.removeNewCard}
+      getCards={getCards}
+      deleteCard={deleteCard}
+    />
   );
 
   render() {

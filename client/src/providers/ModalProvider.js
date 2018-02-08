@@ -55,7 +55,7 @@ export const ModalProvider = (WrappedComponent: any): any => {
             animationType={animationType}
             transparent
           >
-            <ModalComponent data={modalData} />
+            <ModalComponent data={modalData} closeModal={this.closeModal} />
           </Modal>
         </View>
       );
