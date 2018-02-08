@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { FlatList, ActivityIndicator, View, Text } from "react-native";
 import type { Element } from "react";
-import { CardsListItem, NoItems } from "AppComponents";
+import { CardsListItem, ItemSeparator, NoItems } from "AppComponents";
 import type { Card } from "../types";
 
 type Props = {
@@ -50,6 +50,7 @@ export class CardsList extends Component<Props, State> {
         data={cards}
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
+        ItemSeparatorComponent={ItemSeparator}
       />
     );
   }

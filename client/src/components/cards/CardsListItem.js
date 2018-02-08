@@ -41,9 +41,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 10,
-    borderBottomColor: "#bbb",
-    borderBottomWidth: StyleSheet.hairlineWidth
+    padding: 10
   },
   cardNumberText: {
     alignItems: "center",

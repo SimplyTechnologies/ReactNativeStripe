@@ -18,6 +18,7 @@ export { FormInput } from "./FormInput";
 // minor/reusable components
 export { Loading } from "./minor/Loading";
 export { NoItems } from "./minor/NoItems";
+export { ItemSeparator } from "./minor/ItemSeparator";
 
 // buttons
 export { FloatingButton } from "./buttons/FloatingButton";
