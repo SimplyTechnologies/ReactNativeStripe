@@ -7,6 +7,7 @@ import type { Card } from "../types";
 
 type Props = {
   cards: Array<Card>,
+  deleteCardCallbacks: Object,
   deleteCardRequest: Function,
   removeDeletedCard: Function
 };
@@ -27,6 +28,7 @@ export class CardsList extends Component<Props, State> {
     <CardsListItem
       card={item}
       deleteCardRequest={this.props.deleteCardRequest}
+      deleteCardCallbacks={this.props.deleteCardCallbacks}
       removeDeletedCard={this.removeDeletedCard}
     />
   );

@@ -24,15 +24,8 @@ export class CardsContainer extends Component<Props, State> {
     this.state = { cards: null };
     this.callbacks = {};
     this.initializeGetCardCallbacks();
+    this.initializeDeleteCardCallbacks();
   }
-
-  //TESTING FUNCTION
-  removeDeletedCard = () => {};
-
-  addCard = (card: Card) => {
-    const cards = [...this.state.cards, card];
-    this.setState({ cards });
-  };
 
   componentWillReceiveProps(nextProps: Props) {
     const { newCard, removeNewCard } = nextProps;
@@ -42,6 +35,34 @@ export class CardsContainer extends Component<Props, State> {
     }
   }
 
+  componentDidMount() {
+    const { getCards } = this.props;
+    const { getCards: getCardsCallbacks } = this.callbacks;
+    this.props.getCards()(getCardsCallbacks);
+  }
+
+  getCardIndexById = (id: string) => {
+    const { cards } = this.state;
+    let index = -1;
+    cards.forEach((card, iteration) => {
+      if (id === card.id) {
+        index = iteration;
+      }
+    });
+    return index;
+  };
+
+  removeCard = (id: string) => {
+    const cards = [...this.state.cards];
+    const index = this.getCardIndexById(id);
+    cards.splice(index, 1);
+  };
+
+  addCard = (card: Card) => {
+    const cards = [...this.state.cards, card];
+    this.setState({ cards });
+  };
+
   initializeGetCardCallbacks = () => {
     const handleOk = (cards: any) => this.setState({ cards });
     const callbackMap = {
@@ -50,19 +71,23 @@ export class CardsContainer extends Component<Props, State> {
     this.callbacks.getCards = callbackMap;
   };
 
-  componentDidMount() {
-    const { getCards } = this.props;
-    const { getCards: getCardsCallbacks } = this.callbacks;
-    this.props.getCards()(getCardsCallbacks);
-  }
+  initializeDeleteCardCallbacks = () => {
+    const handleOk = ({ deletedId }) => this.removeCard(deletedId);
+    const callbackMap = {
+      [STATUS_OK]: handleOk
+    };
+    this.callbacks.deleteCard = callbackMap;
+  };
 
   render() {
     const { deleteCard } = this.props;
     const { cards } = this.state;
+    const callbacks = this.callbacks;
     return cards ? (
       <CardsList
         cards={cards}
         deleteCardRequest={deleteCard}
+        deleteCardCallbacks={callbacks.deleteCard}
         removeDeletedCard={this.removeDeletedCard}
       />
     ) : (
