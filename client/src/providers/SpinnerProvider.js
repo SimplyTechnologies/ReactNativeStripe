@@ -12,11 +12,9 @@ export const SpinnerProvider = (WrappedComponent: any): any => {
   class Wrapper extends Component<Props, State> {
     state = { visible: false };
 
-    show = () =>
-      console.log("CALLING SHOW") || this.setState({ visible: true });
+    show = () => this.setState({ visible: true });
 
-    hide = () =>
-      console.log("CALLING HIDE") || this.setState({ visible: false });
+    hide = () => this.setState({ visible: false });
 
     render() {
       const { visible } = this.state;
