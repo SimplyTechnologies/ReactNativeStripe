@@ -73,7 +73,7 @@ export class CardsContainer extends Component<Props, State> {
   };
 
   initializeDeleteCardCallbacks = () => {
-    const handleOk = ({ deletedId }) => this.removeCard(deletedId);
+    const handleOk = ({ deletedCardId }) => this.removeCard(deletedCardId);
     const callbackMap = {
       [STATUS_OK]: handleOk
     };
