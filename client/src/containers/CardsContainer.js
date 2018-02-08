@@ -9,7 +9,9 @@ type Props = {
   newCard: Card,
   removeNewCard: Function,
   getCards: Function,
-  deleteCard: Function
+  deleteCard: Function,
+  showSpinner: Function,
+  hideSpinner: Function
 };
 
 type State = {
@@ -73,7 +75,11 @@ export class CardsContainer extends Component<Props, State> {
   };
 
   initializeDeleteCardCallbacks = () => {
-    const handleOk = ({ deletedCardId }) => this.removeCard(deletedCardId);
+    const { hideSpinner } = this.props;
+    const handleOk = ({ deletedCardId }) => {
+      this.removeCard(deletedCardId);
+      hideSpinner();
+    };
     const callbackMap = {
       [STATUS_OK]: handleOk
     };
@@ -81,12 +87,13 @@ export class CardsContainer extends Component<Props, State> {
   };
 
   render() {
-    const { deleteCard } = this.props;
+    const { deleteCard, showSpinner } = this.props;
     const { cards } = this.state;
     const callbacks = this.callbacks;
     return cards ? (
       <CardsList
         cards={cards}
+        showSpinner={showSpinner}
         deleteCardRequest={deleteCard}
         deleteCardCallbacks={callbacks.deleteCard}
         removeDeletedCard={this.removeDeletedCard}

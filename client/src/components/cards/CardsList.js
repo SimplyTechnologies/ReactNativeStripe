@@ -9,7 +9,8 @@ type Props = {
   cards: Array<Card>,
   deleteCardCallbacks: Object,
   deleteCardRequest: Function,
-  removeDeletedCard: Function
+  removeDeletedCard: Function,
+  showSpinner: Function
 };
 
 type State = {};
@@ -27,6 +28,7 @@ export class CardsList extends Component<Props, State> {
   renderItem = ({ item }: CardsItem): Element<typeof CardsListItem> => (
     <CardsListItem
       card={item}
+      showSpinner={this.props.showSpinner}
       deleteCardRequest={this.props.deleteCardRequest}
       deleteCardCallbacks={this.props.deleteCardCallbacks}
       removeDeletedCard={this.removeDeletedCard}

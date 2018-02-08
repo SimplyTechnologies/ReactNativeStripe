@@ -7,7 +7,8 @@ import { CardsContainer } from "AppContainers";
 import {
   InitEventHandlers,
   ModalProvider,
-  RequestProvider
+  RequestProvider,
+  SpinnerProvider
 } from "AppProviders";
 import { getCards, deleteCard } from "AppProxies";
 import { ModalTypes } from "AppConstants";
@@ -22,7 +23,9 @@ const containerHeight = height - height * 0.2;
 
 type Props = {
   navigator: any,
-  openModal: Function
+  openModal: Function,
+  showSpinner: Function,
+  hideSpinner: Function
 };
 
 type State = {
@@ -54,6 +57,8 @@ class WrappedCardsScreen extends Component<Props, State> {
       removeNewCard={this.removeNewCard}
       getCards={getCards}
       deleteCard={deleteCard}
+      showSpinner={this.props.showSpinner}
+      hideSpinner={this.props.hideSpinner}
     />
   );
 
@@ -77,4 +82,6 @@ const styles = StyleSheet.create({
   container: { height: containerHeight }
 });
 
-export const CardsScreen = InitEventHandlers(ModalProvider(WrappedCardsScreen));
+export const CardsScreen = InitEventHandlers(
+  ModalProvider(SpinnerProvider(WrappedCardsScreen))
+);

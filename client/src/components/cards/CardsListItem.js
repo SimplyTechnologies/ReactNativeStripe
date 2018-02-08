@@ -5,27 +5,34 @@ import type { Card } from "../types";
 
 type Props = {
   card: Card,
+  showSpinner: Function,
   removeDeletedCard: Function,
   deleteCardRequest: Function,
   deleteCardCallbacks: Object
 };
 
 const getDeleteButtonPressedHandler = (
+  showSpinner,
   deleteCardRequest,
   deleteCardCallbacks,
   cardId
-) => () => deleteCardRequest(cardId)(deleteCardCallbacks);
+) => () => {
+  showSpinner();
+  deleteCardRequest(cardId)(deleteCardCallbacks);
+};
 
 export const CardsListItem = ({
   card: { last4, id },
   deleteCardRequest,
-  deleteCardCallbacks
+  deleteCardCallbacks,
+  showSpinner
 }: Props) => (
   <View style={styles.container}>
     <Text style={styles.cardNumberText}>...{last4}</Text>
     <TouchableOpacity
       style={styles.deleteButton}
       onPress={getDeleteButtonPressedHandler(
+        showSpinner,
         deleteCardRequest,
         deleteCardCallbacks,
         id
