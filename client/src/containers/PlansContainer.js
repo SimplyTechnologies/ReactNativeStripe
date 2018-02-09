@@ -5,7 +5,8 @@ import { PlansList, Loading } from "AppComponents";
 import { ResponseStatuses } from "AppConstants";
 
 type Props = {
-  getPlans: Function
+  getPlans: Function,
+  addSubscription: Function
 };
 
 type State = {
@@ -41,8 +42,24 @@ export class PlansContainer extends Component<Props, State> {
     this.callbacks.getPlans = callbackMap;
   };
 
+  initializeAddSubscriptionCallbacks = () => {
+    const handleOk = (data: any) => console.log("SUBSCRIPTION ADDED", data);
+    const callbackMap = { [STATUS_OK]: handleOk };
+    this.callbacks.addSubscription = callbackMap;
+  };
+
   render() {
+    const { addSubscription } = this.props;
     const { plans } = this.state;
-    return plans ? <PlansList plans={plans} /> : <Loading />;
+    const callbacks = this.callbacks;
+    return plans ? (
+      <PlansList
+        plans={plans}
+        addSubscription={addSubscription}
+        addSubscriptionCallbacks={callbacks.addSubscription}
+      />
+    ) : (
+      <Loading />
+    );
   }
 }

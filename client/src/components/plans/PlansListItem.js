@@ -4,21 +4,38 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 // TODO: Flowify Deeper
 type Props = {
-  plan: any
+  plan: any,
+  addSubscription: Function,
+  addSubscriptionCallbacks: Object
 };
 
 const getPlanAmount = (interval: string, count: number): string =>
   `${count} ${interval}`;
 
+const getSubscribeButtonPressedHandler = (
+  plan,
+  addSubscription,
+  addSubscriptionCallbacks
+) => () => addSubscription(addSubscription)(addSubscriptionCallbacks);
+
 export const PlansListItem = ({
-  plan: { name, interval, interval_count }
+  plan,
+  addSubscription,
+  addSubscriptionCallbacks
 }: Props) => (
   <View style={styles.container}>
-    <Text style={styles.planName}>{name}</Text>
+    <Text style={styles.planName}>{plan.name}</Text>
     <Text style={styles.planAmount}>
-      {getPlanAmount(interval, interval_count)}
+      {getPlanAmount(plan.interval, plan.interval_count)}
     </Text>
-    <TouchableOpacity style={styles.subscribeButton} onPress={() => {}}>
+    <TouchableOpacity
+      style={styles.subscribeButton}
+      onPress={getSubscribeButtonPressedHandler(
+        plan,
+        addSubscription,
+        addSubscriptionCallbacks
+      )}
+    >
       <Text style={styles.subscribeButtonText}>Subscribe</Text>
     </TouchableOpacity>
   </View>
