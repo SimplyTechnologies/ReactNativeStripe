@@ -6,11 +6,14 @@ import { ResponseStatuses } from "AppConstants";
 
 type Props = {
   getPlans: Function,
-  addSubscription: Function
+  getSubscriptions: Function,
+  addSubscription: Function,
+  deleteSubscription: Function
 };
 
 type State = {
-  plans: any
+  plans: any,
+  subscriptions: any
 };
 
 const { STATUS_OK } = ResponseStatuses;
@@ -19,20 +22,22 @@ export class PlansContainer extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      plans: null
+      plans: null,
+      subscriptions: null
     };
     this.callbacks = {};
     this.initializeGetPlansCallbacks();
     this.initializeAddSubscriptionCallbacks();
   }
-  state = {
-    plans: null
-  };
 
   componentDidMount() {
-    const { getPlans } = this.props;
-    const { getPlans: getPlansCallbacks } = this.callbacks;
+    const { getPlans, getSubscriptions } = this.props;
+    const {
+      getPlans: getPlansCallbacks,
+      getSubscriptions: getSubscriptionsCallbacks
+    } = this.callbacks;
     getPlans()(getPlansCallbacks);
+    getSubscriptions()(getSubscriptionsCallbacks);
   }
 
   initializeGetPlansCallbacks = () => {
@@ -41,6 +46,14 @@ export class PlansContainer extends Component<Props, State> {
       [STATUS_OK]: handleOk
     };
     this.callbacks.getPlans = callbackMap;
+  };
+
+  initializeGetSubscriptionsCallbacks = () => {
+    const handleOk = (subscriptions: any) => this.setState({ subscriptions });
+    const callbackMap = {
+      [STATUS_OK]: handleOk
+    };
+    this.callbacks.getSubscriptions = callbackMap;
   };
 
   initializeAddSubscriptionCallbacks = () => {

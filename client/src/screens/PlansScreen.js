@@ -4,7 +4,12 @@ import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { PlansContainer } from "AppContainers";
 import { InitEventHandlers, RequestProvider } from "AppProviders";
-import { getPlans, addSubscription } from "AppProxies";
+import {
+  getPlans,
+  addSubscription,
+  getSubscriptions,
+  deleteSubscription
+} from "AppProxies";
 
 type Props = {
   navigator: any
@@ -13,10 +18,25 @@ type Props = {
 type State = {};
 
 class WrappedPlansScreen extends Component<Props, State> {
-  planProxies = { getPlans, addSubscription };
+  planProxies = {
+    getPlans,
+    getSubscriptions,
+    addSubscription,
+    deleteSubscription
+  };
 
-  renderRequestProvider = ({ getPlans, addSubscription }: any) => (
-    <PlansContainer getPlans={getPlans} addSubscription={addSubscription} />
+  renderRequestProvider = ({
+    getPlans,
+    getSubscriptions,
+    addSubscription,
+    deleteSubscription
+  }: any) => (
+    <PlansContainer
+      getPlans={getPlans}
+      getSubscriptions={getSubscriptions}
+      addSubscription={addSubscription}
+      deleteSubscription={deleteSubscription}
+    />
   );
 
   render() {
