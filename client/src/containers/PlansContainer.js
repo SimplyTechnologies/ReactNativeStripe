@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import { View } from "react-native";
-import { CardsList, Loading } from "AppComponents";
+import { PlansList, Loading } from "AppComponents";
 import { ResponseStatuses } from "AppConstants";
 
 type Props = {
@@ -34,7 +34,8 @@ export class PlansContainer extends Component<Props, State> {
   }
 
   initializeGetPlansCallbacks = () => {
-    const handleOk = (plans: any) => this.setState({ plans });
+    const handleOk = (plans: any) =>
+      console.log("DATADATADAT", plans) || this.setState({ plans });
     const callbackMap = {
       [STATUS_OK]: handleOk
     };
@@ -43,6 +44,6 @@ export class PlansContainer extends Component<Props, State> {
 
   render() {
     const { plans } = this.state;
-    return plans ? <CardsList plans={plans} /> : <Loading />;
+    return plans ? <PlansList plans={plans} /> : <Loading />;
   }
 }
