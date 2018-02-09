@@ -40,7 +40,7 @@ export class CardsContainer extends Component<Props, State> {
   componentDidMount() {
     const { getCards } = this.props;
     const { getCards: getCardsCallbacks } = this.callbacks;
-    this.props.getCards()(getCardsCallbacks);
+    getCards()(getCardsCallbacks);
   }
 
   getCardIndexById = (id: string) => {

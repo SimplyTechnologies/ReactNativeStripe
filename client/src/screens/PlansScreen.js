@@ -1,8 +1,10 @@
 // @flow
 
 import React, { Component } from "react";
-import { Text } from "react-native";
-import { InitEventHandlers } from "AppProviders";
+import { View, Text } from "react-native";
+import { PlansContainer } from "AppContainers";
+import { InitEventHandlers, RequestProvider } from "AppProviders";
+import { getPlans } from "AppProxies";
 
 type Props = {
   navigator: any
@@ -11,8 +13,19 @@ type Props = {
 type State = {};
 
 class WrappedPlansScreen extends Component<Props, State> {
+  planProxies = { getPlans };
+
+  renderRequestProvider = ({ getPlans }: any) => (
+    <PlansContainer getPlans={getPlans} />
+  );
+
   render() {
-    return <Text>first</Text>;
+    return (
+      <RequestProvider
+        render={this.renderRequestProvider}
+        requestProxy={this.planProxies}
+      />
+    );
   }
 }
 

@@ -7,6 +7,10 @@ export { CardsList } from "./cards/CardsList";
 export { CardsListItem } from "./cards/CardsListItem";
 export { CardSelect } from "./cards/CardSelect";
 
+// plans
+export { PlansList } from "./plans/PlansList";
+export { PlansListItem } from "./plans/PlansListItem";
+
 // forms
 export { PaymentForm } from "./forms/PaymentForm";
 export { LoginForm } from "./forms/LoginForm";
