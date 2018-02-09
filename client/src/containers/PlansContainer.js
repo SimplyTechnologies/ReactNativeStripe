@@ -34,8 +34,7 @@ export class PlansContainer extends Component<Props, State> {
   }
 
   initializeGetPlansCallbacks = () => {
-    const handleOk = (plans: any) =>
-      console.log("DATADATADAT", plans) || this.setState({ plans });
+    const handleOk = (plans: any) => this.setState({ plans });
     const callbackMap = {
       [STATUS_OK]: handleOk
     };
