@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import { View, Text, FlatList } from "react-native";
-import { NoItems } from "AppComponents";
+import { PlansListItem, ItemSeparator, NoItems } from "AppComponents";
 
 type Props = {
   plans: any
@@ -15,7 +15,7 @@ type PlansItem = {
 };
 
 export class PlansList extends Component<Props, State> {
-  renderItem = ({ item }: PlansItem) => <Text>{item.id}</Text>;
+  renderItem = ({ item }: PlansItem) => <PlansListItem plan={item} />;
 
   keyExtractor = (item: any): string => item.id;
 
@@ -34,6 +34,7 @@ export class PlansList extends Component<Props, State> {
         data={plans}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
+        ItemSeparatorComponent={ItemSeparator}
       />
     );
   }
