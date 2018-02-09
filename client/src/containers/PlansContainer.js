@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
-import { View } from "react-native";
-import { PlansList, Loading } from "AppComponents";
+import { View, StyleSheet } from "react-native";
+import { PlansList, Filter, Loading } from "AppComponents";
 import { ResponseStatuses } from "AppConstants";
 
 type Props = {
@@ -13,7 +13,9 @@ type Props = {
 
 type State = {
   plans: any,
-  subscriptions: any
+  subscriptions: any,
+  selectedFilter: string,
+  filtersMap: Object
 };
 
 const { STATUS_OK } = ResponseStatuses;
@@ -23,9 +25,12 @@ export class PlansContainer extends Component<Props, State> {
     super(props);
     this.state = {
       plans: null,
-      subscriptions: null
+      subscriptions: null,
+      selectedFilter: "Plans",
+      filtersMap: {}
     };
     this.callbacks = {};
+    this.initializeFiltersMap();
     this.initializeGetPlansCallbacks();
     this.initializeAddSubscriptionCallbacks();
   }
@@ -62,18 +67,35 @@ export class PlansContainer extends Component<Props, State> {
     this.callbacks.addSubscription = callbackMap;
   };
 
+  initializeFiltersMap = () => {
+    this.filtersMap = {
+      Plans: () => this.setState({ selectedFilter: "Plans" }),
+      Subscriptions: () => this.setState({ selectedFilter: "Subscriptions" })
+    };
+  };
+
   render() {
     const { addSubscription } = this.props;
-    const { plans } = this.state;
+    const { plans, selectedFilter } = this.state;
     const callbacks = this.callbacks;
     return plans ? (
-      <PlansList
-        plans={plans}
-        addSubscription={addSubscription}
-        addSubscriptionCallbacks={callbacks.addSubscription}
-      />
+      <View style={styles.container}>
+        <Filter filtersMap={this.filtersMap} selectedFilter={selectedFilter} />
+        <PlansList
+          plans={plans}
+          addSubscription={addSubscription}
+          addSubscriptionCallbacks={callbacks.addSubscription}
+        />
+      </View>
     ) : (
       <Loading />
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "flex-start"
+  }
+});

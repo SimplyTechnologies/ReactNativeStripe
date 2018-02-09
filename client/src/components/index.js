@@ -27,3 +27,6 @@ export { ItemSeparator } from "./minor/ItemSeparator";
 // buttons
 export { FloatingButton } from "./buttons/FloatingButton";
 export { PaymentButton } from "./buttons/PaymentButton";
+
+// reusable
+export { Filter } from "./Filter";

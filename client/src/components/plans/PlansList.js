@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, StyleSheet } from "react-native";
 import { PlansListItem, ItemSeparator, NoItems } from "AppComponents";
 
 type Props = {
@@ -35,15 +35,25 @@ export class PlansList extends Component<Props, State> {
   render() {
     const { plans } = this.props;
     const empty = this.isEmpty();
-    return empty ? (
-      <NoItems itemName="plans" />
-    ) : (
-      <FlatList
-        data={plans}
-        keyExtractor={this.keyExtractor}
-        renderItem={this.renderItem}
-        ItemSeparatorComponent={ItemSeparator}
-      />
+    return (
+      <View style={styles.container}>
+        {empty ? (
+          <NoItems itemName="plans" />
+        ) : (
+          <FlatList
+            data={plans}
+            keyExtractor={this.keyExtractor}
+            renderItem={this.renderItem}
+            ItemSeparatorComponent={ItemSeparator}
+          />
+        )}
+      </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 11
+  }
+});
