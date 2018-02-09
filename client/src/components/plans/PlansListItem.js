@@ -13,10 +13,10 @@ const getPlanAmount = (interval: string, count: number): string =>
   `${count} ${interval}`;
 
 const getSubscribeButtonPressedHandler = (
-  plan,
+  planId,
   addSubscription,
   addSubscriptionCallbacks
-) => () => addSubscription(addSubscription)(addSubscriptionCallbacks);
+) => () => addSubscription(planId)(addSubscriptionCallbacks);
 
 export const PlansListItem = ({
   plan,
@@ -31,7 +31,7 @@ export const PlansListItem = ({
     <TouchableOpacity
       style={styles.subscribeButton}
       onPress={getSubscribeButtonPressedHandler(
-        plan,
+        plan.id,
         addSubscription,
         addSubscriptionCallbacks
       )}

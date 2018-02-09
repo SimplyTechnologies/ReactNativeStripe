@@ -36,6 +36,7 @@ export const addSubscription = (req, res, next) => {
   if (!plan) {
     return res.status(400).json({ message: SUBSCRIPTION_PLAN_REQUIRED });
   }
+  console.log("PLAN", plan);
   stripeHelper
     .addSubscription(customerId, plan)
     .then(subscription => {

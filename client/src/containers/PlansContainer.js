@@ -23,6 +23,7 @@ export class PlansContainer extends Component<Props, State> {
     };
     this.callbacks = {};
     this.initializeGetPlansCallbacks();
+    this.initializeAddSubscriptionCallbacks();
   }
   state = {
     plans: null

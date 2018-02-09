@@ -13,8 +13,8 @@ export const getPlans = () => makeRequest(`${PLANS_PROXY_URI}/plans`);
 
 export const getSubscriptions = () => makeRequest(`${PLANS_PROXY_URI}/`);
 
-export const addSubscription = (plan: Plan) =>
-  makeRequest(`${PLANS_PROXY_URI}/plans`, POST, EMPTY_OBJECT, { plan });
+export const addSubscription = (plan: string) =>
+  makeRequest(`${PLANS_PROXY_URI}/`, POST, EMPTY_OBJECT, { plan });
 
 export const deleteSubscription = (id: string) =>
   makeRequest(`${PLANS_PROXY_URI}/${id}`, DELETE);
