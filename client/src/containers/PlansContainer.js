@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
-import { PlansList, Filter, Loading } from "AppComponents";
+import { PlansList, SubscriptionsList, Filter, Loading } from "AppComponents";
 import { ResponseStatuses } from "AppConstants";
 
 type Props = {
@@ -74,21 +74,48 @@ export class PlansContainer extends Component<Props, State> {
     };
   };
 
-  render() {
+  renderList = () => {
+    const { selectedFilter } = this.state;
+    if (selectedFilter === "Plans") {
+      return this.renderPlansList();
+    }
+    if (selectedFilter === "Subscriptions") {
+      return this.renderSubscriptionsList();
+    }
+    return null;
+  };
+
+  renderPlansList = () => {
     const { addSubscription } = this.props;
-    const { plans, selectedFilter } = this.state;
+    const { plans } = this.state;
     const callbacks = this.callbacks;
     return plans ? (
-      <View style={styles.container}>
-        <Filter filtersMap={this.filtersMap} selectedFilter={selectedFilter} />
-        <PlansList
-          plans={plans}
-          addSubscription={addSubscription}
-          addSubscriptionCallbacks={callbacks.addSubscription}
-        />
-      </View>
+      <PlansList
+        plans={plans}
+        addSubscription={addSubscription}
+        addSubscriptionCallbacks={callbacks.addSubscription}
+      />
     ) : (
       <Loading />
+    );
+  };
+
+  renderSubscriptionsList = () => {
+    const { subscriptions } = this.state;
+    return subscriptions ? (
+      <SubscriptionsList subscriptions={subscriptions} />
+    ) : (
+      <Loading />
+    );
+  };
+
+  render() {
+    const { selectedFilter } = this.state;
+    return (
+      <View style={styles.container}>
+        <Filter filtersMap={this.filtersMap} selectedFilter={selectedFilter} />
+        {this.renderList()}
+      </View>
     );
   }
 }

@@ -9,7 +9,9 @@ export { CardSelect } from "./cards/CardSelect";
 
 // plans
 export { PlansList } from "./plans/PlansList";
+export { SubscriptionsList } from "./plans/SubscriptionsList";
 export { PlansListItem } from "./plans/PlansListItem";
+export { SubscriptionsListItem } from "./plans/SubscriptionsListItem";
 
 // forms
 export { PaymentForm } from "./forms/PaymentForm";
