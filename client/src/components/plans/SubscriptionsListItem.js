@@ -3,19 +3,38 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 type Props = {
-  subscription: any
+  subscription: any,
+  deleteSubscription: Function,
+  deleteSubscriptionCallbacks: Object
 };
 
 const getPlanAmount = (interval: string, count: number): string =>
   `${count} ${interval}`;
 
-export const SubscriptionsListItem = ({ subscription: { plan } }: Props) => (
+const getUnsubscribeButtonPressedHandler = (
+  subscriptionId,
+  deleteSubscription,
+  deleteSubscriptionCallbacks
+) => () => deleteSubscription(subscriptionId)(deleteSubscriptionCallbacks);
+
+export const SubscriptionsListItem = ({
+  subscription: { id, plan },
+  deleteSubscription,
+  deleteSubscriptionCallbacks
+}: Props) => (
   <View style={styles.container}>
     <Text style={styles.planName}>{plan.name}</Text>
     <Text style={styles.planAmount}>
       {getPlanAmount(plan.interval, plan.interval_count)}
     </Text>
-    <TouchableOpacity style={styles.unsubscribeButton} onPress={() => {}}>
+    <TouchableOpacity
+      style={styles.unsubscribeButton}
+      onPress={getUnsubscribeButtonPressedHandler(
+        id,
+        deleteSubscription,
+        deleteSubscriptionCallbacks
+      )}
+    >
       <Text style={styles.unsubscribeButtonText}>Unsubscribe</Text>
     </TouchableOpacity>
   </View>

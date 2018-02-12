@@ -68,6 +68,12 @@ export class PlansContainer extends Component<Props, State> {
     this.callbacks.addSubscription = callbackMap;
   };
 
+  initializeDeleteSubscriptionCallbacks = () => {
+    const handleOk = ({ id }: any) => this.removeSubscription(id);
+    const callbackMap = { [STATUS_OK]: handleOk };
+    this.callbacks.deleteSubscription = callbackMap;
+  };
+
   initializeFiltersMap = () => {
     this.filtersMap = {
       Plans: () => this.setState({ selectedFilter: "Plans" }),
@@ -75,9 +81,27 @@ export class PlansContainer extends Component<Props, State> {
     };
   };
 
+  getSubscriptionIndexById = (id: string) => {
+    const { subscriptions } = this.state;
+    let index = -1;
+    subscriptions.forEach((subscription, iteration) => {
+      if (id === subscription.id) {
+        index = iteration;
+      }
+    });
+    return index;
+  };
+
   addSubscription = (subscription: any) => {
     const subscriptions = [...this.state.subscriptions];
     subscriptions.push(subscription);
+    this.setState({ subscriptions });
+  };
+
+  removeSubscription = (id: string) => {
+    const subscriptions = [...this.state.subscriptions];
+    const index = this.getSubscriptionIndexById(id);
+    subscriptions.splie(index, 1);
     this.setState({ subscriptions });
   };
 
@@ -108,9 +132,14 @@ export class PlansContainer extends Component<Props, State> {
   };
 
   renderSubscriptionsList = () => {
-    const { subscriptions } = this.state;
+    const { subscriptions, deleteSubscription } = this.state;
+    const callbacks = this.callbacks;
     return subscriptions ? (
-      <SubscriptionsList subscriptions={subscriptions} />
+      <SubscriptionsList
+        subscriptions={subscriptions}
+        deleteSubscription={deleteSubscription}
+        deleteSubscriptionCallbacks={callbacks.deleteSubscription}
+      />
     ) : (
       <Loading />
     );

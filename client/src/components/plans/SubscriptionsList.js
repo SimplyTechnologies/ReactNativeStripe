@@ -4,7 +4,9 @@ import { View, FlatList, StyleSheet } from "react-native";
 import { SubscriptionsListItem, ItemSeparator, NoItems } from "AppComponents";
 
 type Props = {
-  subscriptions: any
+  subscriptions: any,
+  deleteSubscription: Function,
+  deleteSubscriptionCallbacks: Object
 };
 
 type State = {};
@@ -14,9 +16,13 @@ type SubscriptionsItem = {
   item: any
 };
 
-export class SubscriptionsList extends Component {
+export class SubscriptionsList extends Component<Props, State> {
   renderItem = ({ item }: SubscriptionsItem) => (
-    <SubscriptionsListItem subscription={item} />
+    <SubscriptionsListItem
+      subscription={item}
+      deleteSubscription={this.props.deleteSubscription}
+      deleteSubscriptionCallbacks={this.props.deleteSubscriptionCallbacks}
+    />
   );
 
   keyExtractor = (item: any) => item.id;
