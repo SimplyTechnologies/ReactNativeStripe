@@ -8,7 +8,9 @@ import {
 const getSubscribedPlanIds = (subscriptions) => {
   const subscribedPlanIds = {};
   const { data } = subscriptions;
-  data.forEach(subscription => subscribedPlanIds[subscription.plan.id] = true);
+  data.forEach(subscription => {
+    subscribedPlanIds[subscription.plan.id] = true;
+  });
   return {subscriptions: data, subscribedPlanIds};
 };
 

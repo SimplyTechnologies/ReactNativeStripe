@@ -33,8 +33,8 @@ export class PlansContainer extends Component<Props, State> {
     };
     this.callbacks = {};
     this.initializeFiltersMap();
-    this.initializeGetPlansCallbacks();
     this.initializeGetSubscriptionsCallbacks();
+    this.initializeGetPlansCallbacks();
     this.initializeAddSubscriptionCallbacks();
     this.initializeDeleteSubscriptionCallbacks();
   }
@@ -45,8 +45,8 @@ export class PlansContainer extends Component<Props, State> {
       getPlans: getPlansCallbacks,
       getSubscriptions: getSubscriptionsCallbacks
     } = this.callbacks;
-    getPlans()(getPlansCallbacks);
     getSubscriptions()(getSubscriptionsCallbacks);
+    getPlans()(getPlansCallbacks);
   }
 
   initializeGetPlansCallbacks = () => {
@@ -73,7 +73,8 @@ export class PlansContainer extends Component<Props, State> {
   };
 
   initializeDeleteSubscriptionCallbacks = () => {
-    const handleOk = ({ id }: any) => this.removeSubscription(id);
+    const handleOk = ({ id, plan }: any) =>
+      this.removeSubscription(id, plan.id);
     const callbackMap = { [STATUS_OK]: handleOk };
     this.callbacks.deleteSubscription = callbackMap;
   };
@@ -104,11 +105,13 @@ export class PlansContainer extends Component<Props, State> {
     this.setState({ subscriptions, subscribedPlanIds });
   };
 
-  removeSubscription = (id: string) => {
+  removeSubscription = (id: string, planId: string) => {
     const subscriptions = [...this.state.subscriptions];
+    const subscribedPlanIds = { ...this.state.subscribedPlanIds };
     const index = this.getSubscriptionIndexById(id);
     subscriptions.splice(index, 1);
-    this.setState({ subscriptions });
+    subscribedPlanIds[planId] = false;
+    this.setState({ subscriptions, subscribedPlanIds });
   };
 
   renderList = () => {

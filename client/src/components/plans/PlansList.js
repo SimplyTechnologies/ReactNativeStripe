@@ -18,14 +18,15 @@ type PlansItem = {
 };
 
 export class PlansList extends Component<Props, State> {
-  renderItem = ({ item }: PlansItem) => (
-    <PlansListItem
-      plan={item}
-      isSubscribed={!!this.props.subscribedPlanIds[item.id]}
-      addSubscription={this.props.addSubscription}
-      addSubscriptionCallbacks={this.props.addSubscriptionCallbacks}
-    />
-  );
+  renderItem = ({ item }: PlansItem) =>
+    console.log("ISSIIS", !!this.props.subscribedPlanIds[item.id]) || (
+      <PlansListItem
+        plan={item}
+        isSubscribed={!!this.props.subscribedPlanIds[item.id]}
+        addSubscription={this.props.addSubscription}
+        addSubscriptionCallbacks={this.props.addSubscriptionCallbacks}
+      />
+    );
 
   keyExtractor = (item: any): string => item.id;
 
@@ -35,7 +36,7 @@ export class PlansList extends Component<Props, State> {
   };
 
   render() {
-    const { plans } = this.props;
+    const { plans, subscribedPlanIds } = this.props;
     const empty = this.isEmpty();
     return (
       <View style={styles.container}>
@@ -44,6 +45,7 @@ export class PlansList extends Component<Props, State> {
         ) : (
           <FlatList
             data={plans}
+            extraData={subscribedPlanIds}
             keyExtractor={this.keyExtractor}
             renderItem={this.renderItem}
             ItemSeparatorComponent={ItemSeparator}
