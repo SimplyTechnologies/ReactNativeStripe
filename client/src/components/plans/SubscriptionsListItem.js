@@ -5,7 +5,8 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 type Props = {
   subscription: any,
   deleteSubscription: Function,
-  deleteSubscriptionCallbacks: Object
+  deleteSubscriptionCallbacks: Object,
+  showSpinner: Function
 };
 
 const getPlanAmount = (interval: string, count: number): string =>
@@ -14,13 +15,18 @@ const getPlanAmount = (interval: string, count: number): string =>
 const getUnsubscribeButtonPressedHandler = (
   subscriptionId,
   deleteSubscription,
-  deleteSubscriptionCallbacks
-) => () => deleteSubscription(subscriptionId)(deleteSubscriptionCallbacks);
+  deleteSubscriptionCallbacks,
+  showSpinner
+) => () => {
+  showSpinner();
+  deleteSubscription(subscriptionId)(deleteSubscriptionCallbacks);
+};
 
 export const SubscriptionsListItem = ({
   subscription: { id, plan },
   deleteSubscription,
-  deleteSubscriptionCallbacks
+  deleteSubscriptionCallbacks,
+  showSpinner
 }: Props) => (
   <View style={styles.container}>
     <Text style={styles.planName}>{plan.name}</Text>
@@ -32,7 +38,8 @@ export const SubscriptionsListItem = ({
       onPress={getUnsubscribeButtonPressedHandler(
         id,
         deleteSubscription,
-        deleteSubscriptionCallbacks
+        deleteSubscriptionCallbacks,
+        showSpinner
       )}
     >
       <Text style={styles.unsubscribeButtonText}>Unsubscribe</Text>

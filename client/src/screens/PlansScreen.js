@@ -3,7 +3,11 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { PlansContainer } from "AppContainers";
-import { InitEventHandlers, RequestProvider } from "AppProviders";
+import {
+  InitEventHandlers,
+  SpinnerProvider,
+  RequestProvider
+} from "AppProviders";
 import {
   getPlans,
   addSubscription,
@@ -12,7 +16,9 @@ import {
 } from "AppProxies";
 
 type Props = {
-  navigator: any
+  navigator: any,
+  showSpinner: Function,
+  hideSpinner: Function
 };
 
 type State = {};
@@ -36,6 +42,8 @@ class WrappedPlansScreen extends Component<Props, State> {
       getSubscriptions={getSubscriptions}
       addSubscription={addSubscription}
       deleteSubscription={deleteSubscription}
+      showSpinner={this.props.showSpinner}
+      hideSpinner={this.props.hideSpinner}
     />
   );
 
@@ -49,4 +57,6 @@ class WrappedPlansScreen extends Component<Props, State> {
   }
 }
 
-export const PlansScreen = InitEventHandlers(WrappedPlansScreen);
+export const PlansScreen = InitEventHandlers(
+  SpinnerProvider(WrappedPlansScreen)
+);

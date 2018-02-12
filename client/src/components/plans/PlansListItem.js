@@ -7,7 +7,8 @@ type Props = {
   plan: any,
   isSubscribed: boolean,
   addSubscription: Function,
-  addSubscriptionCallbacks: Object
+  addSubscriptionCallbacks: Object,
+  showSpinner: Function
 };
 
 const EMPTY_FUNCTION = () => {};
@@ -19,17 +20,21 @@ const getSubscribeButtonPressedHandler = (
   planId,
   isSubscribed,
   addSubscription,
-  addSubscriptionCallbacks
-) => () =>
-  isSubscribed
-    ? EMPTY_FUNCTION
-    : addSubscription(planId)(addSubscriptionCallbacks);
+  addSubscriptionCallbacks,
+  showSpinner
+) => () => {
+  if (!isSubscribed) {
+    showSpinner();
+    addSubscription(planId)(addSubscriptionCallbacks);
+  }
+};
 
 export const PlansListItem = ({
   plan,
   isSubscribed,
   addSubscription,
-  addSubscriptionCallbacks
+  addSubscriptionCallbacks,
+  showSpinner
 }: Props) => (
   <View style={styles.container}>
     <Text style={styles.planName}>{plan.name}</Text>
@@ -42,7 +47,8 @@ export const PlansListItem = ({
         plan.id,
         isSubscribed,
         addSubscription,
-        addSubscriptionCallbacks
+        addSubscriptionCallbacks,
+        showSpinner
       )}
     >
       <Text style={styles.subscribeButtonText}>

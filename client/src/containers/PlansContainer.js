@@ -8,7 +8,9 @@ type Props = {
   getPlans: Function,
   getSubscriptions: Function,
   addSubscription: Function,
-  deleteSubscription: Function
+  deleteSubscription: Function,
+  showSpinner: Function,
+  hideSpinner: Function
 };
 
 type State = {
@@ -67,14 +69,21 @@ export class PlansContainer extends Component<Props, State> {
   };
 
   initializeAddSubscriptionCallbacks = () => {
-    const handleOk = (subscription: any) => this.addSubscription(subscription);
+    const { hideSpinner } = this.props;
+    const handleOk = (subscription: any) => {
+      this.addSubscription(subscription);
+      hideSpinner();
+    };
     const callbackMap = { [STATUS_OK]: handleOk };
     this.callbacks.addSubscription = callbackMap;
   };
 
   initializeDeleteSubscriptionCallbacks = () => {
-    const handleOk = ({ id, plan }: any) =>
+    const { hideSpinner } = this.props;
+    const handleOk = ({ id, plan }: any) => {
       this.removeSubscription(id, plan.id);
+      hideSpinner();
+    };
     const callbackMap = { [STATUS_OK]: handleOk };
     this.callbacks.deleteSubscription = callbackMap;
   };
@@ -126,7 +135,7 @@ export class PlansContainer extends Component<Props, State> {
   };
 
   renderPlansList = () => {
-    const { addSubscription } = this.props;
+    const { addSubscription, showSpinner } = this.props;
     const { plans, subscribedPlanIds } = this.state;
     const callbacks = this.callbacks;
     return plans ? (
@@ -135,6 +144,7 @@ export class PlansContainer extends Component<Props, State> {
         subscribedPlanIds={subscribedPlanIds}
         addSubscription={addSubscription}
         addSubscriptionCallbacks={callbacks.addSubscription}
+        showSpinner={showSpinner}
       />
     ) : (
       <Loading />
@@ -142,7 +152,7 @@ export class PlansContainer extends Component<Props, State> {
   };
 
   renderSubscriptionsList = () => {
-    const { deleteSubscription } = this.props;
+    const { deleteSubscription, showSpinner } = this.props;
     const { subscriptions } = this.state;
     const callbacks = this.callbacks;
     return subscriptions ? (
@@ -150,6 +160,7 @@ export class PlansContainer extends Component<Props, State> {
         subscriptions={subscriptions}
         deleteSubscription={deleteSubscription}
         deleteSubscriptionCallbacks={callbacks.deleteSubscription}
+        showSpinner={showSpinner}
       />
     ) : (
       <Loading />

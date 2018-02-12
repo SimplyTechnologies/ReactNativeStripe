@@ -7,7 +7,8 @@ type Props = {
   plans: any,
   addSubscription: Function,
   addSubscriptionCallbacks: Object,
-  subscribedPlanIds: Object
+  subscribedPlanIds: Object,
+  showSpinner: Function
 };
 
 type State = {};
@@ -18,15 +19,15 @@ type PlansItem = {
 };
 
 export class PlansList extends Component<Props, State> {
-  renderItem = ({ item }: PlansItem) =>
-    console.log("ISSIIS", !!this.props.subscribedPlanIds[item.id]) || (
-      <PlansListItem
-        plan={item}
-        isSubscribed={!!this.props.subscribedPlanIds[item.id]}
-        addSubscription={this.props.addSubscription}
-        addSubscriptionCallbacks={this.props.addSubscriptionCallbacks}
-      />
-    );
+  renderItem = ({ item }: PlansItem) => (
+    <PlansListItem
+      plan={item}
+      isSubscribed={!!this.props.subscribedPlanIds[item.id]}
+      addSubscription={this.props.addSubscription}
+      addSubscriptionCallbacks={this.props.addSubscriptionCallbacks}
+      showSpinner={this.props.showSpinner}
+    />
+  );
 
   keyExtractor = (item: any): string => item.id;
 

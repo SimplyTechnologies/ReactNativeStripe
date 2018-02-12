@@ -19,7 +19,7 @@ export const SpinnerProvider = (WrappedComponent: any): any => {
     render() {
       const { visible } = this.state;
       return (
-        <View>
+        <View style={styles.container}>
           {visible ? <ActivityIndicator size="large" color="#0000ff" /> : null}
           <WrappedComponent
             showSpinner={this.show}
@@ -36,8 +36,7 @@ export const SpinnerProvider = (WrappedComponent: any): any => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center"
+    flex: 1
   },
   horizontal: {
     flexDirection: "row",

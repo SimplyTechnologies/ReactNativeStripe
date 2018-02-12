@@ -6,7 +6,8 @@ import { SubscriptionsListItem, ItemSeparator, NoItems } from "AppComponents";
 type Props = {
   subscriptions: any,
   deleteSubscription: Function,
-  deleteSubscriptionCallbacks: Object
+  deleteSubscriptionCallbacks: Object,
+  showSpinner: Function
 };
 
 type State = {};
@@ -22,6 +23,7 @@ export class SubscriptionsList extends Component<Props, State> {
       subscription={item}
       deleteSubscription={this.props.deleteSubscription}
       deleteSubscriptionCallbacks={this.props.deleteSubscriptionCallbacks}
+      showSpinner={this.props.showSpinner}
     />
   );
 
