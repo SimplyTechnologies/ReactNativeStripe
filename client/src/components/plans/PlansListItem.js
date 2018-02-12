@@ -5,21 +5,29 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 // TODO: Flowify Deeper
 type Props = {
   plan: any,
+  isSubscribed: boolean,
   addSubscription: Function,
   addSubscriptionCallbacks: Object
 };
+
+const EMPTY_FUNCTION = () => {};
 
 const getPlanAmount = (interval: string, count: number): string =>
   `${count} ${interval}`;
 
 const getSubscribeButtonPressedHandler = (
   planId,
+  isSubscribed,
   addSubscription,
   addSubscriptionCallbacks
-) => () => addSubscription(planId)(addSubscriptionCallbacks);
+) => () =>
+  isSubscribed
+    ? EMPTY_FUNCTION
+    : addSubscription(planId)(addSubscriptionCallbacks);
 
 export const PlansListItem = ({
   plan,
+  isSubscribed,
   addSubscription,
   addSubscriptionCallbacks
 }: Props) => (
@@ -32,11 +40,14 @@ export const PlansListItem = ({
       style={styles.subscribeButton}
       onPress={getSubscribeButtonPressedHandler(
         plan.id,
+        isSubscribed,
         addSubscription,
         addSubscriptionCallbacks
       )}
     >
-      <Text style={styles.subscribeButtonText}>Subscribe</Text>
+      <Text style={styles.subscribeButtonText}>
+        {isSubscribed ? "✓ Subscribed" : "Subscribe"}
+      </Text>
     </TouchableOpacity>
   </View>
 );

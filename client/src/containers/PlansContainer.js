@@ -15,6 +15,7 @@ type State = {
   plans: any,
   subscriptions: any,
   selectedFilter: string,
+  subscribedPlanIds: Object,
   filtersMap: Object
 };
 
@@ -27,7 +28,8 @@ export class PlansContainer extends Component<Props, State> {
       plans: null,
       subscriptions: null,
       selectedFilter: "Plans",
-      filtersMap: {}
+      filtersMap: {},
+      subscribedPlanIds: {}
     };
     this.callbacks = {};
     this.initializeFiltersMap();
@@ -56,7 +58,8 @@ export class PlansContainer extends Component<Props, State> {
   };
 
   initializeGetSubscriptionsCallbacks = () => {
-    const handleOk = (subscriptions: any) => this.setState({ subscriptions });
+    const handleOk = ({ subscriptions, subscribedPlanIds }: any) =>
+      this.setState({ subscriptions, subscribedPlanIds });
     const callbackMap = {
       [STATUS_OK]: handleOk
     };
@@ -95,8 +98,10 @@ export class PlansContainer extends Component<Props, State> {
 
   addSubscription = (subscription: any) => {
     const subscriptions = [...this.state.subscriptions];
+    const subscribedPlanIds = { ...this.state.subscribedPlanIds };
     subscriptions.push(subscription);
-    this.setState({ subscriptions });
+    subscribedPlanIds[subscription.plan.id] = true;
+    this.setState({ subscriptions, subscribedPlanIds });
   };
 
   removeSubscription = (id: string) => {
@@ -119,11 +124,12 @@ export class PlansContainer extends Component<Props, State> {
 
   renderPlansList = () => {
     const { addSubscription } = this.props;
-    const { plans } = this.state;
+    const { plans, subscribedPlanIds } = this.state;
     const callbacks = this.callbacks;
     return plans ? (
       <PlansList
         plans={plans}
+        subscribedPlanIds={subscribedPlanIds}
         addSubscription={addSubscription}
         addSubscriptionCallbacks={callbacks.addSubscription}
       />

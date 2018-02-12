@@ -6,7 +6,8 @@ import { PlansListItem, ItemSeparator, NoItems } from "AppComponents";
 type Props = {
   plans: any,
   addSubscription: Function,
-  addSubscriptionCallbacks: Object
+  addSubscriptionCallbacks: Object,
+  subscribedPlanIds: Object
 };
 
 type State = {};
@@ -19,9 +20,10 @@ type PlansItem = {
 export class PlansList extends Component<Props, State> {
   renderItem = ({ item }: PlansItem) => (
     <PlansListItem
+      plan={item}
+      isSubscribed={!!this.props.subscribedPlanIds[item.id]}
       addSubscription={this.props.addSubscription}
       addSubscriptionCallbacks={this.props.addSubscriptionCallbacks}
-      plan={item}
     />
   );
 
