@@ -34,6 +34,7 @@ export class PlansContainer extends Component<Props, State> {
     this.initializeGetPlansCallbacks();
     this.initializeGetSubscriptionsCallbacks();
     this.initializeAddSubscriptionCallbacks();
+    this.initializeDeleteSubscriptionCallbacks();
   }
 
   componentDidMount() {
@@ -101,7 +102,7 @@ export class PlansContainer extends Component<Props, State> {
   removeSubscription = (id: string) => {
     const subscriptions = [...this.state.subscriptions];
     const index = this.getSubscriptionIndexById(id);
-    subscriptions.splie(index, 1);
+    subscriptions.splice(index, 1);
     this.setState({ subscriptions });
   };
 
@@ -132,7 +133,8 @@ export class PlansContainer extends Component<Props, State> {
   };
 
   renderSubscriptionsList = () => {
-    const { subscriptions, deleteSubscription } = this.state;
+    const { deleteSubscription } = this.props;
+    const { subscriptions } = this.state;
     const callbacks = this.callbacks;
     return subscriptions ? (
       <SubscriptionsList
