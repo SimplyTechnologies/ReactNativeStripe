@@ -22,7 +22,7 @@ export class SubscriptionsList extends Component {
   keyExtractor = (item: any) => item.id;
 
   isEmpty = () => {
-    const { subscriptions } = this.state;
+    const { subscriptions } = this.props;
     return subscriptions && subscriptions.length === 0;
   };
 

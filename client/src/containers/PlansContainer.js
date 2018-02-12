@@ -32,6 +32,7 @@ export class PlansContainer extends Component<Props, State> {
     this.callbacks = {};
     this.initializeFiltersMap();
     this.initializeGetPlansCallbacks();
+    this.initializeGetSubscriptionsCallbacks();
     this.initializeAddSubscriptionCallbacks();
   }
 
@@ -62,7 +63,7 @@ export class PlansContainer extends Component<Props, State> {
   };
 
   initializeAddSubscriptionCallbacks = () => {
-    const handleOk = (data: any) => console.log("SUBSCRIPTION ADDED", data);
+    const handleOk = (subscription: any) => this.addSubscription(subscription);
     const callbackMap = { [STATUS_OK]: handleOk };
     this.callbacks.addSubscription = callbackMap;
   };
@@ -72,6 +73,12 @@ export class PlansContainer extends Component<Props, State> {
       Plans: () => this.setState({ selectedFilter: "Plans" }),
       Subscriptions: () => this.setState({ selectedFilter: "Subscriptions" })
     };
+  };
+
+  addSubscription = (subscription: any) => {
+    const subscriptions = [...this.state.subscriptions];
+    subscriptions.push(subscription);
+    this.setState({ subscriptions });
   };
 
   renderList = () => {
