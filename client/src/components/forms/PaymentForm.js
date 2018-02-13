@@ -57,7 +57,7 @@ export class PaymentForm extends Component<Props, State> {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 1,
     alignItems: "center"
   },
   title: {

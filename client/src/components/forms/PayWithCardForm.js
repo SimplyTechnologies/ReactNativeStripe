@@ -48,7 +48,7 @@ export class PayWithCardForm extends Component<Props, State> {
     const { label } = this.state;
     return cards ? (
       <View style={styles.container}>
-        <Text style={styles.title}>Pay wtih selected card</Text>
+        <Text style={styles.title}>Pay with selected card</Text>
         <CardSelect
           cards={cards}
           onSelect={this.onSelect}
@@ -65,7 +65,7 @@ export class PayWithCardForm extends Component<Props, State> {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 1,
     alignItems: "center"
   },
   title: {
