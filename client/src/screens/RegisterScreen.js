@@ -43,6 +43,7 @@ export class RegisterScreen extends Component<Props> {
   ): Element<typeof RegisterForm> => (
     <RegisterForm
       handleSubmit={handleRequest}
+      callbackMap={this.callbackMap}
       ref={(form: ElementRef<typeof RegisterForm>): void => (this._form = form)}
     />
   );
@@ -51,7 +52,6 @@ export class RegisterScreen extends Component<Props> {
     return (
       <RequestProvider
         requestProxy={userRegister}
-        callbackMap={this.callbackMap}
         render={this.renderRequestProvider}
       />
     );

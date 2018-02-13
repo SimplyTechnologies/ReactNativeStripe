@@ -4,6 +4,7 @@ import android.app.Application;
 import android.support.annotation.Nullable;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.gettipsi.stripe.StripeReactPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -22,7 +23,7 @@ public class MainApplication extends NavigationApplication {
   }
 
   protected List<ReactPackage> getPackages() {
-    return Arrays.<ReactPackage>asList(new StripeReactPackage());
+    return Arrays.<ReactPackage>asList(new StripeReactPackage(), new VectorIconsPackage());
   }
 
   @Override

@@ -11,7 +11,7 @@ export function init(api) {
 
   router.put("/:id", requiresToBeLoggedIn, cardsHandler.updateCard);
 
-  router.put("/default/:id", cardsHandler.changeDefaultCard);
+  router.put("/default/:id", requiresToBeLoggedIn, cardsHandler.changeDefaultCard);
 
   router.delete("/:id", requiresToBeLoggedIn, cardsHandler.deleteCard);
 

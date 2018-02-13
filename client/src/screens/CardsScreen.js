@@ -1,68 +1,87 @@
 // @flow
 import React, { Component } from "react";
 import type { Element } from "react";
-import { InitEventHandlers, RequestProvider } from "AppProviders";
-import { getCards } from "AppProxies";
-import { CardsList } from "AppComponents";
-import { ResponseStatuses } from "AppConstants";
-import type { Card } from "../types";
+import { View, Dimensions, StyleSheet } from "react-native";
+import { FloatingButton } from "AppComponents";
+import { CardsContainer } from "AppContainers";
+import {
+  InitEventHandlers,
+  ModalProvider,
+  RequestProvider,
+  SpinnerProvider
+} from "AppProviders";
+import { getCards, deleteCard } from "AppProxies";
+import { ModalTypes } from "AppConstants";
+import type { Card } from "AppTypes";
 
-const { STATUS_OK } = ResponseStatuses;
+const { ADD_CARD } = ModalTypes;
+
+// calculate container height for displaying FloatButton on the bottom
+// TODO: make the calculation more precise
+const { height } = Dimensions.get("window");
+const containerHeight = height - height * 0.2;
 
 type Props = {
-  navigator: any
+  navigator: any,
+  openModal: Function,
+  showSpinner: Function,
+  hideSpinner: Function
 };
 
 type State = {
-  cards: Array<Card>,
-  loading: boolean
+  newCard: any
 };
 
 class WrappedCardsScreen extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      loading: true,
-      cards: []
-    };
-    this.initializeCallbacks(this);
-  }
-  callbackMap: Object;
-  initializeCallbacks = (context: any) => {
-    const handleOk = (data: Array<Card>) => {
-      context.setState({ cards: data, loading: false });
-    };
-    this.callbackMap = {
-      [STATUS_OK]: handleOk
-    };
+  state = {
+    newCard: null
   };
 
-  removeDeletedCard = ({ deletedCardId }: { deletedCardId: string }) => {
-    this.setState(({ cards }: State): { cards: Card[] } => ({
-      cards: cards.filter((card: Card): boolean => card.id !== deletedCardId)
-    }));
+  cardProxies = { getCards, deleteCard };
+
+  removeDeletedCard = () => {};
+
+  setNewCard = (newCard: Card) => this.setState({ newCard });
+
+  removeNewCard = () => this.setState({ newCard: null });
+
+  openAddCardModal = () => {
+    const { openModal } = this.props;
+    const setNewCard = this.setNewCard;
+    openModal(ADD_CARD, { setNewCard });
   };
 
-  renderRequestProvider = (
-    handleRequest: Function
-  ): Element<typeof CardsList> => (
-    <CardsList
-      removeDeletedCard={this.removeDeletedCard}
-      getCards={handleRequest}
-      cards={this.state.cards}
-      loading={this.state.loading}
+  renderRequestProvider = ({ getCards, deleteCard }: any) => (
+    <CardsContainer
+      newCard={this.state.newCard}
+      removeNewCard={this.removeNewCard}
+      getCards={getCards}
+      deleteCard={deleteCard}
+      showSpinner={this.props.showSpinner}
+      hideSpinner={this.props.hideSpinner}
     />
   );
 
   render() {
     return (
-      <RequestProvider
-        render={this.renderRequestProvider}
-        requestProxy={getCards}
-        callbackMap={this.callbackMap}
-      />
+      <View style={styles.container}>
+        <RequestProvider
+          render={this.renderRequestProvider}
+          requestProxy={this.cardProxies}
+        />
+        <FloatingButton
+          itemTitle="Add Card"
+          handleButtonPress={this.openAddCardModal}
+        />
+      </View>
     );
   }
 }
 
-export const CardsScreen = InitEventHandlers(WrappedCardsScreen);
+const styles = StyleSheet.create({
+  container: { height: containerHeight }
+});
+
+export const CardsScreen = InitEventHandlers(
+  ModalProvider(SpinnerProvider(WrappedCardsScreen))
+);

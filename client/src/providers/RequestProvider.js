@@ -6,23 +6,23 @@ import type { CallbackMap } from "AppTypes";
 
 type Props = {
   render: Function,
-  requestProxy: Function | Map<Function, Object>,
-  callbackMap: Object
+  requestProxy: Function | Map<Function, Object>
 };
 
 export class RequestProvider extends Component<Props> {
   getRequestHandler = (): Function | void => {
     const { requestProxy } = this.props;
-    if (requestProxy instanceof Map) {
-      return this.handleMapProxy;
+    const proxyType = typeof requestProxy;
+    if (proxyType === "object") {
+      return this.handleMapProxy();
     }
-    if (requestProxy instanceof Function) {
+    if (proxyType === "function") {
       return this.handleFunctionProxy;
     }
   };
 
-  generateRequestHandler = (proxy: any, callbacks: any): Function => (
-    ...data: any
+  generateRequestHandler = (proxy: any): Function => (...data: any) => (
+    callbacks: any
   ) => {
     const { requestHandler } = fetchUtils;
     const request = proxy(...data);
@@ -30,20 +30,20 @@ export class RequestProvider extends Component<Props> {
   };
 
   handleMapProxy = (): any => {
-    const { requestProxy } = this.props;
+    const { requestProxy } = this.props; // this is a REFERENCE type
+    const keys = Object.keys(requestProxy);
     const handlersMap = {};
-    for (const [proxy, callbacks] of requestProxy) {
-      const proxyName = proxy.name;
-      handlersMap[proxyName] = this.generateRequestHandler(proxy, callbacks);
-    }
+    keys.forEach(
+      (key: string) =>
+        (handlersMap[key] = this.generateRequestHandler(requestProxy[key]))
+    );
     return handlersMap;
   };
 
-  handleFunctionProxy = (...data: any) => {
-    const { requestProxy, callbackMap } = this.props;
-    const { requestHandler } = fetchUtils;
-    const request = requestProxy(...data);
-    requestHandler(request, callbackMap);
+  handleFunctionProxy = (...data: any) => (callbackMap: any) => {
+    const { requestProxy } = this.props;
+    const requestHandler = this.generateRequestHandler(requestProxy);
+    requestHandler(...data)(callbackMap);
   };
 
   render() {

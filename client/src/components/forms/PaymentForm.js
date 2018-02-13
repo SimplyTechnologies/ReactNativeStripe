@@ -5,9 +5,9 @@ import Stripe, { PaymentCardTextField } from "tipsi-stripe";
 import { PaymentButton } from "AppButtons";
 
 type Props = {
-  handleSubmit: Function,
   message: string,
-  payButtonPressedHandler: Function
+  payWithToken: Function,
+  callbackMap: Object
 };
 
 type State = {
@@ -35,8 +35,8 @@ export class PaymentForm extends Component<Props, State> {
   };
 
   tokenReceiveHandler = ({ tokenId }: Object) => {
-    const { payButtonPressedHandler } = this.props;
-    payButtonPressedHandler(tokenId);
+    const { payWithToken, callbackMap } = this.props;
+    payWithToken(tokenId)(callbackMap);
   };
 
   render() {
@@ -57,7 +57,7 @@ export class PaymentForm extends Component<Props, State> {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 1,
     alignItems: "center"
   },
   title: {
