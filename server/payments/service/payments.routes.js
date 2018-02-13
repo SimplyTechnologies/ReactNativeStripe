@@ -1,20 +1,27 @@
 import { Router } from "express";
 import * as paymentsHandler from "./payments.handler";
+import { requiresToBeLoggedIn } from "../middleware/auth";
 
 export function init(api) {
   const router = Router();
 
-  router.post("/pay-with-card", paymentsHandler.payWithCard);
+  router.post(
+    "/payWithToken",
+    requiresToBeLoggedIn,
+    paymentsHandler.payWithToken
+  );
 
-  router.post("/cards", paymentsHandler.addCard);
+  router.post(
+    "/payWithCard",
+    requiresToBeLoggedIn,
+    paymentsHandler.payWithCard
+  );
 
-  router.get("/cards", paymentsHandler.getCards);
-
-  router.delete("/cards/:id", paymentsHandler.deleteCard);
-
-  router.put("/cards/:id", paymentsHandler.updateCard);
-
-  router.put("/cards/default/:id", paymentsHandler.changeDefaultCard);
+  router.post(
+    "/payWithDefaultCard",
+    requiresToBeLoggedIn,
+    paymentsHandler.payWithDefaultCard
+  );
 
   api.use("/payments", router);
 }

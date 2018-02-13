@@ -1,6 +1,13 @@
+// @flow
+import { Platform, AsyncStorage } from "react-native";
 import { ResponseStatuses } from "AppConstants";
+import config from "../../config";
 
-const BASE_URL = "https://localhost:3000";
+const { OS } = Platform;
+const { IP_ADDRESS } = config;
+const BASE_URL =
+  OS === "ios" ? "http://localhost:3000" : `http://${IP_ADDRESS}:3000`;
+
 const { STATUS_OK } = ResponseStatuses;
 
 /**
@@ -10,26 +17,27 @@ const { STATUS_OK } = ResponseStatuses;
 /**
  * Checking response status
  * */
-const checkStatus = (response) => {
-  const { status } = response;
-  if ((status >= 200 && status < 300) || (status >= 400 && status < 500)) {
+
+const checkStatus = (response: any): any => {
+  const { status }: { status: number } = response;
+  if (status >= 200 && status < 305) {
     return response;
   }
 
-  const error = new Error(response.statusText);
+  const error = new Error(response.status);
   error.response = response;
   throw error;
 };
 
-const defaultFailCallback = function (error) {
+const defaultFailCallback = (error: any) => {
   console.log("something went wrong", error);
 };
 
 /**
  * parsing response json
  * */
-const parseJSON = response =>
-  response.json().then(data => ({
+const parseJSON = (response: any): Promise<*> =>
+  response.json().then((data: any): { data: any, status: number } => ({
     data,
     status: response.status
   }));
@@ -37,61 +45,83 @@ const parseJSON = response =>
 /**
  * parsing object to query string
  * */
-const objectToQueryString = queryObject => Object.keys(queryObject)
-  .map(key =>
-    `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`)
-  .join("&");
+const objectToQueryString = (queryObject: Object): string =>
+  Object.keys(queryObject)
+    .map(
+      (key: string): string =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`
+    )
+    .join("&");
 
 /**
  * making api request
  * */
-const makeRequest = (url, method = "GET", query = {}, body = {}) => {
+
+type FetchParams = {
+  method: string,
+  credentials: string,
+  headers?: Object,
+  body?: string
+};
+
+const fetchRequest = (
+  url: string,
+  method: string,
+  query: Object,
+  body: Object,
+  token: string | null
+): Promise<*> => {
   const queryString = objectToQueryString(query)
     ? `?${objectToQueryString(query)}`
     : "";
   const fetchUrl = `${BASE_URL}${url}${queryString}`;
-  const fetchParams = { method, credentials: "include" };
-
+  const fetchParams: FetchParams = { method, credentials: "include" };
+  const authToken = token || "";
+  fetchParams.headers = {
+    Authorization: `Bearer ${authToken}`
+  };
   if (method === "POST") {
     fetchParams.body = JSON.stringify(body);
     fetchParams.headers = {
+      ...fetchParams.headers,
       "Content-Type": "application/json",
       Accept: "application/json"
     };
   }
-
-  return fetch(fetchUrl, fetchParams)
-    .then(checkStatus)
-    .then(parseJSON)
-    .catch((error) => {
-      console.error("request failed - ", error);
-    });
+  return fetch(fetchUrl, fetchParams);
 };
 
+const makeRequest = (
+  url: string,
+  method: string = "GET",
+  query: Object = {},
+  body: Object = {}
+): Promise<*> =>
+  AsyncStorage.getItem("token")
+    .then(fetchRequest.bind(null, url, method, query, body))
+    .then(parseJSON)
+    .then(checkStatus);
 /**
  * Global request handler methods,
  * @param {Promise} request Promise
  * @param {Object}  callbackMap 'map with status keys and appropriate callback values'
  * @param {Function} failCallBack 'callback for handling request fail status'
  * */
-const requestHandler = (
-  request,
-  callbackMap,
-  failCallBack = defaultFailCallback
-) => {
+const requestHandler = (request: Request, callbackMap: any) => {
   request
-    .then(({ data, status }) => {
-      if (status >= 200 && status < 305) {
-        callbackMap[STATUS_OK](data);
-      } else {
-        Object.keys(callbackMap).forEach((item) => {
-          if (+item === status) {
-            callbackMap[item](data);
-          }
-        });
-      }
+    .then(({ data }: { data: any }) => {
+      callbackMap[STATUS_OK](data);
     })
-    .catch(failCallBack);
+    .catch(({ response: { data, status } }: any) => {
+      let failCallBack = defaultFailCallback;
+      Object.keys(callbackMap).some((item: number): any => {
+        if (+item === status) {
+          failCallBack = callbackMap[item];
+          return true;
+        }
+      });
+      failCallBack(data);
+    });
 };
 
 export const fetchUtils = {

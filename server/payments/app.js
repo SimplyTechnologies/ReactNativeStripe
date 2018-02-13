@@ -1,13 +1,11 @@
 import http from "http";
-import { init } from "./lib/mongoose";
+import { initMongoose } from "./lib/mongoose";
 import app from "./lib/express";
 
-init();
+initMongoose();
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3003;
 
-http
-  .createServer(app)
-  .listen(PORT, () => {
-    console.log("Payments Service Started on Port %d", PORT);
-  });
+http.createServer(app).listen(PORT, () => {
+  console.log("Payments Service Started on Port %d", PORT);
+});

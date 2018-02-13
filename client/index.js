@@ -1,4 +1,3 @@
-import { AppRegistry } from 'react-native';
-import App from './App';
+import { startApp } from "AppNavigation";
 
-AppRegistry.registerComponent('stripeProject', () => App);
+startApp();

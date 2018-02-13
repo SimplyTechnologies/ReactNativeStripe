@@ -1,6 +1,6 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-export const payWithCard = (tokenId, amount) => {
+export const paywithToken = (tokenId, amount) => {
   return new Promise((resolve, reject) => {
     stripe.charges.create(
       {
@@ -16,61 +16,34 @@ export const payWithCard = (tokenId, amount) => {
   });
 };
 
-export const createCustomer = (tokenId, username) => {
+export const payWithCustomerId = (customerId, amount) => {
   return new Promise((resolve, reject) => {
-    stripe.customers.create(
+    stripe.charges.create(
       {
-        description: `Customer for ${username}`,
-        source: tokenId // obtained with Stripe.js
+        amount: amount * 100,
+        currency: "usd",
+        customer: customerId
       },
-      (err, customer) => {
+      (err, charge) => {
         if (err) reject(err);
-        if (customer) resolve(customer);
+        if (charge) resolve(charge);
       }
     );
   });
 };
 
-export const retrieveCustomer = customerId => {
+export const payWithSourceId = (customerId, sourceId, amount) => {
   return new Promise((resolve, reject) => {
-    stripe.customers.retrieve(customerId, (err, customer) => {
-      if (err) reject(err);
-      if (customer) resolve(customer);
-    });
-  });
-};
-
-export const createCustomerSource = (customerId, tokenId) => {
-  return new Promise((resolve, reject) => {
-    stripe.customers.createSource(
-      customerId,
-      { source: tokenId },
-      (err, card) => {
-        if (err) reject(err);
-        if (card) resolve(card);
-      }
-    );
-  });
-};
-
-export const deleteCustomerSource = (customerId, cardId) => {
-  return new Promise((resolve, reject) => {
-    stripe.customers.deleteCard(customerId, cardId, (err, confirmation) => {
-      if (err) reject(err);
-      if (confirmation) resolve(confirmation);
-    });
-  });
-};
-export const updateDefaultSource = (customerId, cardId) => {
-  return new Promise((resolve, reject) => {
-    stripe.customers.update(
-      customerId,
+    stripe.charges.create(
       {
-        default_source: cardId
+        amount: amount * 100,
+        currency: "usd",
+        customer: customerId,
+        source: sourceId
       },
-      (err, customer) => {
+      (err, charge) => {
         if (err) reject(err);
-        if (customer) resolve(customer);
+        if (charge) resolve(charge);
       }
     );
   });

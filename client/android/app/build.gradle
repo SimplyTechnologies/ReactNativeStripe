@@ -138,8 +138,10 @@ android {
 
 dependencies {
     compile project(':tipsi-stripe')
+    compile project(':react-native-navigation')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:26.0.1"
+    compile project(':react-native-vector-icons')
     compile "com.facebook.react:react-native:+"  // From node_modules
 }
 

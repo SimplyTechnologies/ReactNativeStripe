@@ -22,6 +22,9 @@
 ; Ignore local-cli
 .*/node_modules/local-cli/.*
 
+; Ignore node modules
+.*/node_modules/.*
+
 [include]
 
 [libs]
@@ -54,6 +57,13 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
 unsafe.enable_getters_and_setters=true
+
+esproposal.decorators=ignore
+
+module.name_mapper='\(react-native\)' -> '<PROJECT_ROOT>/modulesStub.js'
+
+module.name_mapper.extension='png' -> '<PROJECT_ROOT>/ImageSourceStub.js.flow'
+
 
 [version]
 ^0.61.0
