@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { View } from "react-native";
 import { CardsList, Loading } from "AppComponents";
 import { ResponseStatuses } from "AppConstants";
+import { Toast } from "AppNativeModules";
 import type { Card } from "AppTypes";
 
 type Props = {
@@ -38,6 +39,7 @@ export class CardsContainer extends Component<Props, State> {
   }
 
   componentDidMount() {
+    Toast.show("IMA TOSAA", Toast.SHORT);
     const { getCards } = this.props;
     const { getCards: getCardsCallbacks } = this.callbacks;
     getCards()(getCardsCallbacks);

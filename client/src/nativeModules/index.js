@@ -4,6 +4,4 @@
 
 import { NativeModules } from "react-native";
 
-const { ToastPackage: Toast } = NativeModules;
-
-export Toast;
+export const Toast = NativeModules.Toast;

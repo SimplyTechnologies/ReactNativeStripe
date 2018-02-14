@@ -33,7 +33,7 @@ public class ToastModule extends ReactContextBaseJavaModule {
         return constants;
     }
 
-    @ReactMethods
+    @ReactMethod
     public void show(String message, int duration) {
         Toast.makeText(getReactApplicationContext(), message, duration).show();
     }
