@@ -11,7 +11,9 @@ type Props = {
   getCards: Function,
   deleteCard: Function,
   showSpinner: Function,
-  hideSpinner: Function
+  hideSpinner: Function,
+  showToast: Function,
+  hideToast: Function
 };
 
 type State = {
@@ -75,10 +77,11 @@ export class CardsContainer extends Component<Props, State> {
   };
 
   initializeDeleteCardCallbacks = () => {
-    const { hideSpinner } = this.props;
+    const { hideSpinner, showToast } = this.props;
     const handleOk = ({ deletedCardId }) => {
       this.removeCard(deletedCardId);
       hideSpinner();
+      showToast("Card successfuly deleted.");
     };
     const callbackMap = {
       [STATUS_OK]: handleOk

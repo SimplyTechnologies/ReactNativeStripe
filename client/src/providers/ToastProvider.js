@@ -8,34 +8,43 @@ type Props = {
 };
 
 type State = {
-  isVisible: boolean
+  isVisible: boolean,
+  message: string
 };
 
 export class ToastProvider extends Component<Props, State> {
   state = {
-    isVisible: false
+    isVisible: false,
+    message: ""
   };
-  TOAST_POSITION = 50;
+  TOAST_POSITION = Toast.positions.bottom;
   TOAST_SHADOW = false;
   TOAST_ANIMATION = true;
   TOAST_HIDE_ON_PRESS = true;
 
-  show = () => this.setState({ isVisible: true });
+  show = (message: string) =>
+    this.setState({ isVisible: true, message }, this.showCallback);
 
-  hide = () => this.setState({ isVisible: false });
+  hide = () => this.setState({ isVisible: false, message: "" });
+
+  showCallback = () => setTimeout(() => this.hide(), 5000);
 
   render() {
     const { children } = this.props;
+    const { isVisible, message } = this.state;
     const showToast = this.show;
     const hideToast = this.hide;
     return (
       <View>
         <Toast
+          visible={isVisible}
           position={this.TOAST_POSITION}
           shadow={this.TOAST_SHADOW}
           animation={this.TOAST_ANIMATION}
           hideOnPress={this.TOAST_HIDE_ON_PRESS}
-        />
+        >
+          {message}
+        </Toast>
         {children({ showToast, hideToast })}
       </View>
     );

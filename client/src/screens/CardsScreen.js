@@ -8,7 +8,8 @@ import {
   InitEventHandlers,
   ModalProvider,
   RequestProvider,
-  SpinnerProvider
+  SpinnerProvider,
+  ToastProvider
 } from "AppProviders";
 import { getCards, deleteCard } from "AppProxies";
 import { ModalTypes } from "AppConstants";
@@ -52,14 +53,20 @@ class WrappedCardsScreen extends Component<Props, State> {
   };
 
   renderRequestProvider = ({ getCards, deleteCard }: any) => (
-    <CardsContainer
-      newCard={this.state.newCard}
-      removeNewCard={this.removeNewCard}
-      getCards={getCards}
-      deleteCard={deleteCard}
-      showSpinner={this.props.showSpinner}
-      hideSpinner={this.props.hideSpinner}
-    />
+    <ToastProvider>
+      {({ showToast, hideToast }) => (
+        <CardsContainer
+          newCard={this.state.newCard}
+          removeNewCard={this.removeNewCard}
+          getCards={getCards}
+          deleteCard={deleteCard}
+          showSpinner={this.props.showSpinner}
+          hideSpinner={this.props.hideSpinner}
+          showToast={showToast}
+          hideToast={hideToast}
+        />
+      )}
+    </ToastProvider>
   );
 
   render() {
