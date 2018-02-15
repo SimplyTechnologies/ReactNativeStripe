@@ -8,11 +8,17 @@ import {
   payWithDefaultCard,
   getCards
 } from "AppProxies";
-import { RequestProvider, InitEventHandlers } from "AppProviders";
+import {
+  RequestProvider,
+  InitEventHandlers,
+  SpinnerProvider
+} from "AppProviders";
 import { stripeUtils } from "AppUtils";
 
 type Props = {
-  navigator: any
+  navigator: any,
+  showSpinner: Function,
+  hideSpinner: Function
 };
 
 type State = {};
@@ -30,7 +36,11 @@ class WrappedPaymentScreen extends Component<Props, State> {
   }
 
   renderRequestProvider = (requests: Object) => (
-    <PaymentContainer {...requests} />
+    <PaymentContainer
+      showSpinner={this.props.showSpinner}
+      hideSpinner={this.props.hideSpinner}
+      {...requests}
+    />
   );
 
   render = () => {
@@ -43,4 +53,6 @@ class WrappedPaymentScreen extends Component<Props, State> {
   };
 }
 
-export const PaymentScreen = InitEventHandlers(WrappedPaymentScreen);
+export const PaymentScreen = InitEventHandlers(
+  SpinnerProvider(WrappedPaymentScreen)
+);

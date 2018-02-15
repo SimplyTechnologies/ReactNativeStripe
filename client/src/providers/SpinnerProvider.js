@@ -20,7 +20,7 @@ export const SpinnerProvider = (WrappedComponent: any): any => {
     render() {
       const { visible } = this.state;
       return (
-        <View>
+        <View style={styles.container}>
           <Spinner
             visible={visible}
             textContent=""
@@ -41,6 +41,9 @@ export const SpinnerProvider = (WrappedComponent: any): any => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   horizontal: {
     flexDirection: "row",
     justifyContent: "space-around",

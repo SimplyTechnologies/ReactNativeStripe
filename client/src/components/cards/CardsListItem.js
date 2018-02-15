@@ -1,7 +1,8 @@
 // @flow
 import React from "react";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
-import type { Card } from "../types";
+import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { CardLogos } from "AppConstants";
+import type { Card } from "AppTypes";
 
 type Props = {
   card: Card,
@@ -22,26 +23,27 @@ const getDeleteButtonPressedHandler = (
 };
 
 export const CardsListItem = ({
-  card: { last4, id },
+  card: { last4, id, brand },
   deleteCardRequest,
   deleteCardCallbacks,
   showSpinner
-}: Props) => (
-  <View style={styles.container}>
-    <Text style={styles.cardNumberText}>...{last4}</Text>
-    <TouchableOpacity
-      style={styles.deleteButton}
-      onPress={getDeleteButtonPressedHandler(
-        showSpinner,
-        deleteCardRequest,
-        deleteCardCallbacks,
-        id
-      )}
-    >
-      <Text style={styles.deleteButtonText}>Delete</Text>
-    </TouchableOpacity>
-  </View>
-);
+}: Props) =>
+  console.log("BRAND", CardLogos[brand]) || (
+    <View style={styles.container}>
+      <Text style={styles.cardNumberText}>...{last4}</Text>
+      <TouchableOpacity
+        style={styles.deleteButton}
+        onPress={getDeleteButtonPressedHandler(
+          showSpinner,
+          deleteCardRequest,
+          deleteCardCallbacks,
+          id
+        )}
+      >
+        <Text style={styles.deleteButtonText}>Delete</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
 const styles = StyleSheet.create({
   container: {
@@ -49,6 +51,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 10
+  },
+  logo: {
+    alignItems: "center",
+    width: "auto",
+    height: "auto"
   },
   cardNumberText: {
     alignItems: "center",

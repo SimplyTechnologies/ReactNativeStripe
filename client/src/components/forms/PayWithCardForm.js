@@ -12,13 +12,16 @@ type Props = {
   payCallbackMap: Object,
   getCardsCallbackMap: Object,
   cards: Array<Card>,
-  message: string
+  message: string,
+  showSpinner: ?Function
 };
 
 type State = {
   label: string,
   value: string
 };
+
+const EMPTY_FUNCTION = () => {};
 
 export class PayWithCardForm extends Component<Props, State> {
   state = {
@@ -36,9 +39,11 @@ export class PayWithCardForm extends Component<Props, State> {
   };
 
   payButtonPressedHandler = () => {
-    const { payWithCard, payCallbackMap } = this.props;
+    const { payWithCard, payCallbackMap, showSpinner } = this.props;
     const { value } = this.state;
+    const spin = showSpinner || EMPTY_FUNCTION;
     if (value) {
+      spin();
       payWithCard(value)(payCallbackMap);
     }
   };
