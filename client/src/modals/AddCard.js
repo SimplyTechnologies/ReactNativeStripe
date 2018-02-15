@@ -2,14 +2,16 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { PaymentForm } from "AppComponents";
-import { RequestProvider } from "AppProviders";
+import { RequestProvider, SpinnerProvider } from "AppProviders";
 import { addCard } from "AppProxies";
 import { ResponseStatuses } from "AppConstants";
 import type { Card } from "AppTypes";
 
 type Props = {
   data: Object,
-  closeModal: Function
+  closeModal: Function,
+  showSpinner: Function,
+  hideSpinner: Function
 };
 
 type State = {
@@ -18,7 +20,7 @@ type State = {
 
 const { STATUS_OK } = ResponseStatuses;
 
-export class AddCard extends Component<Props, State> {
+class WrappedAddCard extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -29,9 +31,10 @@ export class AddCard extends Component<Props, State> {
   }
 
   initializeCallbackMap = () => {
-    const { closeModal, data: { setNewCard } } = this.props;
+    const { closeModal, hideSpinner, data: { setNewCard } } = this.props;
     const handleOk = (card: Card) => {
       setNewCard(card);
+      hideSpinner();
       closeModal();
     };
     this.callbackMap = {
@@ -41,6 +44,7 @@ export class AddCard extends Component<Props, State> {
 
   renderRequestProvider = (handleRequest: Function) => (
     <PaymentForm
+      showSpinner={this.props.showSpinner}
       payWithToken={handleRequest}
       message={this.state.message}
       callbackMap={this.callbackMap}
@@ -61,6 +65,8 @@ export class AddCard extends Component<Props, State> {
     );
   }
 }
+
+export const AddCard = SpinnerProvider(WrappedAddCard);
 
 const styles = StyleSheet.create({
   container: {

@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import Spinner from "react-native-loading-spinner-overlay";
 
 type Props = {};
 
@@ -19,8 +20,13 @@ export const SpinnerProvider = (WrappedComponent: any): any => {
     render() {
       const { visible } = this.state;
       return (
-        <View style={styles.container}>
-          {visible ? <ActivityIndicator size="large" color="#0000ff" /> : null}
+        <View>
+          <Spinner
+            visible={visible}
+            textContent=""
+            size="large"
+            textStyle={styles.textStyle}
+          />
           <WrappedComponent
             showSpinner={this.show}
             hideSpinner={this.hide}
@@ -35,12 +41,12 @@ export const SpinnerProvider = (WrappedComponent: any): any => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
   horizontal: {
     flexDirection: "row",
     justifyContent: "space-around",
     padding: 10
+  },
+  textStyle: {
+    color: "#FFF"
   }
 });

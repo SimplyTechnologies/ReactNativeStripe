@@ -86,9 +86,11 @@ class WrappedCardsScreen extends Component<Props, State> {
 }
 
 const styles = StyleSheet.create({
-  container: { height: containerHeight }
+  container: {
+    height: containerHeight
+  }
 });
 
 export const CardsScreen = InitEventHandlers(
-  ModalProvider(SpinnerProvider(WrappedCardsScreen))
+  SpinnerProvider(ModalProvider(WrappedCardsScreen))
 );
