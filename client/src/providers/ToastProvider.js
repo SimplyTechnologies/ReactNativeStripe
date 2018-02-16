@@ -35,15 +35,17 @@ export class ToastProvider extends Component<Props, State> {
     const hideToast = this.hide;
     return (
       <View>
-        <Toast
-          visible={isVisible}
-          position={this.TOAST_POSITION}
-          shadow={this.TOAST_SHADOW}
-          animation={isVisible}
-          hideOnPress={this.TOAST_HIDE_ON_PRESS}
-        >
-          {message}
-        </Toast>
+        {isVisible ? (
+          <Toast
+            visible={isVisible}
+            position={this.TOAST_POSITION}
+            shadow={this.TOAST_SHADOW}
+            animation={isVisible}
+            hideOnPress={this.TOAST_HIDE_ON_PRESS}
+          >
+            {message}
+          </Toast>
+        ) : null}
         {children({ showToast, hideToast })}
       </View>
     );
