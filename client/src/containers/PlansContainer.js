@@ -10,7 +10,8 @@ type Props = {
   addSubscription: Function,
   deleteSubscription: Function,
   showSpinner: Function,
-  hideSpinner: Function
+  hideSpinner: Function,
+  showToast: Function
 };
 
 type State = {
@@ -21,7 +22,7 @@ type State = {
   filtersMap: Object
 };
 
-const { STATUS_OK } = ResponseStatuses;
+const { STATUS_OK, STATUS_400 } = ResponseStatuses;
 
 export class PlansContainer extends Component<Props, State> {
   constructor(props: Props) {
@@ -69,12 +70,16 @@ export class PlansContainer extends Component<Props, State> {
   };
 
   initializeAddSubscriptionCallbacks = () => {
-    const { hideSpinner } = this.props;
+    const { showToast, hideSpinner } = this.props;
     const handleOk = (subscription: any) => {
       this.addSubscription(subscription);
       hideSpinner();
     };
-    const callbackMap = { [STATUS_OK]: handleOk };
+    const handle400 = ({ message }: any) => {
+      hideSpinner();
+      showToast(message);
+    };
+    const callbackMap = { [STATUS_OK]: handleOk, [STATUS_400]: handle400 };
     this.callbacks.addSubscription = callbackMap;
   };
 

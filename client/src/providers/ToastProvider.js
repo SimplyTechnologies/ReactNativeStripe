@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Toast from "react-native-root-toast";
 
 type Props = {
@@ -34,7 +34,7 @@ export class ToastProvider extends Component<Props, State> {
     const showToast = this.show;
     const hideToast = this.hide;
     return (
-      <View>
+      <View style={styles.container}>
         {isVisible ? (
           <Toast
             visible={isVisible}
@@ -51,3 +51,9 @@ export class ToastProvider extends Component<Props, State> {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+});

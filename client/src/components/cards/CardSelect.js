@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
 import { Select, Option } from "react-native-chooser";
+import { NoItems } from "AppComponents";
 import type { Card } from "AppTypes";
 
 type Props = {
@@ -23,15 +24,19 @@ const renderOptions = (cards: Array<Card>): Array<Option> =>
 
 export const CardSelect = ({ onSelect, defaultText, cards }: Props) => (
   <View style={styles.selectBox}>
-    <Select
-      onSelect={onSelect}
-      defaultText={defaultText}
-      style={styles.selectStyle}
-      backdropStyle={styles.backdropStyle}
-      optionListStyle={styles.optionListStyle}
-    >
-      {renderOptions(cards)}
-    </Select>
+    {cards.length ? (
+      <Select
+        onSelect={onSelect}
+        defaultText={defaultText}
+        style={styles.selectStyle}
+        backdropStyle={styles.backdropStyle}
+        optionListStyle={styles.optionListStyle}
+      >
+        {renderOptions(cards)}
+      </Select>
+    ) : (
+      <NoItems itemName="cards" />
+    )}
   </View>
 );
 
