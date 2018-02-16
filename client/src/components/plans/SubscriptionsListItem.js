@@ -42,7 +42,7 @@ export const SubscriptionsListItem = ({
         showSpinner
       )}
     >
-      <Text style={styles.unsubscribeButtonText}>Unsubscribe</Text>
+      <Text style={styles.unsubscribeButtonText}>✗ Unsubscribe</Text>
     </TouchableOpacity>
   </View>
 );

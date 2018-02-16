@@ -57,7 +57,10 @@ const startDashboardScreen = () => {
         icon: require("../img/product.png"),
         navigatorButtons
       }
-    ]
+    ],
+    appStyle: {
+      tabBarSelectedButtonColor: "#D34712"
+    }
   });
 };
 
