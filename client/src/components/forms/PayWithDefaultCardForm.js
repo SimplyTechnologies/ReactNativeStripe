@@ -28,7 +28,7 @@ export const PayWithDefaultCardForm = ({
 }: Props): any => (
   <View style={styles.container}>
     <Text style={styles.title}>Pay with default card</Text>
-    <Text>{message}</Text>
+    <Text>{message.length ? message : " "}</Text>
     <PaymentButton
       payButtonPressedHandler={payHandler(
         payWithDefaultCard,

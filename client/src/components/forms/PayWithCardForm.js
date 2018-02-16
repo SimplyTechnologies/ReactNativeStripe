@@ -59,7 +59,7 @@ export class PayWithCardForm extends Component<Props, State> {
           onSelect={this.onSelect}
           defaultText={label}
         />
-        <Text>{message}</Text>
+        <Text>{message.length ? message : " "}</Text>
         <PaymentButton payButtonPressedHandler={this.payButtonPressedHandler} />
       </View>
     ) : (

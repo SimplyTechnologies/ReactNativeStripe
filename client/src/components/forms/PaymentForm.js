@@ -54,7 +54,7 @@ export class PaymentForm extends Component<Props, State> {
           style={styles.cardTextField}
           onParamsChange={this.fieldParamsChangedHandler}
         />
-        <Text>{message}</Text>
+        <Text>{message.length ? message : " "}</Text>
         <PaymentButton payButtonPressedHandler={this.payButtonPressedHandler} />
       </View>
     );
