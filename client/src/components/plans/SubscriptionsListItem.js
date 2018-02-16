@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   planAmount: {},
   unsubscribeButton: {
     alignItems: "center",
-    backgroundColor: "#4169E1",
+    backgroundColor: "#69D2E7",
     padding: 10
   },
   unsubscribeButtonText: {

@@ -17,13 +17,15 @@ export class Filter extends Component<Props, State> {
       const filterHandler = filtersMap[filter];
       const filterStyle =
         filter === selectedFilter ? styles.selectedFilter : styles.filter;
+      const textStyle =
+        filter === selectedFilter ? styles.selectedText : styles.text;
       return (
         <TouchableOpacity
           key={index}
           style={filterStyle}
           onPress={filterHandler}
         >
-          <Text>{filter}</Text>
+          <Text style={textStyle}>{filter}</Text>
         </TouchableOpacity>
       );
     });
@@ -43,13 +45,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 0.5
+    borderWidth: 0.5,
+    borderColor: "#C4CBB7"
   },
+  text: {},
   selectedFilter: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 0.5,
-    backgroundColor: "green"
+    borderColor: "#C4CBB7",
+    backgroundColor: "#7ABA71"
+  },
+  selectedText: {
+    color: "white"
   }
 });
