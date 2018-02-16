@@ -19,7 +19,6 @@ export class ToastProvider extends Component<Props, State> {
   };
   TOAST_POSITION = Toast.positions.bottom;
   TOAST_SHADOW = false;
-  TOAST_ANIMATION = true;
   TOAST_HIDE_ON_PRESS = true;
 
   show = (message: string) =>
@@ -40,7 +39,7 @@ export class ToastProvider extends Component<Props, State> {
           visible={isVisible}
           position={this.TOAST_POSITION}
           shadow={this.TOAST_SHADOW}
-          animation={this.TOAST_ANIMATION}
+          animation={isVisible}
           hideOnPress={this.TOAST_HIDE_ON_PRESS}
         >
           {message}
