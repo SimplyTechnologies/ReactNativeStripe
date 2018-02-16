@@ -26,7 +26,7 @@ export class ToastProvider extends Component<Props, State> {
 
   hide = () => this.setState({ isVisible: false, message: "" });
 
-  showCallback = () => setTimeout(() => this.hide(), 5000);
+  showCallback = () => setTimeout(this.hide, 5000);
 
   render() {
     const { children } = this.props;
