@@ -13,7 +13,8 @@ type Props = {
   handleSubmit: (username: string, password: string) => Function,
   updateValidations: any,
   navigator: any,
-  callbackMap: Object
+  callbackMap: Object,
+  showSpinner: Function
 };
 
 type State = {
@@ -70,9 +71,10 @@ export class LoginForm extends Component<Props, State> {
   };
 
   formSubmitHandler = () => {
-    const { handleSubmit, callbackMap } = this.props;
+    const { handleSubmit, callbackMap, showSpinner } = this.props;
     const { username, password } = this.state.values;
     if (!this.formHelper.hasValidationErrors()) {
+      showSpinner();
       handleSubmit(username, password)(callbackMap);
     }
   };

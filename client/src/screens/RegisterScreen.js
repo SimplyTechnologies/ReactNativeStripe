@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import type { Element, ElementRef } from "react";
 import { RegisterForm } from "AppComponents";
-import { RequestProvider } from "AppProviders";
+import { RequestProvider, SpinnerProvider } from "AppProviders";
 import { ResponseStatuses } from "AppConstants";
 import { userRegister } from "AppProxies";
 import { AsyncStorage } from "react-native";
@@ -10,9 +10,12 @@ import { startApp } from "AppNavigation";
 
 const { STATUS_OK, STATUS_400 } = ResponseStatuses;
 
-type Props = {};
+type Props = {
+  showSpinner: Function,
+  hideSpinner: Function
+};
 
-export class RegisterScreen extends Component<Props> {
+class WrappedRegisterScreen extends Component<Props> {
   constructor(props: Props) {
     super(props);
     this.initializeCallbacks();
@@ -21,8 +24,10 @@ export class RegisterScreen extends Component<Props> {
   callbackMap: Object;
 
   initializeCallbacks = () => {
+    const { hideSpinner } = this.props;
     const handleOk = ({ token }: { token: string }) => {
       AsyncStorage.setItem("token", token);
+      hideSpinner();
       startApp();
     };
 
@@ -42,6 +47,7 @@ export class RegisterScreen extends Component<Props> {
     handleRequest: Function
   ): Element<typeof RegisterForm> => (
     <RegisterForm
+      showSpinner={this.props.showSpinner}
       handleSubmit={handleRequest}
       callbackMap={this.callbackMap}
       ref={(form: ElementRef<typeof RegisterForm>): void => (this._form = form)}
@@ -57,3 +63,5 @@ export class RegisterScreen extends Component<Props> {
     );
   }
 }
+
+export const RegisterScreen = SpinnerProvider(WrappedRegisterScreen);
