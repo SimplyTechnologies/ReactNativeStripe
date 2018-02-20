@@ -42,6 +42,7 @@ class WrappedLoginScreen extends Component<Props, State> {
       const { message: password } = data;
       const updateValidations = { password };
       this.setState({ updateValidations });
+      hideSpinner();
     };
     this.callbackMap = {
       [STATUS_OK]: handleOk,

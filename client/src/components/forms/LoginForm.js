@@ -48,8 +48,9 @@ export class LoginForm extends Component<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     const { updateValidations } = nextProps;
     if (updateValidations) {
-      this.setState(({ validations }) => {
-        return { ...validations, ...updateValidations };
+      this.setState(({ validations: prevValidations }) => {
+        const validations = { ...prevValidations, ...updateValidations };
+        return { validations };
       });
     }
   }
