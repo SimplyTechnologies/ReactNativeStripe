@@ -48,6 +48,9 @@ export class CardsContainer extends Component<Props, State> {
   getCardIndexById = (id: string) => {
     const { cards } = this.state;
     let index = -1;
+    if (!cards) {
+      return index;
+    }
     cards.forEach((card, iteration) => {
       if (id === card.id) {
         index = iteration;
@@ -99,7 +102,6 @@ export class CardsContainer extends Component<Props, State> {
         showSpinner={showSpinner}
         deleteCardRequest={deleteCard}
         deleteCardCallbacks={callbacks.deleteCard}
-        removeDeletedCard={this.removeDeletedCard}
       />
     ) : (
       <Loading />

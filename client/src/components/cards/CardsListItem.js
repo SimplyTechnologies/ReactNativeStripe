@@ -7,7 +7,6 @@ import type { Card } from "AppTypes";
 type Props = {
   card: Card,
   showSpinner: Function,
-  removeDeletedCard: Function,
   deleteCardRequest: Function,
   deleteCardCallbacks: Object
 };

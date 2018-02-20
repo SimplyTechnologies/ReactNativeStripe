@@ -7,13 +7,9 @@ import { RequestProvider, SpinnerProvider } from "AppProviders";
 import { ResponseStatuses } from "AppConstants";
 import { userLogin } from "AppProxies";
 import { startApp } from "AppNavigation";
+import type { LoginValidation } from "AppTypes";
 
 const { STATUS_OK, STATUS_403 } = ResponseStatuses;
-
-type updateValidations = {
-  username: string,
-  password: string
-};
 
 type Props = {
   navigator: Object,
@@ -22,7 +18,7 @@ type Props = {
 };
 
 type State = {
-  updateValidations: ?updateValidations
+  updateValidations: ?LoginValidation
 };
 
 class WrappedLoginScreen extends Component<Props, State> {
