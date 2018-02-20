@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
 import { PlansList, SubscriptionsList, Filter, Loading } from "AppComponents";
 import { ResponseStatuses } from "AppConstants";
+import type { Plan, Subscription } from "AppTypes";
 
 type Props = {
   getPlans: Function,
@@ -15,11 +16,10 @@ type Props = {
 };
 
 type State = {
-  plans: any,
-  subscriptions: any,
+  plans: ?Array<Plan>,
+  subscriptions: ?Array<Subscription>,
   selectedFilter: string,
-  subscribedPlanIds: Object,
-  filtersMap: Object
+  subscribedPlanIds: Object
 };
 
 const { STATUS_OK, STATUS_400 } = ResponseStatuses;
@@ -31,7 +31,6 @@ export class PlansContainer extends Component<Props, State> {
       plans: null,
       subscriptions: null,
       selectedFilter: "Plans",
-      filtersMap: {},
       subscribedPlanIds: {}
     };
     this.callbacks = {};
@@ -53,7 +52,7 @@ export class PlansContainer extends Component<Props, State> {
   }
 
   initializeGetPlansCallbacks = () => {
-    const handleOk = (plans: any) => this.setState({ plans });
+    const handleOk = (plans: Array<Plan>) => this.setState({ plans });
     const callbackMap = {
       [STATUS_OK]: handleOk
     };
@@ -61,8 +60,13 @@ export class PlansContainer extends Component<Props, State> {
   };
 
   initializeGetSubscriptionsCallbacks = () => {
-    const handleOk = ({ subscriptions, subscribedPlanIds }: any) =>
-      this.setState({ subscriptions, subscribedPlanIds });
+    const handleOk = ({
+      subscriptions,
+      subscribedPlanIds
+    }: {
+      subscriptions: Array<Subscription>,
+      subscribedPlanIds: Object
+    }) => this.setState({ subscriptions, subscribedPlanIds });
     const callbackMap = {
       [STATUS_OK]: handleOk
     };
@@ -71,11 +75,11 @@ export class PlansContainer extends Component<Props, State> {
 
   initializeAddSubscriptionCallbacks = () => {
     const { showToast, hideSpinner } = this.props;
-    const handleOk = (subscription: any) => {
+    const handleOk = (subscription: Subscription) => {
       this.addSubscription(subscription);
       hideSpinner();
     };
-    const handle400 = ({ message }: any) => {
+    const handle400 = ({ message }: { message: string }) => {
       hideSpinner();
       showToast(message);
     };
@@ -85,7 +89,7 @@ export class PlansContainer extends Component<Props, State> {
 
   initializeDeleteSubscriptionCallbacks = () => {
     const { hideSpinner } = this.props;
-    const handleOk = ({ id, plan }: any) => {
+    const handleOk = ({ id, plan }: { id: string, plan: Plan }) => {
       this.removeSubscription(id, plan.id);
       hideSpinner();
     };
@@ -103,6 +107,9 @@ export class PlansContainer extends Component<Props, State> {
   getSubscriptionIndexById = (id: string) => {
     const { subscriptions } = this.state;
     let index = -1;
+    if (!subscriptions) {
+      return index;
+    }
     subscriptions.forEach((subscription, iteration) => {
       if (id === subscription.id) {
         index = iteration;
@@ -111,7 +118,7 @@ export class PlansContainer extends Component<Props, State> {
     return index;
   };
 
-  addSubscription = (subscription: any) => {
+  addSubscription = (subscription: Subscription) => {
     const subscriptions = [...this.state.subscriptions];
     const subscribedPlanIds = { ...this.state.subscribedPlanIds };
     subscriptions.push(subscription);

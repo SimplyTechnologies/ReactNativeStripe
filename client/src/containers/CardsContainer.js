@@ -17,7 +17,7 @@ type Props = {
 };
 
 type State = {
-  cards: any
+  cards: ?Array<Card>
 };
 
 const { STATUS_OK } = ResponseStatuses;
@@ -69,7 +69,7 @@ export class CardsContainer extends Component<Props, State> {
   };
 
   initializeGetCardCallbacks = () => {
-    const handleOk = (cards: any) => this.setState({ cards });
+    const handleOk = (cards: Array<Card>) => this.setState({ cards });
     const callbackMap = {
       [STATUS_OK]: handleOk
     };
