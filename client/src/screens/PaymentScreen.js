@@ -16,7 +16,7 @@ import {
 import { stripeUtils } from "AppUtils";
 
 type Props = {
-  navigator: any,
+  navigator: Object,
   showSpinner: Function,
   hideSpinner: Function
 };

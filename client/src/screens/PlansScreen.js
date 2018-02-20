@@ -16,8 +16,15 @@ import {
   deleteSubscription
 } from "AppProxies";
 
+type requestTypes = {
+  getPlans: Function,
+  getSubscriptions: Function,
+  addSubscription: Function,
+  deleteSubscription: Function
+};
+
 type Props = {
-  navigator: any,
+  navigator: Object,
   showSpinner: Function,
   hideSpinner: Function,
   showToast: Function
@@ -38,7 +45,7 @@ class WrappedPlansScreen extends Component<Props, State> {
     getSubscriptions,
     addSubscription,
     deleteSubscription
-  }: any) => (
+  }: requestTypes) => (
     <ToastProvider>
       {({ showToast }) => (
         <PlansContainer

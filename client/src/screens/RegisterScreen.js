@@ -10,13 +10,19 @@ import { startApp } from "AppNavigation";
 
 const { STATUS_OK, STATUS_400 } = ResponseStatuses;
 
+type updateValidations = {
+  username: string,
+  password: string,
+  confirmPassword: string
+};
+
 type Props = {
   showSpinner: Function,
   hideSpinner: Function
 };
 
 type State = {
-  updateValidations: any
+  updateValidations: ?updateValidations
 };
 
 class WrappedRegisterScreen extends Component<Props, State> {
@@ -36,7 +42,7 @@ class WrappedRegisterScreen extends Component<Props, State> {
       startApp();
     };
 
-    const handleBadRequest = ({ errors }: any) => {
+    const handleBadRequest = ({ errors }: Object) => {
       const { username: { msg: username } } = errors;
       const updateValidations = {
         username

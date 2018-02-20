@@ -22,15 +22,20 @@ const { ADD_CARD } = ModalTypes;
 const { height } = Dimensions.get("window");
 const containerHeight = height - height * 0.2;
 
+type requestTypes = {
+  getCards: Function,
+  deleteCard: Function
+};
+
 type Props = {
-  navigator: any,
+  navigator: Object,
   openModal: Function,
   showSpinner: Function,
   hideSpinner: Function
 };
 
 type State = {
-  newCard: any
+  newCard: ?Card
 };
 
 class WrappedCardsScreen extends Component<Props, State> {
@@ -52,7 +57,7 @@ class WrappedCardsScreen extends Component<Props, State> {
     openModal(ADD_CARD, { setNewCard });
   };
 
-  renderRequestProvider = ({ getCards, deleteCard }: any) => (
+  renderRequestProvider = ({ getCards, deleteCard }: requestTypes) => (
     <ToastProvider>
       {({ showToast, hideToast }) => (
         <CardsContainer

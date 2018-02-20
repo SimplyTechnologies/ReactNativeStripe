@@ -10,14 +10,19 @@ import { startApp } from "AppNavigation";
 
 const { STATUS_OK, STATUS_403 } = ResponseStatuses;
 
+type updateValidations = {
+  username: string,
+  password: string
+};
+
 type Props = {
-  navigator: any,
+  navigator: Object,
   showSpinner: Function,
   hideSpinner: Function
 };
 
 type State = {
-  updateValidations: any
+  updateValidations: ?updateValidations
 };
 
 class WrappedLoginScreen extends Component<Props, State> {
