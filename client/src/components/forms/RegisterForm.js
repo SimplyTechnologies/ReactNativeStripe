@@ -15,7 +15,8 @@ type BadRequestError = {
 type Props = {
   handleSubmit: (username: string, password: string) => Function,
   callbackMap: Object,
-  showSpinner: Function
+  showSpinner: Function,
+  updateValidations: Object
 };
 
 type State = {
@@ -51,6 +52,16 @@ export class RegisterForm extends Component<Props, State> {
 
   formHelper: FormHelper;
 
+  componentWillReceiveProps(nextProps: Props) {
+    const { updateValidations } = nextProps;
+    if (updateValidations) {
+      this.setState(({ validations: prevValidations }) => {
+        const validations = { ...prevValidations, ...updateValidations };
+        return { validations };
+      });
+    }
+  }
+
   usernameInputChangedHandler = (username: string) => {
     const values = { ...this.state.values };
     values.username = username;
@@ -80,14 +91,6 @@ export class RegisterForm extends Component<Props, State> {
 
   registerButtonClickedHandler = () => {
     this.formHelper.validate(this.formSubmitHandler);
-  };
-
-  handleBadRequest = ({ errors: { username, password } }: BadRequestError) => {
-    const usernameErr = username ? username.msg : "";
-    const passswordErr = password ? password.msg : "";
-    this.setState({
-      validations: { username: usernameErr, password: passswordErr }
-    });
   };
 
   render() {

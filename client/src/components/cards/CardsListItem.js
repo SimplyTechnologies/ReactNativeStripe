@@ -27,23 +27,22 @@ export const CardsListItem = ({
   deleteCardRequest,
   deleteCardCallbacks,
   showSpinner
-}: Props) =>
-  console.log("BRAND", CardLogos[brand]) || (
-    <View style={styles.container}>
-      <Text style={styles.cardNumberText}>...{last4}</Text>
-      <TouchableOpacity
-        style={styles.deleteButton}
-        onPress={getDeleteButtonPressedHandler(
-          showSpinner,
-          deleteCardRequest,
-          deleteCardCallbacks,
-          id
-        )}
-      >
-        <Text style={styles.deleteButtonText}>Delete</Text>
-      </TouchableOpacity>
-    </View>
-  );
+}: Props) => (
+  <View style={styles.container}>
+    <Text style={styles.cardNumberText}>...{last4}</Text>
+    <TouchableOpacity
+      style={styles.deleteButton}
+      onPress={getDeleteButtonPressedHandler(
+        showSpinner,
+        deleteCardRequest,
+        deleteCardCallbacks,
+        id
+      )}
+    >
+      <Text style={styles.deleteButtonText}>Delete</Text>
+    </TouchableOpacity>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {

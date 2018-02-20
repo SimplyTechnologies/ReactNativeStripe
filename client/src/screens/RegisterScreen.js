@@ -15,13 +15,18 @@ type Props = {
   hideSpinner: Function
 };
 
-class WrappedRegisterScreen extends Component<Props> {
+type State = {
+  updateValidations: any
+};
+
+class WrappedRegisterScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.initializeCallbacks();
   }
-  _form: Element<typeof RegisterForm>;
-  callbackMap: Object;
+  state = {
+    updateValidations: null
+  };
 
   initializeCallbacks = () => {
     const { hideSpinner } = this.props;
@@ -31,10 +36,13 @@ class WrappedRegisterScreen extends Component<Props> {
       startApp();
     };
 
-    const handleBadRequest = (data: any) => {
-      if (this._form) {
-        this._form.handleBadRequest(data);
-      }
+    const handleBadRequest = ({ errors }: any) => {
+      const { username: { msg: username } } = errors;
+      const updateValidations = {
+        username
+      };
+      this.setState({ updateValidations });
+      hideSpinner();
     };
 
     this.callbackMap = {
@@ -47,10 +55,10 @@ class WrappedRegisterScreen extends Component<Props> {
     handleRequest: Function
   ): Element<typeof RegisterForm> => (
     <RegisterForm
+      updateValidations={this.state.updateValidations}
       showSpinner={this.props.showSpinner}
       handleSubmit={handleRequest}
       callbackMap={this.callbackMap}
-      ref={(form: ElementRef<typeof RegisterForm>): void => (this._form = form)}
     />
   );
 
