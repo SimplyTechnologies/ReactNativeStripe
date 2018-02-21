@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from "react";
+import type { ComponentType } from "react";
 import { View, StyleSheet } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 
@@ -9,7 +10,9 @@ type State = {
   visible: boolean
 };
 
-export const SpinnerProvider = (WrappedComponent: any): any => {
+export const SpinnerProvider = (
+  WrappedComponent: ComponentType<*>
+): ComponentType<*> => {
   class Wrapper extends Component<Props, State> {
     state = { visible: false };
 

@@ -6,6 +6,7 @@ import {
   USERNAME_MIN_LENGTH,
   PASSWORD_MIN_LENGTH
 } from "AppConstants";
+import type { LoginValidation, RegisterValidation } from "AppTypes";
 
 const { isLength, matches } = validateUtils;
 const EMPTY = "";
@@ -16,7 +17,7 @@ export const validateRegister = ({
   username,
   password,
   confirmPassword
-}: any): any => ({
+}: RegisterValidation): RegisterValidation => ({
   username: isLength(username, { min: USERNAME_MIN_LENGTH })
     ? EMPTY
     : USERNAME_MIN,
@@ -28,7 +29,10 @@ export const validateRegister = ({
     : PASSWORD_NOT_MATCH
 });
 
-export const validateLogin = ({ username, password }: any): any => ({
+export const validateLogin = ({
+  username,
+  password
+}: LoginValidation): LoginValidation => ({
   username: isLength(username, { min: USERNAME_MIN_LENGTH })
     ? EMPTY
     : USERNAME_MIN,

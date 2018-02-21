@@ -1,9 +1,11 @@
 // @flow
 import React, { Component } from "react";
-import type { Element } from "react";
+import type { ComponentType } from "react";
 import { initializeEvents } from "AppNavigation";
 
-export const InitEventHandlers = (WrappedComponent: any): any => {
+export const InitEventHandlers = (
+  WrappedComponent: ComponentType<*>
+): ComponentType<*> => {
   type Props = {
     navigator: any
   };
