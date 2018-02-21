@@ -8,11 +8,12 @@ import {
   REGISTER_SCREEN,
   REGISTER_SCREEN_TITLE
 } from "../../navigation/constants";
+import type { LoginValidation } from "AppTypes";
 
 type Props = {
   handleSubmit: (username: string, password: string) => Function,
-  updateValidations: any,
-  navigator: any,
+  updateValidations: LoginValidation,
+  navigator: Object,
   callbackMap: Object,
   showSpinner: Function
 };
@@ -22,10 +23,7 @@ type State = {
     username: string,
     password: string
   },
-  validations: {
-    username?: string,
-    password?: string
-  }
+  validations: LoginValidation
 };
 
 export class LoginForm extends Component<Props, State> {
@@ -56,7 +54,8 @@ export class LoginForm extends Component<Props, State> {
   }
 
   handleForbiddenResponse = ({ message }: { message: string }) => {
-    this.setState({ validations: { password: message } });
+    const validations = { ...this.state.validations, ...{ password: message } };
+    this.setState({ validations });
   };
 
   usernameInputChangedHandler = (username: string) => {

@@ -1,6 +1,6 @@
 // @flow
-
 import React, { Component } from "react";
+import type { Node } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { PaymentButton } from "AppButtons";
 
@@ -25,7 +25,7 @@ export const PayWithDefaultCardForm = ({
   payWithDefaultCard,
   callbackMap,
   showSpinner
-}: Props): any => (
+}: Props): Node => (
   <View style={styles.container}>
     <Text style={styles.title}>Pay with default card</Text>
     <Text>{message.length ? message : " "}</Text>

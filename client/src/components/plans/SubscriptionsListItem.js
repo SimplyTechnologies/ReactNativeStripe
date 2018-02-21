@@ -1,9 +1,10 @@
 // @flow
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import type { Subscription } from "AppTypes";
 
 type Props = {
-  subscription: any,
+  subscription: Subscription,
   deleteSubscription: Function,
   deleteSubscriptionCallbacks: Object,
   showSpinner: Function

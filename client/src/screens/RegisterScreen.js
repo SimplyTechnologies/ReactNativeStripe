@@ -7,14 +7,9 @@ import { ResponseStatuses } from "AppConstants";
 import { userRegister } from "AppProxies";
 import { AsyncStorage } from "react-native";
 import { startApp } from "AppNavigation";
+import type { RegisterValidation } from "AppTypes";
 
 const { STATUS_OK, STATUS_400 } = ResponseStatuses;
-
-type updateValidations = {
-  username: string,
-  password: string,
-  confirmPassword: string
-};
 
 type Props = {
   showSpinner: Function,
@@ -22,17 +17,17 @@ type Props = {
 };
 
 type State = {
-  updateValidations: ?updateValidations
+  updateValidations: ?RegisterValidation
 };
 
 class WrappedRegisterScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
+    this.state = {
+      updateValidations: null
+    };
     this.initializeCallbacks();
   }
-  state = {
-    updateValidations: null
-  };
 
   initializeCallbacks = () => {
     const { hideSpinner } = this.props;
@@ -45,7 +40,8 @@ class WrappedRegisterScreen extends Component<Props, State> {
     const handleBadRequest = ({ errors }: Object) => {
       const { username: { msg: username } } = errors;
       const updateValidations = {
-        username
+        ...this.state.updateValidations,
+        ...{ username }
       };
       this.setState({ updateValidations });
       hideSpinner();
