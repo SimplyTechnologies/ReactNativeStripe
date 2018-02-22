@@ -3,11 +3,11 @@ import React, { Component } from "react";
 import { FlatList, ActivityIndicator, View, Text } from "react-native";
 import type { Element } from "react";
 import { CardsListItem, ItemSeparator, NoItems } from "AppComponents";
-import type { Card } from "../types";
+import type { Card, CallbackMap } from "../types";
 
 type Props = {
   cards: Array<Card>,
-  deleteCardCallbacks: Object,
+  deleteCardCallbacks: CallbackMap,
   deleteCardRequest: Function,
   showSpinner: Function
 };

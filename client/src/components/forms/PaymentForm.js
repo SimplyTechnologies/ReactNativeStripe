@@ -3,11 +3,12 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Stripe, { PaymentCardTextField } from "tipsi-stripe";
 import { PaymentButton } from "AppButtons";
+import type { CallbackMap } from "AppTypes";
 
 type Props = {
   message: string,
   payWithToken: Function,
-  callbackMap: Object,
+  callbackMap: CallbackMap,
   showSpinner: ?Function
 };
 

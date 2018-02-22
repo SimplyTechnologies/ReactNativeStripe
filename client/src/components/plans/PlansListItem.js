@@ -1,14 +1,14 @@
 // @flow
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import type { Plan } from "AppTypes";
+import type { Plan, CallbackMap } from "AppTypes";
 
 // TODO: Flowify Deeper
 type Props = {
   plan: Plan,
   isSubscribed: boolean,
   addSubscription: Function,
-  addSubscriptionCallbacks: Object,
+  addSubscriptionCallbacks: CallbackMap,
   showSpinner: Function
 };
 

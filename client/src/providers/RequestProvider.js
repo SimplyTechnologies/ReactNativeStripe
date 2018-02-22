@@ -22,7 +22,7 @@ export class RequestProvider extends Component<Props> {
   };
 
   generateRequestHandler = (proxy: Function): Function => (...data: any) => (
-    callbacks: Object
+    callbacks: CallbackMap
   ) => {
     const { requestHandler } = fetchUtils;
     const request = proxy(...data);
@@ -40,7 +40,7 @@ export class RequestProvider extends Component<Props> {
     return handlersMap;
   };
 
-  handleFunctionProxy = (...data: any) => (callbackMap: Object) => {
+  handleFunctionProxy = (...data: any) => (callbackMap: CallbackMap) => {
     const { requestProxy } = this.props;
     const requestHandler = this.generateRequestHandler(requestProxy);
     requestHandler(...data)(callbackMap);

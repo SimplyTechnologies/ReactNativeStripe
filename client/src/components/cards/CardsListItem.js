@@ -2,13 +2,13 @@
 import React from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { CardLogos } from "AppConstants";
-import type { Card } from "AppTypes";
+import type { Card, CallbackMap } from "AppTypes";
 
 type Props = {
   card: Card,
   showSpinner: Function,
   deleteCardRequest: Function,
-  deleteCardCallbacks: Object
+  deleteCardCallbacks: CallbackMap
 };
 
 const getDeleteButtonPressedHandler = (
