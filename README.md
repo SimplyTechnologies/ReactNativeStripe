@@ -17,7 +17,7 @@ Integration of [Stripe](stripe.com) in a react-native app.
    npm install
    ```
 
-  in the *client* directory
+   in the *client* directory
 
 4. Start all the microservices by running the following command in *server* directory
  
