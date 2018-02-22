@@ -51,4 +51,4 @@ Your *config.js* file in the *client* directory should look like this:
   <img src="./readme_assets/client_config.png"/><br>
 </h1>
 
-If you run into issues starting the apps please refer to the [React Native docs](https://facebook.github.io/react-native/docs/getting-started.html). It's most likely a problem with your environment.
+If you run into issues starting the app, please refer to the [React Native docs](https://facebook.github.io/react-native/docs/getting-started.html). It's most likely a problem with your environment.
