@@ -46,7 +46,7 @@ in each mentioned directory
 4. In *config.js* file located in the *client* directory, replace the `STRIPE_PUBLISHABLE_KEY` value      of the JSON with your own publishable key value.
 5. In the same *config.js* file, change the `IP_ADDRESS` value with your machine's IP address.
 
-Your *config.js* file should look like this:
+Your *config.js* file in the *client* directory should look like this:
 <h1 align="center">
   <img src="./readme_assets/client_config.png"/><br>
 </h1>
