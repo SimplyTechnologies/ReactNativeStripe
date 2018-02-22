@@ -25,7 +25,7 @@ Integration of [Stripe](stripe.com) in a react-native app.
    docker-compose up
    ```
 
-  With this command, `docker` will also install all the required dependencies in the API gateway and in each microservice
+   With this command, `docker` will also install all the required dependencies in the API gateway and in each microservice
 
 5. Start the app
 
