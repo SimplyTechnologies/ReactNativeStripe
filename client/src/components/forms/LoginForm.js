@@ -8,13 +8,13 @@ import {
   REGISTER_SCREEN,
   REGISTER_SCREEN_TITLE
 } from "../../navigation/constants";
-import type { LoginValidation } from "AppTypes";
+import type { LoginValidation, CallbackMap } from "AppTypes";
 
 type Props = {
   handleSubmit: (username: string, password: string) => Function,
   updateValidations: LoginValidation,
   navigator: Object,
-  callbackMap: Object,
+  callbackMap: CallbackMap,
   showSpinner: Function
 };
 

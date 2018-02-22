@@ -7,7 +7,7 @@ import { RequestProvider, SpinnerProvider } from "AppProviders";
 import { ResponseStatuses } from "AppConstants";
 import { userLogin } from "AppProxies";
 import { startApp } from "AppNavigation";
-import type { LoginValidation } from "AppTypes";
+import type { LoginValidation, CallbackMap } from "AppTypes";
 
 const { STATUS_OK, STATUS_403 } = ResponseStatuses;
 
@@ -30,7 +30,7 @@ class WrappedLoginScreen extends Component<Props, State> {
     };
   }
 
-  callbackMap: Object;
+  callbackMap: CallbackMap;
 
   initializeCallbacks = () => {
     const { hideSpinner } = this.props;

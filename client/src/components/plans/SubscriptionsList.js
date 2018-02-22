@@ -2,12 +2,12 @@
 import React, { Component } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import { SubscriptionsListItem, ItemSeparator, NoItems } from "AppComponents";
-import type { Subscription } from "AppTypes";
+import type { Subscription, CallbackMap } from "AppTypes";
 
 type Props = {
   subscriptions: Array<Subscription>,
   deleteSubscription: Function,
-  deleteSubscriptionCallbacks: Object,
+  deleteSubscriptionCallbacks: CallbackMap,
   showSpinner: Function
 };
 

@@ -2,13 +2,13 @@
 import React, { Component } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { PlansListItem, ItemSeparator, NoItems } from "AppComponents";
-import type { Plan } from "AppTypes";
+import type { Plan, CallbackMap } from "AppTypes";
 
 type Props = {
   plans: Array<Plan>,
   showSpinner: Function,
   addSubscription: Function,
-  addSubscriptionCallbacks: Object,
+  addSubscriptionCallbacks: CallbackMap,
   subscribedPlanIds: Object
 };
 

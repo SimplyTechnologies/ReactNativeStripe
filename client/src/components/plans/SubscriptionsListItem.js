@@ -1,12 +1,12 @@
 // @flow
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import type { Subscription } from "AppTypes";
+import type { Subscription, CallbackMap } from "AppTypes";
 
 type Props = {
   subscription: Subscription,
   deleteSubscription: Function,
-  deleteSubscriptionCallbacks: Object,
+  deleteSubscriptionCallbacks: CallbackMap,
   showSpinner: Function
 };
 

@@ -5,7 +5,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FormInput } from "AppComponents";
 import { FormHelper } from "AppHelpers";
 import { validateRegister } from "AppValidators";
-import type { RegisterValidation } from "AppTypes";
+import type { RegisterValidation, CallbackMap } from "AppTypes";
 
 type BadRequestError = {
   errors: {
@@ -15,7 +15,7 @@ type BadRequestError = {
 };
 type Props = {
   handleSubmit: (username: string, password: string) => Function,
-  callbackMap: Object,
+  callbackMap: CallbackMap,
   showSpinner: Function,
   updateValidations: RegisterValidation
 };

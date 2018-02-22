@@ -4,13 +4,13 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Loading, CardSelect } from "AppComponents";
 import { PaymentButton } from "AppButtons";
-import type { Card } from "AppTypes";
+import type { Card, CallbackMap } from "AppTypes";
 
 type Props = {
   payWithCard: () => Function,
   getCards: () => Function,
-  payCallbackMap: Object,
-  getCardsCallbackMap: Object,
+  payCallbackMap: CallbackMap,
+  getCardsCallbackMap: CallbackMap,
   cards: Array<Card>,
   message: string,
   showSpinner: ?Function

@@ -3,11 +3,12 @@ import React, { Component } from "react";
 import type { Node } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { PaymentButton } from "AppButtons";
+import type { CallbackMap } from "AppTypes";
 
 type Props = {
   handleSubmit: Function,
   payWithDefaultCard: Function,
-  callbackMap: Object,
+  callbackMap: CallbackMap,
   message: string,
   showSpinner: ?Function
 };
