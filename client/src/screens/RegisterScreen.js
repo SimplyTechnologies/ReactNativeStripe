@@ -2,34 +2,49 @@
 import React, { Component } from "react";
 import type { Element, ElementRef } from "react";
 import { RegisterForm } from "AppComponents";
-import { RequestProvider } from "AppProviders";
+import { RequestProvider, SpinnerProvider } from "AppProviders";
 import { ResponseStatuses } from "AppConstants";
 import { userRegister } from "AppProxies";
 import { AsyncStorage } from "react-native";
 import { startApp } from "AppNavigation";
+import type { RegisterValidation } from "AppTypes";
 
 const { STATUS_OK, STATUS_400 } = ResponseStatuses;
 
-type Props = {};
+type Props = {
+  showSpinner: Function,
+  hideSpinner: Function
+};
 
-export class RegisterScreen extends Component<Props> {
+type State = {
+  updateValidations: ?RegisterValidation
+};
+
+class WrappedRegisterScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
+    this.state = {
+      updateValidations: null
+    };
     this.initializeCallbacks();
   }
-  _form: Element<typeof RegisterForm>;
-  callbackMap: Object;
 
   initializeCallbacks = () => {
+    const { hideSpinner } = this.props;
     const handleOk = ({ token }: { token: string }) => {
       AsyncStorage.setItem("token", token);
+      hideSpinner();
       startApp();
     };
 
-    const handleBadRequest = (data: any) => {
-      if (this._form) {
-        this._form.handleBadRequest(data);
-      }
+    const handleBadRequest = ({ errors }: Object) => {
+      const { username: { msg: username } } = errors;
+      const updateValidations = {
+        ...this.state.updateValidations,
+        ...{ username }
+      };
+      this.setState({ updateValidations });
+      hideSpinner();
     };
 
     this.callbackMap = {
@@ -42,9 +57,10 @@ export class RegisterScreen extends Component<Props> {
     handleRequest: Function
   ): Element<typeof RegisterForm> => (
     <RegisterForm
+      updateValidations={this.state.updateValidations}
+      showSpinner={this.props.showSpinner}
       handleSubmit={handleRequest}
       callbackMap={this.callbackMap}
-      ref={(form: ElementRef<typeof RegisterForm>): void => (this._form = form)}
     />
   );
 
@@ -57,3 +73,5 @@ export class RegisterScreen extends Component<Props> {
     );
   }
 }
+
+export const RegisterScreen = SpinnerProvider(WrappedRegisterScreen);

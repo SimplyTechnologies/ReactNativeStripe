@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from "react";
+import type { ComponentType, Node } from "react";
 import { View, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import * as modals from "AppModals";
@@ -10,12 +11,14 @@ type State = {
   isModalOpen: boolean,
   animationType: string,
   modalType: string,
-  modalData: any // TODO: add a shape later
+  modalData: ?Object // TODO: add a shape later
 };
 
 const InvisibleModalComponent = () => <View />;
 
-export const ModalProvider = (WrappedComponent: any): any => {
+export const ModalProvider = (
+  WrappedComponent: ComponentType<*>
+): ComponentType<*> => {
   class Wrapper extends Component<Props, State> {
     state = {
       isModalOpen: false,
@@ -25,7 +28,7 @@ export const ModalProvider = (WrappedComponent: any): any => {
     };
     DEFAULT_MODAL_COMPONENT = <View />;
 
-    getModalComponent = (): any => {
+    getModalComponent = (): ComponentType<*> => {
       const { modalType } = this.state;
       if (modalType.length !== 0) {
         return modals[modalType];
@@ -36,7 +39,7 @@ export const ModalProvider = (WrappedComponent: any): any => {
     closeModal = (): void =>
       this.setState({ isModalOpen: false, modalType: "", modalData: null });
 
-    openModal = (modalType: string, modalData: any): void =>
+    openModal = (modalType: string, modalData: Object): void =>
       this.setState({ isModalOpen: true, modalType, modalData });
 
     render() {

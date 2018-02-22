@@ -6,7 +6,8 @@ import { PlansContainer } from "AppContainers";
 import {
   InitEventHandlers,
   SpinnerProvider,
-  RequestProvider
+  RequestProvider,
+  ToastProvider
 } from "AppProviders";
 import {
   getPlans,
@@ -15,10 +16,18 @@ import {
   deleteSubscription
 } from "AppProxies";
 
+type requestTypes = {
+  getPlans: Function,
+  getSubscriptions: Function,
+  addSubscription: Function,
+  deleteSubscription: Function
+};
+
 type Props = {
-  navigator: any,
+  navigator: Object,
   showSpinner: Function,
-  hideSpinner: Function
+  hideSpinner: Function,
+  showToast: Function
 };
 
 type State = {};
@@ -36,15 +45,20 @@ class WrappedPlansScreen extends Component<Props, State> {
     getSubscriptions,
     addSubscription,
     deleteSubscription
-  }: any) => (
-    <PlansContainer
-      getPlans={getPlans}
-      getSubscriptions={getSubscriptions}
-      addSubscription={addSubscription}
-      deleteSubscription={deleteSubscription}
-      showSpinner={this.props.showSpinner}
-      hideSpinner={this.props.hideSpinner}
-    />
+  }: requestTypes) => (
+    <ToastProvider>
+      {({ showToast }) => (
+        <PlansContainer
+          getPlans={getPlans}
+          getSubscriptions={getSubscriptions}
+          addSubscription={addSubscription}
+          deleteSubscription={deleteSubscription}
+          showSpinner={this.props.showSpinner}
+          hideSpinner={this.props.hideSpinner}
+          showToast={showToast}
+        />
+      )}
+    </ToastProvider>
   );
 
   render() {

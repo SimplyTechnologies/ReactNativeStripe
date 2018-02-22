@@ -30,6 +30,6 @@ export const FormInput = ({
       autoCapitalize="none"
       secureTextEntry={secureTextEntry}
     />
-    <Text>{validationMessage}</Text>
+    <Text>{validationMessage || " "}</Text>
   </View>
 );

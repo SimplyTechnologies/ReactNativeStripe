@@ -2,9 +2,10 @@
 import React, { Component } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import { SubscriptionsListItem, ItemSeparator, NoItems } from "AppComponents";
+import type { Subscription } from "AppTypes";
 
 type Props = {
-  subscriptions: any,
+  subscriptions: Array<Subscription>,
   deleteSubscription: Function,
   deleteSubscriptionCallbacks: Object,
   showSpinner: Function
@@ -14,7 +15,7 @@ type State = {};
 
 // TODO: Flowify deeper
 type SubscriptionsItem = {
-  item: any
+  item: Subscription
 };
 
 export class SubscriptionsList extends Component<Props, State> {
@@ -27,7 +28,7 @@ export class SubscriptionsList extends Component<Props, State> {
     />
   );
 
-  keyExtractor = (item: any) => item.id;
+  keyExtractor = (item: Subscription) => item.id;
 
   isEmpty = () => {
     const { subscriptions } = this.props;

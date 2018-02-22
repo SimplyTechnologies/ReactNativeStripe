@@ -2,20 +2,21 @@
 import React, { Component } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { PlansListItem, ItemSeparator, NoItems } from "AppComponents";
+import type { Plan } from "AppTypes";
 
 type Props = {
-  plans: any,
+  plans: Array<Plan>,
+  showSpinner: Function,
   addSubscription: Function,
   addSubscriptionCallbacks: Object,
-  subscribedPlanIds: Object,
-  showSpinner: Function
+  subscribedPlanIds: Object
 };
 
 type State = {};
 
 // TODO: Flowify Depper
 type PlansItem = {
-  item: any
+  item: Plan
 };
 
 export class PlansList extends Component<Props, State> {
@@ -29,7 +30,7 @@ export class PlansList extends Component<Props, State> {
     />
   );
 
-  keyExtractor = (item: any): string => item.id;
+  keyExtractor = (item: Plan): string => item.id;
 
   isEmpty = (): boolean => {
     const { plans } = this.props;

@@ -7,13 +7,16 @@ import { PaymentButton } from "AppButtons";
 type Props = {
   message: string,
   payWithToken: Function,
-  callbackMap: Object
+  callbackMap: Object,
+  showSpinner: ?Function
 };
 
 type State = {
   isValid: boolean,
-  params: Object | null
+  params: ?Object
 };
+
+const EMPTY_FUNCTION = () => {};
 
 // TODO: Flowify everything deeper
 export class PaymentForm extends Component<Props, State> {
@@ -27,9 +30,12 @@ export class PaymentForm extends Component<Props, State> {
   };
 
   payButtonPressedHandler = () => {
+    const { showSpinner } = this.props;
     const { isValid, params } = this.state;
     const createToken = Stripe.createTokenWithCard;
+    const spin = showSpinner || EMPTY_FUNCTION;
     if (isValid) {
+      spin();
       createToken(params).then(this.tokenReceiveHandler);
     }
   };
@@ -48,7 +54,7 @@ export class PaymentForm extends Component<Props, State> {
           style={styles.cardTextField}
           onParamsChange={this.fieldParamsChangedHandler}
         />
-        <Text>{message}</Text>
+        <Text>{message.length ? message : " "}</Text>
         <PaymentButton payButtonPressedHandler={this.payButtonPressedHandler} />
       </View>
     );

@@ -5,6 +5,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FormInput } from "AppComponents";
 import { FormHelper } from "AppHelpers";
 import { validateRegister } from "AppValidators";
+import type { RegisterValidation } from "AppTypes";
 
 type BadRequestError = {
   errors: {
@@ -14,7 +15,9 @@ type BadRequestError = {
 };
 type Props = {
   handleSubmit: (username: string, password: string) => Function,
-  callbackMap: Object
+  callbackMap: Object,
+  showSpinner: Function,
+  updateValidations: RegisterValidation
 };
 
 type State = {
@@ -23,11 +26,7 @@ type State = {
     password: string,
     confirmPassword: string
   },
-  validations: {
-    username?: string,
-    password?: string,
-    confirmPassword?: string
-  }
+  validations: RegisterValidation
 };
 
 export class RegisterForm extends Component<Props, State> {
@@ -50,6 +49,16 @@ export class RegisterForm extends Component<Props, State> {
 
   formHelper: FormHelper;
 
+  componentWillReceiveProps(nextProps: Props) {
+    const { updateValidations } = nextProps;
+    if (updateValidations) {
+      this.setState(({ validations: prevValidations }) => {
+        const validations = { ...prevValidations, ...updateValidations };
+        return { validations };
+      });
+    }
+  }
+
   usernameInputChangedHandler = (username: string) => {
     const values = { ...this.state.values };
     values.username = username;
@@ -69,23 +78,16 @@ export class RegisterForm extends Component<Props, State> {
   };
 
   formSubmitHandler = () => {
-    const { handleSubmit, callbackMap } = this.props;
+    const { handleSubmit, callbackMap, showSpinner } = this.props;
     const { username, password } = this.state.values;
     if (!this.formHelper.hasValidationErrors()) {
+      showSpinner();
       handleSubmit(username, password)(callbackMap);
     }
   };
 
   registerButtonClickedHandler = () => {
     this.formHelper.validate(this.formSubmitHandler);
-  };
-
-  handleBadRequest = ({ errors: { username, password } }: BadRequestError) => {
-    const usernameErr = username ? username.msg : "";
-    const passswordErr = password ? password.msg : "";
-    this.setState({
-      validations: { username: usernameErr, password: passswordErr }
-    });
   };
 
   render() {

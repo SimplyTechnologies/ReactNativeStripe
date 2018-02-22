@@ -19,9 +19,9 @@ export const PaymentButton = (props: Props): Node => (
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#32CD32",
+    backgroundColor: "#7ABA71",
     borderRadius: 3,
-    width: 50,
+    width: 150,
     padding: 5
   },
   buttonText: {

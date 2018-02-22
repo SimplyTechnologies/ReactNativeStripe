@@ -21,15 +21,15 @@ export class RequestProvider extends Component<Props> {
     }
   };
 
-  generateRequestHandler = (proxy: any): Function => (...data: any) => (
-    callbacks: any
+  generateRequestHandler = (proxy: Function): Function => (...data: any) => (
+    callbacks: Object
   ) => {
     const { requestHandler } = fetchUtils;
     const request = proxy(...data);
     requestHandler(request, callbacks);
   };
 
-  handleMapProxy = (): any => {
+  handleMapProxy = (): Object => {
     const { requestProxy } = this.props; // this is a REFERENCE type
     const keys = Object.keys(requestProxy);
     const handlersMap = {};
@@ -40,7 +40,7 @@ export class RequestProvider extends Component<Props> {
     return handlersMap;
   };
 
-  handleFunctionProxy = (...data: any) => (callbackMap: any) => {
+  handleFunctionProxy = (...data: any) => (callbackMap: Object) => {
     const { requestProxy } = this.props;
     const requestHandler = this.generateRequestHandler(requestProxy);
     requestHandler(...data)(callbackMap);

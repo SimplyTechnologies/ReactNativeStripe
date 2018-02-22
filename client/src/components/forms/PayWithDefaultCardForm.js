@@ -1,6 +1,6 @@
 // @flow
-
 import React, { Component } from "react";
+import type { Node } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { PaymentButton } from "AppButtons";
 
@@ -8,22 +8,33 @@ type Props = {
   handleSubmit: Function,
   payWithDefaultCard: Function,
   callbackMap: Object,
-  message: string
+  message: string,
+  showSpinner: ?Function
 };
 
-const payHandler = (payWithDefaultCard, callbackMap) => () =>
+const EMPTY_FUNCTION = () => {};
+
+const payHandler = (payWithDefaultCard, callbackMap, showSpinner) => () => {
+  const spin = showSpinner || EMPTY_FUNCTION;
+  spin();
   payWithDefaultCard()(callbackMap);
+};
 
 export const PayWithDefaultCardForm = ({
   message,
   payWithDefaultCard,
-  callbackMap
-}: Props): any => (
+  callbackMap,
+  showSpinner
+}: Props): Node => (
   <View style={styles.container}>
     <Text style={styles.title}>Pay with default card</Text>
-    <Text>{message}</Text>
+    <Text>{message.length ? message : " "}</Text>
     <PaymentButton
-      payButtonPressedHandler={payHandler(payWithDefaultCard, callbackMap)}
+      payButtonPressedHandler={payHandler(
+        payWithDefaultCard,
+        callbackMap,
+        showSpinner
+      )}
     />
   </View>
 );

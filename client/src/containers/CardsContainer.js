@@ -11,11 +11,13 @@ type Props = {
   getCards: Function,
   deleteCard: Function,
   showSpinner: Function,
-  hideSpinner: Function
+  hideSpinner: Function,
+  showToast: Function,
+  hideToast: Function
 };
 
 type State = {
-  cards: any
+  cards: ?Array<Card>
 };
 
 const { STATUS_OK } = ResponseStatuses;
@@ -46,6 +48,9 @@ export class CardsContainer extends Component<Props, State> {
   getCardIndexById = (id: string) => {
     const { cards } = this.state;
     let index = -1;
+    if (!cards) {
+      return index;
+    }
     cards.forEach((card, iteration) => {
       if (id === card.id) {
         index = iteration;
@@ -67,7 +72,7 @@ export class CardsContainer extends Component<Props, State> {
   };
 
   initializeGetCardCallbacks = () => {
-    const handleOk = (cards: any) => this.setState({ cards });
+    const handleOk = (cards: Array<Card>) => this.setState({ cards });
     const callbackMap = {
       [STATUS_OK]: handleOk
     };
@@ -75,10 +80,11 @@ export class CardsContainer extends Component<Props, State> {
   };
 
   initializeDeleteCardCallbacks = () => {
-    const { hideSpinner } = this.props;
+    const { hideSpinner, showToast } = this.props;
     const handleOk = ({ deletedCardId }) => {
       this.removeCard(deletedCardId);
       hideSpinner();
+      showToast("Card successfuly deleted.");
     };
     const callbackMap = {
       [STATUS_OK]: handleOk
@@ -96,7 +102,6 @@ export class CardsContainer extends Component<Props, State> {
         showSpinner={showSpinner}
         deleteCardRequest={deleteCard}
         deleteCardCallbacks={callbacks.deleteCard}
-        removeDeletedCard={this.removeDeletedCard}
       />
     ) : (
       <Loading />

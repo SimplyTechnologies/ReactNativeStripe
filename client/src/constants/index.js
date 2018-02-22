@@ -6,6 +6,7 @@
 export { HttpMethods } from "./HttpMethods";
 export { ResponseStatuses } from "./ResponseStatuses";
 export { ModalTypes } from "./ModalTypes";
+export { CardLogos } from "./CardLogos";
 
 export const REQUIRED = (name: string): string => `${name} is required`;
 export const MIN_LENGTH = (name: string, min: number): string =>

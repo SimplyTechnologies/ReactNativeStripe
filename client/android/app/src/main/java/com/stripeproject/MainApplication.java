@@ -23,7 +23,7 @@ public class MainApplication extends NavigationApplication {
   }
 
   protected List<ReactPackage> getPackages() {
-    return Arrays.<ReactPackage>asList(new StripeReactPackage(), new VectorIconsPackage());
+    return Arrays.<ReactPackage>asList(new StripeReactPackage(), new VectorIconsPackage(), new ToastPackage());
   }
 
   @Override

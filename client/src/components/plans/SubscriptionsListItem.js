@@ -1,9 +1,10 @@
 // @flow
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import type { Subscription } from "AppTypes";
 
 type Props = {
-  subscription: any,
+  subscription: Subscription,
   deleteSubscription: Function,
   deleteSubscriptionCallbacks: Object,
   showSpinner: Function
@@ -42,7 +43,7 @@ export const SubscriptionsListItem = ({
         showSpinner
       )}
     >
-      <Text style={styles.unsubscribeButtonText}>Unsubscribe</Text>
+      <Text style={styles.unsubscribeButtonText}>✗ Unsubscribe</Text>
     </TouchableOpacity>
   </View>
 );
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
   planAmount: {},
   unsubscribeButton: {
     alignItems: "center",
-    backgroundColor: "#4169E1",
+    backgroundColor: "#69D2E7",
     padding: 10
   },
   unsubscribeButtonText: {

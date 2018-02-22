@@ -8,7 +8,8 @@ import {
   InitEventHandlers,
   ModalProvider,
   RequestProvider,
-  SpinnerProvider
+  SpinnerProvider,
+  ToastProvider
 } from "AppProviders";
 import { getCards, deleteCard } from "AppProxies";
 import { ModalTypes } from "AppConstants";
@@ -21,15 +22,20 @@ const { ADD_CARD } = ModalTypes;
 const { height } = Dimensions.get("window");
 const containerHeight = height - height * 0.2;
 
+type requestTypes = {
+  getCards: Function,
+  deleteCard: Function
+};
+
 type Props = {
-  navigator: any,
+  navigator: Object,
   openModal: Function,
   showSpinner: Function,
   hideSpinner: Function
 };
 
 type State = {
-  newCard: any
+  newCard: ?Card
 };
 
 class WrappedCardsScreen extends Component<Props, State> {
@@ -51,15 +57,21 @@ class WrappedCardsScreen extends Component<Props, State> {
     openModal(ADD_CARD, { setNewCard });
   };
 
-  renderRequestProvider = ({ getCards, deleteCard }: any) => (
-    <CardsContainer
-      newCard={this.state.newCard}
-      removeNewCard={this.removeNewCard}
-      getCards={getCards}
-      deleteCard={deleteCard}
-      showSpinner={this.props.showSpinner}
-      hideSpinner={this.props.hideSpinner}
-    />
+  renderRequestProvider = ({ getCards, deleteCard }: requestTypes) => (
+    <ToastProvider>
+      {({ showToast, hideToast }) => (
+        <CardsContainer
+          newCard={this.state.newCard}
+          removeNewCard={this.removeNewCard}
+          getCards={getCards}
+          deleteCard={deleteCard}
+          showSpinner={this.props.showSpinner}
+          hideSpinner={this.props.hideSpinner}
+          showToast={showToast}
+          hideToast={hideToast}
+        />
+      )}
+    </ToastProvider>
   );
 
   render() {
@@ -79,9 +91,11 @@ class WrappedCardsScreen extends Component<Props, State> {
 }
 
 const styles = StyleSheet.create({
-  container: { height: containerHeight }
+  container: {
+    height: containerHeight
+  }
 });
 
 export const CardsScreen = InitEventHandlers(
-  ModalProvider(SpinnerProvider(WrappedCardsScreen))
+  SpinnerProvider(ModalProvider(WrappedCardsScreen))
 );

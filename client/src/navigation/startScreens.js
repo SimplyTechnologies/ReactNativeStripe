@@ -47,7 +47,7 @@ const startDashboardScreen = () => {
         label: PLANS_SCREEN_TITLE,
         screen: PLANS_SCREEN,
         title: PLANS_SCREEN_TITLE,
-        icon: require("../img/card.png"),
+        icon: require("../img/plan.png"),
         navigatorButtons
       },
       {
@@ -57,7 +57,10 @@ const startDashboardScreen = () => {
         icon: require("../img/product.png"),
         navigatorButtons
       }
-    ]
+    ],
+    appStyle: {
+      tabBarSelectedButtonColor: "#D34712"
+    }
   });
 };
 

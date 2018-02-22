@@ -1,12 +1,12 @@
 // @flow
 import React from "react";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
-import type { Card } from "../types";
+import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { CardLogos } from "AppConstants";
+import type { Card } from "AppTypes";
 
 type Props = {
   card: Card,
   showSpinner: Function,
-  removeDeletedCard: Function,
   deleteCardRequest: Function,
   deleteCardCallbacks: Object
 };
@@ -22,7 +22,7 @@ const getDeleteButtonPressedHandler = (
 };
 
 export const CardsListItem = ({
-  card: { last4, id },
+  card: { last4, id, brand },
   deleteCardRequest,
   deleteCardCallbacks,
   showSpinner
@@ -50,6 +50,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 10
   },
+  logo: {
+    alignItems: "center",
+    width: "auto",
+    height: "auto"
+  },
   cardNumberText: {
     alignItems: "center",
     fontSize: 15,
@@ -57,7 +62,7 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     alignItems: "center",
-    backgroundColor: "#FC4040",
+    backgroundColor: "#D34712",
     padding: 12,
     width: 80
   },

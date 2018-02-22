@@ -4,19 +4,29 @@ import { View, StyleSheet } from "react-native";
 import {
   PayWithCardForm,
   PaymentForm,
-  PayWithDefaultCardForm
+  PayWithDefaultCardForm,
+  Filter
 } from "AppComponents";
 import { stripeUtils } from "AppUtils";
 import { ResponseStatuses } from "AppConstants";
+import type { Card } from "AppTypes";
 
 type Props = {
   payWithToken: Function,
   payWithCard: Function,
   payWithDefaultCard: Function,
-  getCards: Function
+  getCards: Function,
+  showSpinner: Function,
+  hideSpinner: Function
 };
 
-type State = {};
+type State = {
+  payWithTokenMessage: string,
+  payWithDefaultCardMessage: string,
+  payWithCardMessage: string,
+  selectedFilter: "Card number" | "Your cards" | "Default card",
+  cards: ?Array<Card>
+};
 
 type Message = {
   message: string
@@ -29,6 +39,7 @@ export class PaymentContainer extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      selectedFilter: "Card number",
       payWithTokenMessage: "",
       payWithDefaultCardMessage: "",
       payWithCardMessage: "",
@@ -36,6 +47,7 @@ export class PaymentContainer extends Component<Props, State> {
     };
     this.callbacks = {};
     this.initializeCallbacks();
+    this.initializeFiltersMap();
   }
 
   setMessage = (messageTitle: string, message: string) => {
@@ -45,8 +57,10 @@ export class PaymentContainer extends Component<Props, State> {
 
   clearMessage = messageTitle => this.setState({ [messageTitle]: "" });
 
-  getNotificationHandler = (messageTitle: string) => ({ message }: Message) =>
+  getNotificationHandler = (messageTitle: string) => ({ message }: Message) => {
+    this.props.hideSpinner();
     this.setMessage(messageTitle, message);
+  };
 
   getCallbackMaps = (messageTitle: string) => {
     const notificationhandler = this.getNotificationHandler(messageTitle);
@@ -81,40 +95,80 @@ export class PaymentContainer extends Component<Props, State> {
     };
   };
 
-  render() {
-    const {
-      payWithToken,
-      payWithCard,
-      payWithDefaultCard,
-      getCards
-    } = this.props;
-    const {
-      payWithTokenMessage,
-      payWithDefaultCardMessage,
-      payWithCardMessage,
-      cards
-    } = this.state;
+  initializeFiltersMap = () => {
+    this.filtersMap = {
+      "Card number": () => this.setState({ selectedFilter: "Card number" }),
+      "Your cards": () => this.setState({ selectedFilter: "Your cards" }),
+      "Default card": () => this.setState({ selectedFilter: "Default card" })
+    };
+  };
+
+  renderForm = () => {
+    const { selectedFilter } = this.state;
+    switch (selectedFilter) {
+      case "Card number":
+        return this.renderPaymentForm();
+      case "Your cards":
+        return this.renderPayWithCardForm();
+      case "Default card":
+        return this.renderPayWithDefaultCardForm();
+      default:
+        return null;
+    }
+  };
+
+  renderPaymentForm = () => {
+    const { payWithToken, showSpinner } = this.props;
+    const { payWithTokenMessage } = this.state;
     const callbacks = this.callbacks;
     return (
+      <PaymentForm
+        callbackMap={callbacks.payWithToken}
+        payWithToken={payWithToken}
+        message={payWithTokenMessage}
+        showSpinner={showSpinner}
+      />
+    );
+  };
+
+  renderPayWithCardForm = () => {
+    const { getCards, payWithCard, showSpinner } = this.props;
+    const { cards, payWithCardMessage } = this.state;
+    const callbacks = this.callbacks;
+    return (
+      <PayWithCardForm
+        payCallbackMap={callbacks.payWithCard}
+        getCardsCallbackMap={callbacks.getCards}
+        getCards={getCards}
+        cards={cards}
+        payWithCard={payWithCard}
+        message={payWithCardMessage}
+        showSpinner={showSpinner}
+      />
+    );
+  };
+
+  renderPayWithDefaultCardForm = () => {
+    const { payWithDefaultCard, showSpinner } = this.props;
+    const { payWithDefaultCardMessage } = this.state;
+    const callbacks = this.callbacks;
+    return (
+      <PayWithDefaultCardForm
+        callbackMap={callbacks.payWithDefaultCard}
+        payWithDefaultCard={payWithDefaultCard}
+        message={payWithDefaultCardMessage}
+        showSpinner={showSpinner}
+      />
+    );
+  };
+
+  render() {
+    const { selectedFilter } = this.state;
+    const filtersMap = this.filtersMap;
+    return (
       <View style={styles.container}>
-        <PaymentForm
-          callbackMap={callbacks.payWithToken}
-          payWithToken={payWithToken}
-          message={payWithTokenMessage}
-        />
-        <PayWithCardForm
-          payCallbackMap={callbacks.payWithCard}
-          getCardsCallbackMap={callbacks.getCards}
-          getCards={getCards}
-          cards={cards}
-          payWithCard={payWithCard}
-          message={payWithCardMessage}
-        />
-        <PayWithDefaultCardForm
-          callbackMap={callbacks.payWithDefaultCard}
-          payWithDefaultCard={payWithDefaultCard}
-          message={payWithDefaultCardMessage}
-        />
+        <Filter filtersMap={filtersMap} selectedFilter={selectedFilter} />
+        <View style={styles.formContainer}>{this.renderForm()}</View>
       </View>
     );
   }
@@ -125,5 +179,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F0F8FF",
     alignItems: "center"
+  },
+  formContainer: {
+    flex: 11
   }
 });

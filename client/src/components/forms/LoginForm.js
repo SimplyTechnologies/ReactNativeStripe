@@ -8,12 +8,14 @@ import {
   REGISTER_SCREEN,
   REGISTER_SCREEN_TITLE
 } from "../../navigation/constants";
+import type { LoginValidation } from "AppTypes";
 
 type Props = {
   handleSubmit: (username: string, password: string) => Function,
-  updateValidations: any,
-  navigator: any,
-  callbackMap: Object
+  updateValidations: LoginValidation,
+  navigator: Object,
+  callbackMap: Object,
+  showSpinner: Function
 };
 
 type State = {
@@ -21,10 +23,7 @@ type State = {
     username: string,
     password: string
   },
-  validations: {
-    username?: string,
-    password?: string
-  }
+  validations: LoginValidation
 };
 
 export class LoginForm extends Component<Props, State> {
@@ -47,14 +46,16 @@ export class LoginForm extends Component<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     const { updateValidations } = nextProps;
     if (updateValidations) {
-      this.setState(({ validations }) => {
-        return { ...validations, ...updateValidations };
+      this.setState(({ validations: prevValidations }) => {
+        const validations = { ...prevValidations, ...updateValidations };
+        return { validations };
       });
     }
   }
 
   handleForbiddenResponse = ({ message }: { message: string }) => {
-    this.setState({ validations: { password: message } });
+    const validations = { ...this.state.validations, ...{ password: message } };
+    this.setState({ validations });
   };
 
   usernameInputChangedHandler = (username: string) => {
@@ -70,9 +71,10 @@ export class LoginForm extends Component<Props, State> {
   };
 
   formSubmitHandler = () => {
-    const { handleSubmit, callbackMap } = this.props;
+    const { handleSubmit, callbackMap, showSpinner } = this.props;
     const { username, password } = this.state.values;
     if (!this.formHelper.hasValidationErrors()) {
+      showSpinner();
       handleSubmit(username, password)(callbackMap);
     }
   };
