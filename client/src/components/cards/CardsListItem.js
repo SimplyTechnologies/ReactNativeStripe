@@ -4,6 +4,15 @@ import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { CardLogos } from "AppConstants";
 import type { Card, CallbackMap } from "AppTypes";
 
+const brands = {
+  Visa: require("img/cards/visa.png"),
+  Discover: require("img/cards/discover.png"),
+  MasterCard: require("img/cards/mastercard.png"),
+  JCB: require("img/cards/jcb.png"),
+  "American Express": require("img/cards/american-express.png"),
+  "Diners Club": require("img/cards/dinners-club.png")
+};
+
 type Props = {
   card: Card,
   showSpinner: Function,
@@ -28,6 +37,7 @@ export const CardsListItem = ({
   showSpinner
 }: Props) => (
   <View style={styles.container}>
+    <Image style={styles.logo} source={brands[brand]} />
     <Text style={styles.cardNumberText}>...{last4}</Text>
     <TouchableOpacity
       style={styles.deleteButton}
@@ -52,8 +62,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     alignItems: "center",
-    width: "auto",
-    height: "auto"
+    width: 40,
+    height: 40
   },
   cardNumberText: {
     alignItems: "center",
