@@ -11,19 +11,21 @@ Integration of [Stripe](stripe.com) in a react-native app.
 
 2. Clone down the repository
 
-3. Install the dependencies on the client-side and on each microservice located in the *server* folder ( *auth*, *cards*, *gateway*, *payments*, *subscriptions* ) by running
+3. Install the dependencies on the client-side 
 
    ```
    npm install
    ```
 
-in each mentioned directory
+  in the *client* directory
 
 4. Start all the microservices by running the following command in *server* directory
  
    ```
    docker-compose up
    ```
+
+  With this command, `docker` will also install all the required dependencies in the API gateway and in each microservice
 
 5. Start the app
 
