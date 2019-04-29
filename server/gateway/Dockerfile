@@ -7,4 +7,4 @@ WORKDIR /var/app/api_gateway
 
 RUN npm i
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "dev" ]

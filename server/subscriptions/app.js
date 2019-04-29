@@ -7,5 +7,5 @@ initMongoose();
 const PORT = process.env.PORT || 3004;
 
 http.createServer(app).listen(PORT, () => {
-  console.log("Payments Service Started on Port %d", PORT);
+  console.log("Subscriptions Service Started on Port %d", PORT);
 });

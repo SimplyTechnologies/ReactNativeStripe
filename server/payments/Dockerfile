@@ -5,4 +5,4 @@ ADD . /var/app/payment_microservice
 WORKDIR /var/app/payment_microservice
 RUN npm i
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "dev" ]

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node bin/app",
+    "dev": "nodemon bin/app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -22,6 +23,7 @@
     "morgan": "^1.9.0",
     "request": "latest",
     "request-promise": "latest",
-    "stripe": "^5.4.0"
+    "stripe": "^5.4.0",
+    "nodemon": "^1.18.11"
   }
 }
