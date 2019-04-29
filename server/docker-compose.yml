@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 services:
   api_gateway:
     build: ./gateway
@@ -9,12 +9,16 @@ services:
       - AUTH_MICROSERVICE_URI=http://auth:3001
       - CARDS_MICROSERVICE_URI=http://card:3002
       - PAYMENTS_MICROSERVICE_URI=http://payment:3003
-      - SUBSCRIPTIONS_MICROSERVICE_URI=http://payment:3004
+      - SUBSCRIPTIONS_MICROSERVICE_URI=http://subscription:3004
     links:
       - auth_microservice:auth
       - cards_microservice:card
       - payments_microservice:payment
       - subscriptions_microservice:subscription
+    volumes:
+      - ./gateway:/var/app/api_gateway
+      - /var/app/api_gateway/node_modules
+
   auth_microservice:
     build: ./auth
     links:
@@ -24,6 +28,9 @@ services:
     environment:
       - PORT=3001
       - MONGO_URI=mongodb://db_1
+    volumes:
+      - ./auth:/var/app/auth_microservice
+      - /var/app/auth_microservice/node_modules
   cards_microservice:
     build: ./cards
     links:
@@ -33,6 +40,9 @@ services:
     environment:
       - PORT=3002
       - MONGO_URI=mongodb://db_1
+    volumes:
+      - ./cards:/var/app/card_microservice
+      - /var/app/card_microservice/node_modules
   payments_microservice:
     build: ./payments
     links:
