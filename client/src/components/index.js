@@ -1,7 +1,3 @@
-/**
- * @providesModule AppComponents
- */
-
 // cards
 export { CardsList } from "./cards/CardsList";
 export { CardsListItem } from "./cards/CardsListItem";
@@ -32,3 +28,6 @@ export { PaymentButton } from "./buttons/PaymentButton";
 
 // reusable
 export { Filter } from "./Filter";
+
+// header
+export { Header } from "./header";

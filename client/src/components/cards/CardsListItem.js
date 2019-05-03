@@ -38,7 +38,10 @@ export const CardsListItem = ({
 }: Props) => (
   <View style={styles.container}>
     <Image style={styles.logo} source={brands[brand]} />
-    <Text style={styles.cardNumberText}>...{last4}</Text>
+    <Text style={styles.cardNumberText}>
+      ...
+      {last4}
+    </Text>
     <TouchableOpacity
       style={styles.deleteButton}
       onPress={getDeleteButtonPressedHandler(

@@ -34,6 +34,7 @@ export class RegisterForm extends Component<Props, State> {
     super(props);
     this.formHelper = new FormHelper(this, validateRegister);
   }
+
   state = {
     values: {
       username: "",

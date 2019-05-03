@@ -1,14 +1,15 @@
 // @flow
 import React, { Component } from "react";
 import { View, Button, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Navigation } from "react-native-navigation";
 import { FormInput } from "AppComponents";
 import { FormHelper } from "AppHelpers";
 import { validateLogin } from "AppValidators";
+import type { LoginValidation, CallbackMap } from "AppTypes";
 import {
   REGISTER_SCREEN,
   REGISTER_SCREEN_TITLE
 } from "../../navigation/constants";
-import type { LoginValidation, CallbackMap } from "AppTypes";
 
 type Props = {
   handleSubmit: (username: string, password: string) => Function,
@@ -31,6 +32,7 @@ export class LoginForm extends Component<Props, State> {
     super(props);
     this.formHelper = new FormHelper(this, validateLogin);
   }
+
   state = {
     values: {
       username: "",
@@ -41,6 +43,7 @@ export class LoginForm extends Component<Props, State> {
       password: ""
     }
   };
+
   formHelper: FormHelper;
 
   componentWillReceiveProps(nextProps: Props) {
@@ -84,9 +87,17 @@ export class LoginForm extends Component<Props, State> {
   };
 
   registerLinkClickHandler = () => {
-    this.props.navigator.push({
-      screen: REGISTER_SCREEN,
-      title: REGISTER_SCREEN_TITLE
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: REGISTER_SCREEN,
+        options: {
+          topBar: {
+            title: {
+              text: REGISTER_SCREEN_TITLE
+            }
+          }
+        }
+      }
     });
   };
 

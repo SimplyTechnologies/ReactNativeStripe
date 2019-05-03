@@ -120,7 +120,7 @@ export class PaymentContainer extends Component<Props, State> {
   renderPaymentForm = () => {
     const { payWithToken, showSpinner } = this.props;
     const { payWithTokenMessage } = this.state;
-    const callbacks = this.callbacks;
+    const { callbacks } = this;
     return (
       <PaymentForm
         callbackMap={callbacks.payWithToken}
@@ -134,7 +134,7 @@ export class PaymentContainer extends Component<Props, State> {
   renderPayWithCardForm = () => {
     const { getCards, payWithCard, showSpinner } = this.props;
     const { cards, payWithCardMessage } = this.state;
-    const callbacks = this.callbacks;
+    const { callbacks } = this;
     return (
       <PayWithCardForm
         payCallbackMap={callbacks.payWithCard}
@@ -151,7 +151,7 @@ export class PaymentContainer extends Component<Props, State> {
   renderPayWithDefaultCardForm = () => {
     const { payWithDefaultCard, showSpinner } = this.props;
     const { payWithDefaultCardMessage } = this.state;
-    const callbacks = this.callbacks;
+    const { callbacks } = this;
     return (
       <PayWithDefaultCardForm
         callbackMap={callbacks.payWithDefaultCard}
@@ -164,7 +164,7 @@ export class PaymentContainer extends Component<Props, State> {
 
   render() {
     const { selectedFilter } = this.state;
-    const filtersMap = this.filtersMap;
+    const { filtersMap } = this;
     return (
       <View style={styles.container}>
         <Filter filtersMap={filtersMap} selectedFilter={selectedFilter} />

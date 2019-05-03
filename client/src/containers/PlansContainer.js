@@ -149,7 +149,7 @@ export class PlansContainer extends Component<Props, State> {
   renderPlansList = () => {
     const { addSubscription, showSpinner } = this.props;
     const { plans, subscribedPlanIds } = this.state;
-    const callbacks = this.callbacks;
+    const { callbacks } = this;
     return plans ? (
       <PlansList
         plans={plans}
@@ -166,7 +166,7 @@ export class PlansContainer extends Component<Props, State> {
   renderSubscriptionsList = () => {
     const { deleteSubscription, showSpinner } = this.props;
     const { subscriptions } = this.state;
-    const callbacks = this.callbacks;
+    const { callbacks } = this;
     return subscriptions ? (
       <SubscriptionsList
         subscriptions={subscriptions}

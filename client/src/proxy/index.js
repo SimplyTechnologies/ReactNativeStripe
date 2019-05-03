@@ -1,7 +1,3 @@
-/**
- * @providesModule AppProxies
- */
-
 export { payWithToken, payWithCard, payWithDefaultCard } from "./payment.proxy";
 export {
   getPlans,
