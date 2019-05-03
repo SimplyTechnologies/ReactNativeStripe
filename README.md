@@ -44,7 +44,7 @@ Integration of [Stripe](stripe.com) in a react-native app.
 2. If you already have one, you need to provide your `Publishable key` and `Secret key` in the project.
    You can find these in the [Dashboard page](https://dashboard.stripe.com/account/apikeys) of your Stripe account.
 3. After you find the `Secret` and `Publishable` keys, you need to do the following:
-   In each directory of the micoservices in *server*, create an `.env` file and provide the following value: `STRIPE_SECRET_KEY=*YOU_SECRET_KEY_HERE*`.
+   In *server* directory, create an `.env` file and provide the following value: `STRIPE_SECRET_KEY=*YOU_SECRET_KEY_HERE*`.
 4. In *config.js* file located in the *client* directory, replace the `STRIPE_PUBLISHABLE_KEY` value      of the JSON with your own publishable key value.
 5. In the same *config.js* file, change the `IP_ADDRESS` value with your machine's IP address.
 

@@ -10,6 +10,7 @@ services:
       - CARDS_MICROSERVICE_URI=http://card:3002
       - PAYMENTS_MICROSERVICE_URI=http://payment:3003
       - SUBSCRIPTIONS_MICROSERVICE_URI=http://subscription:3004
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
     links:
       - auth_microservice:auth
       - cards_microservice:card
@@ -28,6 +29,7 @@ services:
     environment:
       - PORT=3001
       - MONGO_URI=mongodb://db_1
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
     volumes:
       - ./auth:/var/app/auth_microservice
       - /var/app/auth_microservice/node_modules
@@ -40,6 +42,7 @@ services:
     environment:
       - PORT=3002
       - MONGO_URI=mongodb://db_1
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
     volumes:
       - ./cards:/var/app/card_microservice
       - /var/app/card_microservice/node_modules
@@ -52,6 +55,7 @@ services:
     environment:
       - PORT=3003
       - MONGO_URI=mongodb://db_1
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
   subscriptions_microservice:
     build: ./subscriptions
     links:
@@ -61,6 +65,7 @@ services:
     environment:
       - PORT=3004
       - MONGO_URI=mongodb://db_1
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
   mongo:
     image: mongo
     ports:
