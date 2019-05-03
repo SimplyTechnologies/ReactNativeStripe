@@ -1,14 +1,10 @@
 // @flow
 
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { PlansContainer } from "AppContainers";
-import {
-  InitEventHandlers,
-  SpinnerProvider,
-  RequestProvider,
-  ToastProvider
-} from "AppProviders";
+import { Header } from "AppComponents";
+import { SpinnerProvider, RequestProvider, ToastProvider } from "AppProviders";
 import {
   getPlans,
   addSubscription,
@@ -63,14 +59,15 @@ class WrappedPlansScreen extends Component<Props, State> {
 
   render() {
     return (
-      <RequestProvider
-        render={this.renderRequestProvider}
-        requestProxy={this.planProxies}
-      />
+      <View style={{ flex: 1 }}>
+        <Header />
+        <RequestProvider
+          render={this.renderRequestProvider}
+          requestProxy={this.planProxies}
+        />
+      </View>
     );
   }
 }
 
-export const PlansScreen = InitEventHandlers(
-  SpinnerProvider(WrappedPlansScreen)
-);
+export const PlansScreen = SpinnerProvider(WrappedPlansScreen);

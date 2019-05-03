@@ -2,7 +2,9 @@
 
 export class FormHelper {
   context: any;
+
   validator: Function;
+
   constructor(context: any, validator: Function) {
     this.context = context;
     this.validator = validator;
@@ -10,11 +12,11 @@ export class FormHelper {
 
   validate = (callback: Function): any =>
     this.context.setState(
-      ({ values }: any): any => ({
-        validations: this.validator(values)
-      }),
-      callback
-    );
+    ({ values }: any): any => ({
+      validations: this.validator(values)
+    }),
+    callback
+  );
 
   hasValidationErrors = (): boolean => {
     const { validations } = this.context.state;

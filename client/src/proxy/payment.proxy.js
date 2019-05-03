@@ -9,13 +9,13 @@ const { POST } = HttpMethods;
 
 export const payWithToken = (token: string): Promise<*> =>
   makeRequest(`${PAYMENT_PROXY_URI}/payWithToken`, POST, EMPTY_OBJECT, {
-    token
-  });
+  token
+});
 
 export const payWithCard = (sourceId: string): Promise<*> =>
   makeRequest(`${PAYMENT_PROXY_URI}/payWithCard`, POST, EMPTY_OBJECT, {
-    sourceId
-  });
+  sourceId
+});
 
 export const payWithDefaultCard = (): Promise<*> =>
   makeRequest(`${PAYMENT_PROXY_URI}/payWithDefaultCard`, POST);

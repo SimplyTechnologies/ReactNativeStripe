@@ -95,7 +95,7 @@ export class CardsContainer extends Component<Props, State> {
   render() {
     const { deleteCard, showSpinner } = this.props;
     const { cards } = this.state;
-    const callbacks = this.callbacks;
+    const { callbacks } = this;
     return cards ? (
       <CardsList
         cards={cards}

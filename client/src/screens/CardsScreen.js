@@ -2,10 +2,9 @@
 import React, { Component } from "react";
 import type { Element } from "react";
 import { View, Dimensions, StyleSheet } from "react-native";
-import { FloatingButton } from "AppComponents";
+import { FloatingButton, Header } from "AppComponents";
 import { CardsContainer } from "AppContainers";
 import {
-  InitEventHandlers,
   ModalProvider,
   RequestProvider,
   SpinnerProvider,
@@ -53,7 +52,7 @@ class WrappedCardsScreen extends Component<Props, State> {
 
   openAddCardModal = () => {
     const { openModal } = this.props;
-    const setNewCard = this.setNewCard;
+    const { setNewCard } = this;
     openModal(ADD_CARD, { setNewCard });
   };
 
@@ -76,15 +75,18 @@ class WrappedCardsScreen extends Component<Props, State> {
 
   render() {
     return (
-      <View style={styles.container}>
-        <RequestProvider
-          render={this.renderRequestProvider}
-          requestProxy={this.cardProxies}
-        />
-        <FloatingButton
-          itemTitle="Add Card"
-          handleButtonPress={this.openAddCardModal}
-        />
+      <View style={{ flex: 1 }}>
+        <Header />
+        <View style={styles.container}>
+          <RequestProvider
+            render={this.renderRequestProvider}
+            requestProxy={this.cardProxies}
+          />
+          <FloatingButton
+            itemTitle="Add Card"
+            handleButtonPress={this.openAddCardModal}
+          />
+        </View>
       </View>
     );
   }
@@ -96,6 +98,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export const CardsScreen = InitEventHandlers(
-  SpinnerProvider(ModalProvider(WrappedCardsScreen))
-);
+export const CardsScreen = SpinnerProvider(ModalProvider(WrappedCardsScreen));

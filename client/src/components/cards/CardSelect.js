@@ -12,15 +12,17 @@ type Props = {
 };
 
 const renderOptions = (cards: Array<Card>): Array<Option> =>
-  cards.map((card: Card): Option => {
+  cards.map(
+  (card: Card): Option => {
     const { id, last4, exp_month: month, exp_year: year } = card;
     const cardInfo = `...${last4}  ${month}${year}`;
     return (
-      <Option value={id} key={id}>
+        <Option value={id} key={id}>
         {cardInfo}
       </Option>
     );
-  });
+  }
+);
 
 export const CardSelect = ({ onSelect, defaultText, cards }: Props) => (
   <View style={styles.selectBox}>

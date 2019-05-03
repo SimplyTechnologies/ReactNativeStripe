@@ -60,6 +60,7 @@ class WrappedLoginScreen extends Component<Props, State> {
       handleSubmit={handleRequest}
       navigator={this.props.navigator}
       updateValidations={this.state.updateValidations}
+      componentId={this.props.componentId}
     />
   );
 
