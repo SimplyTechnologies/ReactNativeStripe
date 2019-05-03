@@ -2,17 +2,14 @@
 import React, { Component } from "react";
 import { View } from "react-native";
 import { PaymentContainer } from "AppContainers";
+import { Header } from "AppComponents";
 import {
   payWithToken,
   payWithCard,
   payWithDefaultCard,
   getCards
 } from "AppProxies";
-import {
-  RequestProvider,
-  InitEventHandlers,
-  SpinnerProvider
-} from "AppProviders";
+import { RequestProvider, SpinnerProvider } from "AppProviders";
 import { stripeUtils } from "AppUtils";
 
 type Props = {
@@ -43,16 +40,15 @@ class WrappedPaymentScreen extends Component<Props, State> {
     />
   );
 
-  render = () => {
-    return (
+  render = () => (
+    <View style={{ flex: 1 }}>
+      <Header />
       <RequestProvider
         requestProxy={this.paymentProxies}
         render={this.renderRequestProvider}
       />
-    );
-  };
+    </View>
+  );
 }
 
-export const PaymentScreen = InitEventHandlers(
-  SpinnerProvider(WrappedPaymentScreen)
-);
+export const PaymentScreen = SpinnerProvider(WrappedPaymentScreen);

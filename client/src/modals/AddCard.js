@@ -31,7 +31,11 @@ class WrappedAddCard extends Component<Props, State> {
   }
 
   initializeCallbackMap = () => {
-    const { closeModal, hideSpinner, data: { setNewCard } } = this.props;
+    const {
+      closeModal,
+      hideSpinner,
+      data: { setNewCard }
+    } = this.props;
     const handleOk = (card: Card) => {
       setNewCard(card);
       hideSpinner();

@@ -26,6 +26,7 @@ export const ModalProvider = (
       modalData: null,
       animationType: "slide"
     };
+
     DEFAULT_MODAL_COMPONENT = <View />;
 
     getModalComponent = (): ComponentType<*> => {

@@ -1,4 +1,28 @@
 {
-  "presets": ["flow", "react-native"],
-  "retainLines": true
+  "presets": ["@babel/flow"],
+  "retainLines": true,
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "extensions": [".js"],
+        "alias": {
+          "AppNavigation": "./src/navigation",
+          "AppComponents": "./src/components",
+          "AppButtons": "./src/components/buttons",
+          "AppConstants": "./src/constants",
+          "AppContainers": "./src/containers",
+          "AppHelpers": "./src/helpers",
+          "AppModals": "./src/modals",
+          "AppNativeModules": "./src/nativeModules",
+          "AppProviders": "./src/providers",
+          "AppProxies": "./src/proxy",
+          "AppScreens": "./src/screens",
+          "AppTypes": "./src/types",
+          "AppUtils": "./src/utils",
+          "AppValidators": "./src/validators"
+        }
+      }
+    ]
+  ]
 }

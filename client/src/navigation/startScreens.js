@@ -15,51 +15,82 @@ import { initializeScreens } from "./initializeScreens";
 
 initializeScreens();
 
-const navigatorButtons = {
-  rightButtons: [
-    {
-      title: "logout",
-      id: "logout"
-    }
-  ]
-};
-
 const startLoginScreen = () => {
-  Navigation.startSingleScreenApp({
-    screen: {
-      screen: LOGIN_SCREEN,
-      title: LOGIN_SCREEN_TITLE
+  Navigation.setRoot({
+    root: {
+      stack: {
+        children: [
+          {
+            component: {
+              name: LOGIN_SCREEN
+            }
+          }
+        ],
+        options: {
+          topBar: {
+            title: {
+              text: LOGIN_SCREEN_TITLE
+            }
+          }
+        }
+      }
     }
   });
 };
 
 const startDashboardScreen = () => {
-  Navigation.startTabBasedApp({
-    tabs: [
-      {
-        label: CARDS_SCREEN_TITLE,
-        screen: CARDS_SCREEN,
-        title: CARDS_SCREEN_TITLE,
-        icon: require("../img/card.png"),
-        navigatorButtons
-      },
-      {
-        label: PLANS_SCREEN_TITLE,
-        screen: PLANS_SCREEN,
-        title: PLANS_SCREEN_TITLE,
-        icon: require("../img/plan.png"),
-        navigatorButtons
-      },
-      {
-        label: PAYMENT_SCREEN_TITLE,
-        screen: PAYMENT_SCREEN,
-        title: PAYMENT_SCREEN_TITLE,
-        icon: require("../img/product.png"),
-        navigatorButtons
+  Navigation.setRoot({
+    root: {
+      bottomTabs: {
+        id: "BottomTabsId",
+        children: [
+          {
+            component: {
+              name: CARDS_SCREEN,
+              options: {
+                bottomTab: {
+                  fontSize: 12,
+                  selectedIconColor: "#D34712",
+                  text: CARDS_SCREEN_TITLE,
+                  icon: require("../img/card.png")
+                }
+              }
+            }
+          },
+          {
+            component: {
+              name: PLANS_SCREEN,
+              options: {
+                topBar: {
+                  visible: true,
+                  title: {
+                    text: "dsds"
+                  }
+                },
+                bottomTab: {
+                  text: PLANS_SCREEN_TITLE,
+                  fontSize: 12,
+                  selectedIconColor: "#D34712",
+                  icon: require("../img/plan.png")
+                }
+              }
+            }
+          },
+          {
+            component: {
+              name: PAYMENT_SCREEN,
+              options: {
+                bottomTab: {
+                  text: PAYMENT_SCREEN_TITLE,
+                  fontSize: 12,
+                  selectedIconColor: "#D34712",
+                  icon: require("../img/product.png")
+                }
+              }
+            }
+          }
+        ]
       }
-    ],
-    appStyle: {
-      tabBarSelectedButtonColor: "#D34712"
     }
   });
 };

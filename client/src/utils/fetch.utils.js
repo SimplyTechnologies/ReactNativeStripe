@@ -37,21 +37,23 @@ const defaultFailCallback = (error: any) => {
  * parsing response json
  * */
 const parseJSON = (response: any): Promise<*> =>
-  response.json().then((data: any): { data: any, status: number } => ({
+  response.json().then(
+  (data: any): { data: any, status: number } => ({
     data,
     status: response.status
-  }));
+  })
+);
 
 /**
  * parsing object to query string
  * */
 const objectToQueryString = (queryObject: Object): string =>
   Object.keys(queryObject)
-    .map(
-      (key: string): string =>
+  .map(
+    (key: string): string =>
         `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`
-    )
-    .join("&");
+  )
+  .join("&");
 
 /**
  * making api request
@@ -98,9 +100,9 @@ const makeRequest = (
   body: Object = {}
 ): Promise<*> =>
   AsyncStorage.getItem("token")
-    .then(fetchRequest.bind(null, url, method, query, body))
-    .then(parseJSON)
-    .then(checkStatus);
+  .then(fetchRequest.bind(null, url, method, query, body))
+  .then(parseJSON)
+  .then(checkStatus);
 /**
  * Global request handler methods,
  * @param {Promise} request Promise
@@ -114,12 +116,14 @@ const requestHandler = (request: Request, callbackMap: any) => {
     })
     .catch(({ response: { data, status } }: any) => {
       let failCallBack = defaultFailCallback;
-      Object.keys(callbackMap).some((item: number): any => {
-        if (+item === status) {
-          failCallBack = callbackMap[item];
-          return true;
+      Object.keys(callbackMap).some(
+        (item: number): any => {
+          if (+item === status) {
+            failCallBack = callbackMap[item];
+            return true;
+          }
         }
-      });
+      );
       failCallBack(data);
     });
 };

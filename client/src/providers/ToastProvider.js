@@ -17,8 +17,11 @@ export class ToastProvider extends Component<Props, State> {
     isVisible: false,
     message: ""
   };
+
   TOAST_POSITION = Toast.positions.bottom;
+
   TOAST_SHADOW = false;
+
   TOAST_HIDE_ON_PRESS = true;
 
   show = (message: string) =>

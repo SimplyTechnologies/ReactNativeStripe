@@ -38,7 +38,9 @@ class WrappedRegisterScreen extends Component<Props, State> {
     };
 
     const handleBadRequest = ({ errors }: Object) => {
-      const { username: { msg: username } } = errors;
+      const {
+        username: { msg: username }
+      } = errors;
       const updateValidations = {
         ...this.state.updateValidations,
         ...{ username }
