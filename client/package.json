@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "react": "16.8.3",
-    "react-native": "0.59.5",
+    "react-native": "^0.59.9",
     "react-native-action-button": "^2.8.5",
     "react-native-chooser": "^1.7.0",
     "react-native-loading-spinner-overlay": "^1.0.1",
