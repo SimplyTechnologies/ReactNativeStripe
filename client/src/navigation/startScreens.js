@@ -71,7 +71,7 @@ const startDashboardScreen = () => {
                   text: PLANS_SCREEN_TITLE,
                   fontSize: 12,
                   selectedIconColor: "#D34712",
-                  icon: require("../img/plan.png")
+                  icon: require("../img/plan.png"),
                 }
               }
             }
@@ -84,7 +84,7 @@ const startDashboardScreen = () => {
                   text: PAYMENT_SCREEN_TITLE,
                   fontSize: 12,
                   selectedIconColor: "#D34712",
-                  icon: require("../img/product.png")
+                  icon: require("../img/product.png"),
                 }
               }
             }
